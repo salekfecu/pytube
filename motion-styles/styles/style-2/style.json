@@ -446,7 +446,7 @@
       },
       "position": {"anchor": "center", "xPct": 50, "yPct": 19.5, "atCameraScale": 1.0, "inkBox720": [75, 142, 646, 356]},
       "layer": "front",
-      "notes": "Becomes green/navy/brown where props or bright lights pass behind it. No mask animation. The Difference blend does it."
+      "note": "Becomes green/navy/brown where props or bright lights pass behind it. No mask animation. The Difference blend does it."
     },
     {
       "id": "hero-white-rise",

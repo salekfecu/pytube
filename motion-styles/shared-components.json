@@ -1,0 +1,3185 @@
+{
+  "schema": "mg-shared-components/1",
+  "description": "Normalised components/presets common to the three motion styles, with per-style parameter overrides, so one renderer can drive Ember Glass (style-1), Teal Spatial Glass (style-2) and Crimson Halo Glass (style-3).",
+  "generatedFrom": ["styles/style-1/style.json", "styles/style-2/style.json", "styles/style-3/style.json"],
+  "canvas": {"width": 1080, "height": 1920, "fps": 30},
+  "conventions": {
+    "px": "px on the 1080x1920 render canvas (= 720x1280 reference measurement x1.5)",
+    "px720": "keys ending in 720 hold the raw reference measurement in 720x1280 px",
+    "pct": "keys ending in Pct are % of canvas width (x) or height (y); identical at 720 and 1080",
+    "pointPct": "[xPct, yPct] arrays; centrePct = element centre",
+    "time": "ms (keys ending in Ms)",
+    "frames": "keys ending in F (durationF, startOffsetF, tF ...) are frames at 30 fps, the render rate",
+    "angles": "deg",
+    "letterSpacing": "number = px @1080; string = CSS length (em)",
+    "colour": "#RRGGBB (uppercase) or rgba(); gradients are CSS strings",
+    "ranges": "[min, max] arrays",
+    "keyframes": "list of objects with tMs (optional tF) plus the animated property name",
+    "gainDb": "dB relative to full scale for the engine mixer (audio.py)",
+    "layers": "engine layer names: bg | behind | front | fx (plateWrap / talentWrap for the camera targets)",
+    "merge": "resolved params = component.defaults <- styles[styleId] <- styles[styleId].variants[variant] <- cue.props (later wins)",
+    "refs": "refs / ref are JSON pointers \"styles/style-N/style.json#/<section>/<id>\"; ids are matched on the id (or role for fonts) field",
+    "disabled": "styles[styleId].enabled === false means the style does not use this component; use `substitute` if given",
+    "start": "start = {anchor: cut | hero | heroDone | prevLine | pill | component | phrase | ring | interrupt | heroLine | oldWord, offsetMs (negative = before)}"
+  },
+  "styles": {
+    "style-1": {
+      "name": "Ember Glass",
+      "path": "styles/style-1/style.json",
+      "doc": "styles/style-1/STYLE.md",
+      "reference": "ref1_chemistry.mp4"
+    },
+    "style-2": {
+      "name": "Teal Spatial Glass",
+      "path": "styles/style-2/style.json",
+      "doc": "styles/style-2/STYLE.md",
+      "reference": "ref2_medical.mp4"
+    },
+    "style-3": {
+      "name": "Crimson Halo Glass",
+      "path": "styles/style-3/style.json",
+      "doc": "styles/style-3/STYLE.md",
+      "reference": "ref3_third.mp4"
+    }
+  },
+  "tokens": {
+    "style-1": {
+      "fontArabic": {
+        "family": "IBM Plex Sans Arabic",
+        "fontsource": "@fontsource/ibm-plex-sans-arabic",
+        "bold": 700,
+        "thin": 200,
+        "extra": {"300": "only the dark CTA sub-line"}
+      },
+      "fontLatin": {"family": "Inter", "fontsource": "@fontsource/inter", "weights": [900, 600, 400], "use": "brand only"},
+      "fontScript": null,
+      "heroToSupportRatio": [1.5, 1.9],
+      "sizesPx": {"heroMcu": 116, "heroWide": 165, "supportMcu": 69, "supportWide": 113, "pill": 72, "payoff": 234, "giant": 192},
+      "tatweelAdvanceEm": 0.1,
+      "textPrimary": "#FFFFFF",
+      "textSupport": "#FFFFFF",
+      "textDark": "#340C0C",
+      "accentWarm": "#FFD130",
+      "accentFlash": "#FAD01E",
+      "accentCool": "#6AF3F7",
+      "uiAccent": "#DAD530",
+      "uiAccentAlt": "#FAD635",
+      "backdropHot": "#7E3302",
+      "backdropMid": "#692501",
+      "backdropDark": "#210601",
+      "wardrobeKey": "#2C3C40",
+      "glass": {
+        "fill": "rgba(255,255,255,0.03)",
+        "blurPx": 7.5,
+        "rimPx": 1.5,
+        "rim": "rgba(255,255,255,0.35)",
+        "rimTop": "rgba(255,255,255,0.55)",
+        "smokedFill": "rgba(0,0,0,0.30)"
+      },
+      "safeBoxPx": {"x0": 165, "y0": 177, "x1": 956, "y1": 1478},
+      "textZones": {"wide": [9.2, 26.5], "mcu": [46, 77], "noTextFaceWide": [27, 38], "noTextFaceMcu": [17, 40]},
+      "maxWordsOnScreen": 7,
+      "maxWordsPerLine": 3,
+      "director": {
+        "captionPreset": "blur-type",
+        "keywordPreset": "blur-type",
+        "subPreset": "blur-type-thin",
+        "maxWordsPerCaption": 3,
+        "punchInEveryNCaptions": 2,
+        "punchInPreset": "punch-out-settle"
+      }
+    },
+    "style-2": {
+      "fontArabic": {
+        "family": "Readex Pro",
+        "fontsource": "@fontsource/readex-pro",
+        "bold": 700,
+        "thin": 200,
+        "extra": {"600": "difference / spotlight heroes", "300": "pill sub-line"}
+      },
+      "fontLatin": {
+        "family": "Inter",
+        "fontsource": "@fontsource/inter",
+        "weights": [700, 500],
+        "use": "ghost English echo, accent, UI"
+      },
+      "fontScript": {"family": "Pinyon Script", "fontsource": "@fontsource/pinyon-script", "weight": 400, "installed": false},
+      "heroToSupportRatio": [2.0, 2.6],
+      "sizesPx": {
+        "heroBold": 185,
+        "heroDifference": 285,
+        "heroCyanGlass": 555,
+        "heroGoldPanel": 600,
+        "goldSpotlight": 138,
+        "neonThin": 108,
+        "neonThinRange": [46, 177],
+        "pill": 56,
+        "ghostLatin": 237
+      },
+      "heroInkWidthPctW": [53, 86],
+      "tatweelAdvanceEm": 0.08,
+      "textPrimary": "#FAFCFF",
+      "textSupport": "#FFFBF9",
+      "textSupportCool": "#C9E9F4",
+      "accentWarm": "#D5AD6A",
+      "accentWarmHot": "#FDD99B",
+      "accentCool": "#05F3F8",
+      "accentPeach": "#FCC29E",
+      "echoTeal": "#44A2A1",
+      "uiAccent": "#C19359",
+      "uiAccentAlt": null,
+      "backdropHot": "#045A79",
+      "backdropMid": "#183C49",
+      "backdropDark": "#000005",
+      "wardrobeKey": "#432C2A",
+      "glass": {
+        "fill": "rgba(255,255,255,0.06)",
+        "blurPx": 24,
+        "rimPx": 2,
+        "rim": "rgba(255,255,255,0.35)",
+        "rimTop": "rgba(255,255,255,0.35)",
+        "smokedFill": "rgba(0,0,0,0.28)"
+      },
+      "safeBoxPx": {"x0": 56, "y0": 105, "x1": 994, "y1": 1680},
+      "textZones": {
+        "wide": [7, 28],
+        "wideLower": [50, 94.5],
+        "mcuHero": [7, 31],
+        "mcu": [63, 79],
+        "noTextFaceWide": [29, 38],
+        "noTextFaceMcu": [17, 55]
+      },
+      "maxWordsOnScreen": 7,
+      "maxWordsPerLine": null,
+      "director": {
+        "captionPreset": "neon-thin-blurfade",
+        "keywordPreset": "hero-white-rise",
+        "subPreset": "neon-word-cascade-float",
+        "maxWordsPerCaption": 4,
+        "punchInEveryNCaptions": 0,
+        "punchInPreset": null,
+        "note": "srt2scene only drafts. Assign per-shot hero materials, components and the pull-back by hand using the narrative template in STYLE.md."
+      }
+    },
+    "style-3": {
+      "fontArabic": {"family": "Almarai", "fontsource": "@fontsource/almarai", "bold": 800, "thin": 300, "extra": {}},
+      "fontLatin": {
+        "family": "Almarai",
+        "fontsource": "@fontsource/almarai",
+        "weights": [800],
+        "use": "wordmark and ghost echo (same family as the Arabic); Inter 500 only for the red UI chip"
+      },
+      "fontScript": {"family": "Pinyon Script", "fontsource": "@fontsource/pinyon-script", "weight": 400, "installed": false},
+      "heroToSupportRatio": [2.7, 2.7],
+      "sizesPx": {
+        "hero": 141,
+        "heroSheen": 143,
+        "display": 220,
+        "displayPop": 240,
+        "difference": 263,
+        "headline": 100,
+        "subtitle": 52,
+        "pill": 60,
+        "ghost": 320,
+        "wordmark": 258
+      },
+      "tatweelAdvanceEm": 0.18,
+      "textPrimary": "#FDFBF9",
+      "textSupport": "#FFF6EF",
+      "accentWarm": "#F03039",
+      "accentNeon": "#CF0108",
+      "accentScript": "#EC0206",
+      "accentCool": "#ACFAF6",
+      "accentCoolNote": "only produced by Difference blend; never a fill",
+      "uiAccent": "#FE030A",
+      "uiAccentAlt": "#FF030F",
+      "backdropHot": "#560007",
+      "backdropMid": "#4E0005",
+      "backdropDark": "#1C0000",
+      "wardrobeKey": "#A07C6A",
+      "glass": {
+        "fill": "rgba(0,0,0,0.14)",
+        "blurPx": 10,
+        "rimPx": 2,
+        "rim": "rgba(255,255,255,0.22)",
+        "rimTop": "rgba(255,255,255,0.22)",
+        "smokedFill": "rgba(0,0,0,0.14)"
+      },
+      "safeBoxPx": {"x0": 58, "y0": 159, "x1": 1022, "y1": 1663},
+      "textZones": {"wide": [8, 27], "wideBody": [26, 62], "mcu": [50, 82], "noTextFaceMcu": [22, 45]},
+      "maxWordsOnScreen": 7,
+      "maxWordsPerLine": null,
+      "director": {
+        "captionPreset": "fade-rise-word",
+        "keywordPreset": "fade-rise-word",
+        "subPreset": "typewriter-sub",
+        "maxWordsPerCaption": 3,
+        "punchInEveryNCaptions": 0,
+        "punchInPreset": "pullback-brand",
+        "note": "srt2scene's punch logic is disabled: this style never pushes in. Add the 4 pull-backs by hand (hook x2, breather, brand)."
+      }
+    }
+  },
+  "components": [
+    {
+      "id": "glass-capsule",
+      "category": "graphic",
+      "layer": "front",
+      "purpose": "Frosted stadium (radius = height/2) that backs a key line, a name tag, a search field or a CTA. Present in all three styles; only the material numbers change.",
+      "engine": {
+        "fallback": "glass-pill",
+        "propsMap": {
+          "widthPx": "widthPx",
+          "heightPx": "heightPx",
+          "radiusPx": "radiusPx",
+          "backdropBlurPx": "blurPx",
+          "fill": "fill",
+          "rim.color": "stroke",
+          "rim.widthPx": "strokePx"
+        }
+      },
+      "params": {
+        "widthPx": "number px",
+        "heightPx": "number px",
+        "radiusPx": "number px or \"h/2\"",
+        "centrePct": "[x, y]",
+        "fill": "CSS colour or \"none\"",
+        "backdropBlurPx": "number",
+        "rim": "{widthPx, color, topColor?}",
+        "innerField": "optional dark inner capsule {widthPx, heightPx, radiusPx, insetPx, side, fill}",
+        "button": "capsule-button variant or null",
+        "autosize": "width follows the typed text (paddingXPx each side)",
+        "extras": "style-specific light spill / tint layers"
+      },
+      "defaults": {"radiusPx": "h/2", "shadow": null, "button": null, "autosize": false},
+      "styles": {
+        "style-1": {
+          "refs": [
+            "styles/style-1/style.json#/graphicComponents/glass-pill-clear",
+            "styles/style-1/style.json#/graphicComponents/nametag-capsule",
+            "styles/style-1/style.json#/graphicComponents/smoked-pill-autosize",
+            "styles/style-1/style.json#/graphicComponents/glass-bead-capsule"
+          ],
+          "defaultVariant": "clearChest",
+          "variants": {
+            "clearBrand": {
+              "widthPx": 729,
+              "heightPx": 240,
+              "radiusPx": 120,
+              "centrePct": [51.7, 59.1],
+              "fill": "rgba(255,255,255,0.03)",
+              "backdropBlurPx": 7.5,
+              "rim": {"widthPx": 1.5, "color": "rgba(255,255,255,0.35)", "topColor": "rgba(255,255,255,0.55)"}
+            },
+            "clearChest": {
+              "widthPx": 591,
+              "heightPx": 189,
+              "radiusPx": 94.5,
+              "centrePct": [50.0, 63.3],
+              "fill": "rgba(255,255,255,0.03)",
+              "backdropBlurPx": 7.5,
+              "rim": {"widthPx": 1.5, "color": "rgba(255,255,255,0.35)", "topColor": "rgba(255,255,255,0.55)"}
+            },
+            "nameTag": {
+              "widthPx": 852,
+              "heightPx": 177,
+              "radiusPx": 88.5,
+              "centrePct": [51.9, 72.3],
+              "fill": "rgba(255,255,255,0.08)",
+              "backdropBlurPx": 6,
+              "rim": {"widthPx": 1.5, "color": "rgba(255,255,255,0.40)", "topColor": "rgba(255,255,255,0.65)"},
+              "innerField": {
+                "leftInsetPx": 27,
+                "widthPx": 561,
+                "heightPx": 130,
+                "radiusPx": 65,
+                "fill": "rgba(0,0,0,0.30)",
+                "rim": "1.5px rgba(255,255,255,0.30)",
+                "side": "left"
+              },
+              "button": {"variant": "nametag", "side": "right", "centreFromRightEdgePx": 92}
+            },
+            "smokedAutosize": {
+              "heightPx": 183,
+              "radiusPx": 91.5,
+              "widthPx": 575,
+              "centrePct": [49.9, 50.1],
+              "fill": "rgba(0,0,0,0.30)",
+              "backdropBlurPx": 0,
+              "rim": {"widthPx": 1.5, "color": "rgba(255,255,255,0.15)"},
+              "autosize": true,
+              "paddingXPx": 82,
+              "use": "B&W interrupt only"
+            },
+            "ctaOrange": {
+              "widthPx": 491,
+              "heightPx": 110,
+              "radiusPx": 55,
+              "centrePct": [48.5, 55.0],
+              "fill": "#854219",
+              "tint": "rgba(126,62,30,0.55)",
+              "backdropBlurPx": 6,
+              "rim": {"widthPx": 1.5, "color": "rgba(255,255,255,0.40)"},
+              "extras": {"topHighlight": "#985936", "bottomRimGlow": "#AE6D4C", "overLightWardrobe": "#CBBEB9"},
+              "button": {"variant": "finalCta", "side": "left"}
+            }
+          },
+          "rules": "Sits in front of the talent with the hands visible (frosted) through it. Every capsule except the clear pills carries a capsule-button."
+        },
+        "style-2": {
+          "refs": [
+            "styles/style-2/style.json#/graphicComponents/glass-pill-gold",
+            "styles/style-2/style.json#/graphicComponents/glass-search-morph",
+            "styles/style-2/style.json#/graphicComponents/visionos-glass-ui"
+          ],
+          "defaultVariant": "goldLabel",
+          "variants": {
+            "goldLabel": {
+              "widthPx": 570,
+              "heightPx": 186,
+              "radiusPx": 93,
+              "centrePct": [50.0, 78.2],
+              "centrePctAlt": [50.0, 80.9],
+              "fill": "rgba(255,255,255,0.06)",
+              "backdropBlurPx": 24,
+              "rim": {"widthPx": 2, "color": "rgba(255,255,255,0.35)", "topColor": "rgba(255,255,255,0.35)"},
+              "extras": {
+                "warmSpill": "radial-gradient(60% 70% at 50% 0%, rgba(237,193,121,0.55) 0%, rgba(200,153,80,0.25) 45%, rgba(54,39,30,0) 100%)",
+                "coolSide": "linear-gradient(90deg, rgba(0,0,0,0) 60%, rgba(61,66,61,0.35) 100%)"
+              }
+            },
+            "searchField": {
+              "widthPx": 848,
+              "heightPx": 233,
+              "radiusPx": 116,
+              "centrePct": [49.7, 70.1],
+              "fill": "rgba(255,255,255,0.13)",
+              "backdropBlurPx": 24,
+              "rim": {"css": "inset 0 3px 0 rgba(255,255,255,0.30), 0 0 0 1.5px rgba(255,255,255,0.18)"},
+              "innerField": {
+                "widthPx": 456,
+                "heightPx": 166,
+                "radiusPx": 83,
+                "insetPx": 38,
+                "side": "left",
+                "fill": "rgba(0,0,0,0.28)"
+              },
+              "button": {"variant": "goldArrow", "side": "right"}
+            },
+            "tabBar": {
+              "widthPx": 360,
+              "heightPx": 75,
+              "radiusPx": 38,
+              "centrePct": [58.3, 52.3],
+              "fill": "rgba(255,255,255,0.16)",
+              "backdropBlurPx": 26,
+              "selectedFill": "rgba(255,255,255,0.22)",
+              "labels": ["Photos", "Album", "Favorite"]
+            }
+          },
+          "rules": "Apple / visionOS material: heavy backdrop blur (18-26 px), 1.5-3 px specular top edge. Gold light from the hero spills into the pill."
+        },
+        "style-3": {
+          "refs": [
+            "styles/style-3/style.json#/graphicComponents/glass-pill-smoked",
+            "styles/style-3/style.json#/graphicComponents/glass-pill-outline"
+          ],
+          "defaultVariant": "smokedLarge",
+          "variants": {
+            "smokedLarge": {
+              "widthPx": 662,
+              "heightPx": 218,
+              "centrePct": [49.9, 76.1],
+              "radiusPx": "h/2",
+              "fill": "rgba(0,0,0,0.14)",
+              "backdropBlurPx": 10,
+              "rim": {"widthPx": 2, "color": "rgba(255,255,255,0.22)"}
+            },
+            "smokedSmall": {
+              "widthPx": 558,
+              "heightPx": 183,
+              "centrePct": [49.9, 62.4],
+              "radiusPx": "h/2",
+              "fill": "rgba(0,0,0,0.14)",
+              "backdropBlurPx": 10,
+              "rim": {"widthPx": 2, "color": "rgba(255,255,255,0.22)"},
+              "contents": "red ui-latin-type + bell-ring"
+            },
+            "outlineCta": {
+              "widthPx": 560,
+              "heightPx": 182,
+              "centrePct": [49.8, 21.7],
+              "radiusPx": "h/2",
+              "fill": "none",
+              "backdropBlurPx": 0,
+              "rim": {"widthPx": 2.5, "color": "rgba(255,255,255,0.14)"}
+            }
+          },
+          "rules": "Smoked glass darkens 10-14% and blurs 5-10 px; the hero overlaps the pill top edge by about 38 px and stays crisp. No arrow button (a red outline bell may sit inside the small pill)."
+        }
+      }
+    },
+    {
+      "id": "capsule-button",
+      "category": "graphic",
+      "layer": "front",
+      "purpose": "Round arrow button inside a capsule (the \"tap here\" cue).",
+      "engine": {"fallback": "glass-pill (icon, iconFill, iconStroke, iconSide)"},
+      "params": {
+        "discDiameterPx": "number",
+        "discFill": "colour",
+        "discOpacity": "0-1",
+        "ringDiameterPx": "number",
+        "ringStrokePx": "number",
+        "ringColor": "colour",
+        "glassRingDiameterPx": "number|null",
+        "arrow": "↖ | ↗",
+        "arrowLengthPx": "number",
+        "arrowStrokePx": "number",
+        "side": "left|right"
+      },
+      "defaults": {
+        "arrowCaps": "round",
+        "in": {"from": {"scale": 0}, "to": {"scale": 1}, "easing": "cubic-bezier(0.34,1.56,0.64,1)"}
+      },
+      "styles": {
+        "style-1": {
+          "refs": ["styles/style-1/style.json#/graphicComponents/cta-button"],
+          "variants": {
+            "nametag": {
+              "discDiameterPx": 123,
+              "discFill": "#1B1D21",
+              "discOpacity": 0.85,
+              "discRim": "1.5px rgba(255,255,255,0.50)",
+              "glassRingDiameterPx": 135,
+              "ringDiameterPx": 84,
+              "ringStrokePx": 4.5,
+              "ringColor": "#DAD530",
+              "arrow": "↖",
+              "arrowLengthPx": 39,
+              "arrowStrokePx": 5,
+              "side": "right"
+            },
+            "finalCta": {
+              "arrow": "↗",
+              "discFill": "#511B02",
+              "discDiameterPx": 75,
+              "ringDiameterPx": 57,
+              "ringColor": "#FAD635",
+              "glassRingColor": "#A97354",
+              "side": "left"
+            }
+          },
+          "in": {"durationMs": 233, "startAfterParentStretchMs": 167}
+        },
+        "style-2": {
+          "refs": ["styles/style-2/style.json#/graphicComponents/glass-search-morph"],
+          "variants": {
+            "goldArrow": {
+              "discDiameterPx": 165,
+              "discFill": "#392A21",
+              "ringDiameterPx": 118,
+              "ringStrokePx": 7.5,
+              "ringColor": "#C19359",
+              "arrow": "↖",
+              "arrowLengthPx": 54,
+              "arrowStrokePx": 7.5,
+              "side": "right"
+            }
+          },
+          "in": {"durationMs": 200, "startAfterParentStretchMs": 200}
+        },
+        "style-3": {
+          "enabled": false,
+          "reason": "Style 3 capsules are plain smoked or hairline glass; there is no arrow button.",
+          "substitute": "bell-ring icon (72x63 px, 4.5 px #FF030F outline, sways ±11°) inside the small smoked pill: styles/style-3/style.json#/graphicComponents/bell-ring"
+        }
+      }
+    },
+    {
+      "id": "capsule-morph-in",
+      "category": "motion",
+      "appliesTo": "glass-capsule",
+      "purpose": "How a capsule is born: from a glass ring, a bead or a small seed, stretched into the final stadium (never a plain fade).",
+      "params": {
+        "seed": "ring | bead | seed | scale",
+        "seedSizePx": "number",
+        "pop": "keyframes or {from,to,durationMs,easing}",
+        "stretch": "{fromPx, peakPx?, toPx, durationMs, easing, anchor}",
+        "startAfter": "{anchor, offsetMs}"
+      },
+      "defaults": {"anchor": "centre"},
+      "styles": {
+        "style-1": {
+          "refs": [
+            "styles/style-1/style.json#/graphicComponents/glass-ring-pop",
+            "styles/style-1/style.json#/graphicComponents/nametag-capsule",
+            "styles/style-1/style.json#/graphicComponents/glass-pill-clear",
+            "styles/style-1/style.json#/graphicComponents/glass-bead-capsule"
+          ],
+          "variants": {
+            "ringToCapsule": {
+              "seed": "ring",
+              "ring": {"outerDiameterPx": 155, "bandWidthPx": 30, "fill": "rgba(255,255,255,0.18)", "backdropBlurPx": 4.5},
+              "pop": {
+                "keyframes": [
+                  {"tMs": 0, "scale": 0.117},
+                  {"tMs": 67, "scale": 0.476},
+                  {"tMs": 133, "scale": 0.903},
+                  {"tMs": 200, "scale": 1.058},
+                  {"tMs": 267, "scale": 1.087},
+                  {"tMs": 433, "scale": 0.903},
+                  {"tMs": 600, "scale": 0.99},
+                  {"tMs": 733, "scale": 1.0}
+                ],
+                "gsapApprox": "elastic.out(1,0.5)"
+              },
+              "stretch": {
+                "leftEdgeTravelPx": 549,
+                "durationMs": 533,
+                "easing": "cubic-bezier(0.4,0,0.2,1)",
+                "startAfterRingMs": 600
+              },
+              "start": {"anchor": "cut", "offsetMs": 67}
+            },
+            "scaleXPill": {
+              "seed": "scale",
+              "from": {"scaleX": 0.6, "opacity": 0},
+              "to": {"scaleX": 1, "opacity": 1},
+              "durationMs": 150,
+              "easing": "cubic-bezier(0.2,0.8,0.2,1)",
+              "textStartsAfterMs": 67
+            },
+            "beadToCapsule": {
+              "seed": "bead",
+              "steps": [
+                {
+                  "what": "bead pop",
+                  "from": {"diameterPx": 12},
+                  "to": {"diameterPx": 119},
+                  "durationMs": 133,
+                  "easing": "cubic-bezier(0.34,1.56,0.64,1)"
+                },
+                {"what": "bead hold/drift", "durationMs": 200},
+                {
+                  "what": "stretch right (left cap fixed)",
+                  "from": {"widthPx": 119},
+                  "to": {"widthPx": 491},
+                  "durationMs": 733,
+                  "easing": "cubic-bezier(0.4,0,0.2,1)"
+                },
+                {"what": "orange tint fill", "atMsFromStretch": 333, "durationMs": 200},
+                {
+                  "what": "button pop",
+                  "atMsFromStretch": 400,
+                  "durationMs": 333,
+                  "easing": "cubic-bezier(0.34,1.56,0.64,1)"
+                },
+                {"what": "line 1 pill-sweep", "atMsFromStretch": 1100},
+                {"what": "line 2 pill-sweep", "atMsFromStretch": 1433}
+              ],
+              "start": {"anchor": "cut", "offsetMs": 567}
+            }
+          }
+        },
+        "style-2": {
+          "refs": [
+            "styles/style-2/style.json#/graphicComponents/glass-search-morph",
+            "styles/style-2/style.json#/graphicComponents/glass-pill-gold"
+          ],
+          "variants": {
+            "ringToSearch": {
+              "seed": "ring",
+              "ring": {"outerDiameterPx": 230, "bandPx": 40, "fill": "rgba(255,255,255,0.22)", "backdropBlurPx": 18},
+              "ringHoldMs": 100,
+              "stretch": {
+                "fromPx": 230,
+                "peakPx": 905,
+                "toPx": 848,
+                "growMs": 867,
+                "growEasing": "cubic-bezier(0.3,0,0.2,1.15)",
+                "settleMs": 867,
+                "settleEasing": "cubic-bezier(0.45,0,0.55,1)",
+                "anchor": "right side mostly fixed: left edge overshoots and returns, right edge drifts +105px"
+              }
+            },
+            "scaleFromCentre": {
+              "seed": "scale",
+              "from": {"scale": 0.15, "opacity": 0},
+              "to": {"scale": 1, "opacity": 1},
+              "durationMs": 367,
+              "easing": "cubic-bezier(0.56,0.27,0.16,0.88)",
+              "start": {"anchor": "hero", "offsetMs": 833, "offsetF": 25},
+              "worldLockVariant": {
+                "from": {"opacity": 0},
+                "to": {"opacity": 1},
+                "durationMs": 117,
+                "durationF": 3.5,
+                "startAfterHeroMs": 233
+              }
+            }
+          }
+        },
+        "style-3": {
+          "refs": [
+            "styles/style-3/style.json#/graphicComponents/glass-pill-smoked",
+            "styles/style-3/style.json#/graphicComponents/glass-pill-outline"
+          ],
+          "variants": {
+            "seedStretch": {
+              "seed": "seed",
+              "from": {"scaleX": 0.1, "scaleY": 0.2, "opacity": 0},
+              "to": {"scaleX": 1, "scaleY": 1, "opacity": 1},
+              "durationMs": 400,
+              "easing": "cubic-bezier(0.22,1,0.36,1)",
+              "transformOrigin": "55% 50%",
+              "start": {"anchor": "hero", "offsetMs": 120},
+              "note": "pill1 stretches left first then pops to full; pill2 grows from the centre in 240 ms"
+            },
+            "outlineScaleX": {
+              "seed": "scale",
+              "from": {"scaleX": 0.25, "scaleY": 0.6, "opacity": 0},
+              "to": {"scaleX": 1, "scaleY": 1, "opacity": 1},
+              "durationMs": 400,
+              "easing": "cubic-bezier(0.22,1,0.36,1)",
+              "startAfterHeadlineMs": 840
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "glass-depth-panel",
+      "category": "graphic",
+      "layer": "front",
+      "purpose": "Large glass shape that adds depth: it bends, frosts or frames the type beneath it. Each style has one signature shape.",
+      "params": {
+        "shape": "disc | ring | window | arch | cornerSlabs",
+        "material": "{fill, backdropBlurPx, rim, magnify?, displacePx?}",
+        "geometry": "shape-specific px values",
+        "in": "entrance",
+        "loop": "drift after landing"
+      },
+      "styles": {
+        "style-1": {
+          "refs": [
+            "styles/style-1/style.json#/graphicComponents/lens-disc-slide",
+            "styles/style-1/style.json#/graphicComponents/lens-ring-pair"
+          ],
+          "variants": {
+            "lensDisc": {
+              "shape": "disc",
+              "build": {
+                "radiusPx": 486,
+                "radiusEndPx": 507,
+                "rim": "2.5px rgba(255,255,255,0.75)",
+                "interior": {"magnify": 1.2, "blurPx": 7.5, "tint": null},
+                "centreStartPct": [104, 108],
+                "centreLandPct": [87.9, 98.4],
+                "centreEndPct": [83.7, 98.0]
+              },
+              "in": {
+                "travelPx": 300,
+                "direction": "up-left diagonal from off-screen",
+                "durationMs": 367,
+                "easing": "cubic-bezier(0.16,1,0.3,1)"
+              },
+              "loop": {"dxPerFramePx": -0.62, "dRadiusPerFramePx": 0.29, "easing": "linear", "until": "cut"},
+              "start": {"anchor": "heroLine", "offsetMs": 333}
+            },
+            "lensRingPair": {
+              "shape": "ring",
+              "build": {
+                "radiusPx": 428.5,
+                "strokePx": 3.5,
+                "stroke": "rgba(255,255,255,0.37)",
+                "interior": {"displacePx": [-38, -98], "blurPx": 4.5, "tint": "warm, dims text ~30%"},
+                "centresPx": {"topLeft": [28, 409], "bottomRight": [1087, 1539]},
+                "centresPct": {"topLeft": [2.6, 21.3], "bottomRight": [100.6, 80.2]}
+              },
+              "in": {
+                "from": {"cxOffsetPx": -207, "scale": 0.77},
+                "to": {"cxOffsetPx": -37, "scale": 0.96},
+                "durationMs": 400,
+                "easing": "cubic-bezier(0.16,1,0.3,1)",
+                "mirroredForBottomRight": true
+              },
+              "loop": {
+                "durationMs": 1067,
+                "dxPerFramePx": 1.0,
+                "dRadiusPerFramePx": 0.47,
+                "easing": "linear",
+                "thenStatic": true
+              },
+              "out": {"type": "holdToEnd", "note": "none (held to end)"}
+            }
+          },
+          "rules": "Refraction: the interior magnifies (1.2x) or displaces and blurs the captions beneath; the payoff word sits above the rings and is not refracted."
+        },
+        "style-2": {
+          "refs": ["styles/style-2/style.json#/graphicComponents/visionos-glass-ui"],
+          "variants": {
+            "visionWindow": {
+              "shape": "window",
+              "build": {
+                "window": {
+                  "widthPx": 648,
+                  "heightPx": 520,
+                  "radiusPx": 36,
+                  "centrePct": [52.8, 66.9],
+                  "transform": "perspective(1400px) rotateY(-14deg) rotateX(8deg)",
+                  "fill": "rgba(160,160,160,0.16)",
+                  "backdropBlurPx": 26,
+                  "specularEdgePx": 1.5
+                },
+                "dock": {
+                  "widthPx": 89,
+                  "heightPx": 308,
+                  "radiusPx": 44,
+                  "centrePct": [14.9, 70.1],
+                  "icons": ["home", "photos", "plus"],
+                  "iconSizePx": 33,
+                  "iconColor": "#E5E8E8"
+                },
+                "grabber": {"widthPx": 90, "heightPx": 9, "radiusPx": 5, "color": "rgba(255,255,255,0.85)", "belowWindowPx": 24},
+                "material": "neutral grey glass 10-20% white + strong backdrop blur; talent's hands visible blurred through the window"
+              },
+              "in": {
+                "tabBar": {
+                  "from": {"opacity": 0},
+                  "to": {"opacity": 1},
+                  "delayMs": 33,
+                  "delayF": 1,
+                  "durationMs": 167,
+                  "durationF": 5,
+                  "easing": "linear"
+                },
+                "tabSelectionSlide": {
+                  "fromLabel": 0,
+                  "toLabel": 1,
+                  "delayMs": 433,
+                  "delayF": 13,
+                  "durationMs": 200,
+                  "durationF": 6,
+                  "easing": "cubic-bezier(0.2,0.6,0.35,1)"
+                },
+                "window": {
+                  "from": {"opacity": 0},
+                  "to": {"opacity": 1},
+                  "delayMs": 600,
+                  "delayF": 18,
+                  "durationMs": 800,
+                  "durationF": 24,
+                  "easing": "linear"
+                },
+                "dock": {"note": "No own animation. The camera pull-back reveals it from the left edge."}
+              },
+              "loop": {"carousel": {"items": "3-4 translucent 3D trays", "periodMs": 4000, "type": "continuous rotation"}},
+              "worldLock": true
+            }
+          },
+          "rules": "Spatial-app glass in perspective; neutral grey glass 10-20% white plus strong blur; hands show through."
+        },
+        "style-3": {
+          "refs": [
+            "styles/style-3/style.json#/graphicComponents/glass-arch-rise",
+            "styles/style-3/style.json#/graphicComponents/glass-corner-panels"
+          ],
+          "variants": {
+            "arch": {
+              "shape": "arch",
+              "build": {
+                "widthPx": 850,
+                "widthPctW": 78.8,
+                "xPx": [128, 978],
+                "topYPx": 1033,
+                "topYPct": 53.8,
+                "radiusPx": 425,
+                "legsRunOffBottom": true,
+                "heightPx": 947,
+                "stroke": {"widthPx": 3, "color": "rgba(255,255,255,0.37)"},
+                "backdropBlurPx": 5,
+                "fill": "rgba(0,0,0,0.10)",
+                "blackLift": "min luma 2 -> 6",
+                "contents": [
+                  {
+                    "fontRole": "ghostMegaArch",
+                    "text": "e.g. 'اذا'",
+                    "position": [53.9, 66.4],
+                    "zOrder": "under the glass (blurred ~4 px @1080)"
+                  },
+                  {
+                    "preset": "typewriter-thin-kashida",
+                    "position": [51.3, 82.4],
+                    "zOrder": "on top of the glass, crisp"
+                  }
+                ]
+              },
+              "in": {
+                "from": {"y": 380, "scale": 0.75},
+                "to": {"y": 0, "scale": 1},
+                "durationMs": 760,
+                "easing": "cubic-bezier(0.13,0.43,0.09,1.0)",
+                "transformOrigin": "50% 100%",
+                "measured": "top 1100 -> 684-689 @720 over f18-37; straight-leg width 425 (f19) 466 (f20) 511 (f22) 536 (f24) 559 (f28) 566 (f34); 62 px/f at f20 -> 1 px/f by f35",
+                "ghostWord": {"from": {"opacity": 0}, "to": {"opacity": 1}, "delayMs": 160, "durationMs": 120}
+              },
+              "out": {
+                "type": "animated",
+                "to": {"y": 450},
+                "durationMs": 100,
+                "easing": "cubic-bezier(0.7,0,0.84,0)",
+                "measured": "arch top 790 -> 805 (f38) -> 1101 (f39) -> off (f40) @720: split exit, bottom group"
+              }
+            },
+            "cornerSlabs": {
+              "shape": "cornerSlabs",
+              "build": {
+                "topLeft": {
+                  "xPx": [0, 430],
+                  "yPx": [0, 998],
+                  "pct": {"w": 39.9, "h": 52},
+                  "roundedCorner": "bottom-right",
+                  "radiusPx": 375
+                },
+                "bottomRight": {
+                  "xPx": [633, 1080],
+                  "yPx": [800, 1920],
+                  "pct": {"x": 58.6, "y": 41.6},
+                  "roundedCorner": "top-left",
+                  "radiusPx": 375
+                },
+                "stroke": {"widthPx": 3, "color": "rgba(255,255,255,0.37)"},
+                "backdropBlurPx": 7.5,
+                "fill": "rgba(40,0,4,0.10)",
+                "darken": 0.9,
+                "faceRule": "the gap between the panels (x 430-633 at 1080) must contain the face"
+              },
+              "in": {
+                "topLeft": {"from": {"x": -257, "y": -836}, "to": {"x": 0, "y": 0}, "easing": "cubic-bezier(0.37,0.32,0,1.03)"},
+                "bottomRight": {"from": {"x": 272, "y": 939}, "to": {"x": 0, "y": 0}, "easing": "cubic-bezier(0.29,0.89,0.28,0.96)"},
+                "durationMs": 600,
+                "measured": "f306-318 @25 (90% of travel in 6 f, peak ~175 px/f @720); BR top at x700: 1185 (f305) 838 (f308) 559 (f318); TL right edge 109 -> 280"
+              },
+              "loop": {
+                "type": "linear drift then hard stop",
+                "durationMs": 1240,
+                "topLeft": {"y": 45},
+                "bottomRight": {"x": -15, "y": -45},
+                "measured": "~1 px/f @25 f321-352, identical f352-361"
+              },
+              "start": {"anchor": "oldWord", "offsetMs": 200}
+            }
+          },
+          "rules": "Glass covers the body and old words, never the face (the face must sit in the gap between the corner slabs)."
+        }
+      }
+    },
+    {
+      "id": "hero-word-in",
+      "category": "text",
+      "purpose": "Default entrance of the bold hero line (1-3 words).",
+      "params": {
+        "unit": "letter | word | none",
+        "in": "{from, to, durationMs, staggerMs, easing}",
+        "font": "role resolved from the style",
+        "positionPct": "[x, y]",
+        "worldLock": "bool"
+      },
+      "styles": {
+        "style-1": {
+          "ref": "styles/style-1/style.json#/textPresets/blur-type",
+          "unit": "letter",
+          "dir": "rtl",
+          "layer": "front",
+          "worldLock": false,
+          "font": {"role": "hero", "family": "IBM Plex Sans Arabic", "weight": 700, "sizePx": 116, "color": "#FFFFFF"},
+          "in": {
+            "from": {"opacity": 0, "blur": 12, "letterSpacing": "-0.5em"},
+            "to": {"opacity": 1, "blur": 0, "letterSpacing": "0.03em"},
+            "durationMs": 167,
+            "staggerMs": 50,
+            "easing": "cubic-bezier(0,0,1,1)"
+          },
+          "holdMs": 1750,
+          "out": null,
+          "positionPct": [52.4, 50.4],
+          "start": {"anchor": "cut", "offsetMs": [33, 200]},
+          "variants": {
+            "wide": {"fontRole": "heroWide", "sizePx": 165, "positionPct": [52.2, 15.3]},
+            "giantPop": {
+              "ref": "styles/style-1/style.json#/textPresets/glyph-pop",
+              "unit": "letter",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "giant", "family": "IBM Plex Sans Arabic", "weight": 700, "sizePx": 192, "color": "#FFFFFF"},
+              "in": {
+                "from": {"scale": 0.19, "y": -33, "transformOrigin": "100% 85%"},
+                "to": {"scale": 1, "y": 0, "transformOrigin": "100% 85%"},
+                "durationMs": 300,
+                "staggerMs": 233,
+                "easing": "cubic-bezier(0.16,1,0.3,1)"
+              },
+              "holdMs": 3100,
+              "out": {"note": "1-frame pre-cut pull-back with the whole composite, then hard cut"},
+              "positionPct": [76.5, 14.8],
+              "start": {"anchor": "cut", "offsetMs": 33}
+            }
+          },
+          "settle": {
+            "property": "letterSpacing",
+            "fromEm": 0.03,
+            "toEm": 0,
+            "durationMs": 400,
+            "easing": "cubic-bezier(0.2,0.7,0.3,1)",
+            "measured": "كل فكرة 268->249 px(720) f325-337; حتى تشوف 505->487 f432-447"
+          },
+          "reflow": true
+        },
+        "style-2": {
+          "ref": "styles/style-2/style.json#/textPresets/hero-white-rise",
+          "unit": "none",
+          "dir": "rtl",
+          "layer": "front",
+          "worldLock": false,
+          "font": {"role": "hero-bold", "family": "Readex Pro", "weight": 700, "sizePx": 185, "color": "#FAFCFF"},
+          "in": {
+            "from": {"opacity": 0, "y": 63, "brightness": 0.73},
+            "to": {"opacity": 1, "y": 0, "brightness": 1},
+            "durationMs": 533,
+            "staggerMs": 0,
+            "easing": "cubic-bezier(0.0,0.1,0.17,0.94)"
+          },
+          "holdMs": 1170,
+          "out": null,
+          "positionPct": [5.1, 12.5],
+          "start": {"anchor": "cut", "offsetMs": 367, "offsetF": 11},
+          "variants": {
+            "worldBehind": {
+              "ref": "styles/style-2/style.json#/textPresets/hero-white-world-behind",
+              "unit": "none",
+              "dir": "rtl",
+              "layer": "behind",
+              "worldLock": true,
+              "font": {"role": "hero-bold", "family": "Readex Pro", "weight": 700, "sizePx": 165, "color": "#FAFCFF"},
+              "in": {"from": {"opacity": 0}, "to": {"opacity": 1}, "durationMs": 100, "staggerMs": 0, "easing": "linear"},
+              "holdMs": 4530,
+              "out": null,
+              "positionPct": [50.3, 27.1],
+              "start": {"anchor": "cut", "offsetMs": 33, "offsetF": 1},
+              "kashidaCount": 12
+            }
+          }
+        },
+        "style-3": {
+          "ref": "styles/style-3/style.json#/textPresets/fade-rise-word",
+          "unit": "word",
+          "dir": "rtl",
+          "layer": "front",
+          "worldLock": false,
+          "font": {"role": "hero", "family": "Almarai", "weight": 800, "sizePx": 141, "color": "#FDFBF9"},
+          "in": {
+            "from": {"opacity": 0.45, "y": 36, "blur": 6},
+            "to": {"opacity": 1, "y": 0, "blur": 0},
+            "durationMs": 280,
+            "staggerMs": 320,
+            "easing": "cubic-bezier(0.16,1,0.3,1)"
+          },
+          "holdMs": 1800,
+          "out": null,
+          "positionPct": [49.9, 68.8],
+          "variants": {
+            "headlineCascade": {
+              "ref": "styles/style-3/style.json#/textPresets/headline-cascade",
+              "unit": "word",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "headline", "family": "Almarai", "weight": 800, "sizePx": 100, "color": "#FDFBF9"},
+              "in": {
+                "from": {"opacity": 0, "y": 33},
+                "to": {"opacity": 1, "y": 0},
+                "durationMs": 560,
+                "staggerMs": 240,
+                "easing": "cubic-bezier(0.22,1,0.36,1)"
+              },
+              "holdMs": 2600,
+              "out": null,
+              "positionPct": [49.9, 14.7]
+            },
+            "blurWipe": {
+              "ref": "styles/style-3/style.json#/textPresets/blur-wipe-in",
+              "unit": "none",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "hero", "family": "Almarai", "weight": 800, "sizePx": 141, "color": "#FDFBF9"},
+              "in": {
+                "from": {"opacity": 0.4, "blur": 8},
+                "to": {"opacity": 1, "blur": 0},
+                "durationMs": 200,
+                "staggerMs": 0,
+                "easing": "cubic-bezier(0.16,1,0.3,1)"
+              },
+              "holdMs": 2000,
+              "out": null,
+              "positionPct": [34.4, 60.8]
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "support-line-in",
+      "category": "text",
+      "purpose": "Thin (hairline / light) support line typed or faded under or across the hero.",
+      "params": {"unit": "letter | word", "in": "{from, to, durationMs, staggerMs, easing}", "glow": "optional"},
+      "styles": {
+        "style-1": {
+          "ref": "styles/style-1/style.json#/textPresets/blur-type-thin",
+          "unit": "letter",
+          "dir": "rtl",
+          "layer": "front",
+          "worldLock": false,
+          "font": {"role": "support", "family": "IBM Plex Sans Arabic", "weight": 200, "sizePx": 69, "color": "#FFFFFF"},
+          "in": {
+            "from": {"opacity": 0, "blur": 9, "letterSpacing": "-0.5em"},
+            "to": {"opacity": 1, "blur": 0, "letterSpacing": "0.03em"},
+            "durationMs": 100,
+            "staggerMs": 50,
+            "easing": "cubic-bezier(0,0,1,1)"
+          },
+          "holdMs": 1500,
+          "out": null,
+          "positionPct": [50.3, 55.3],
+          "start": {"anchor": "heroDone", "offsetMs": [100, 300]},
+          "variants": {
+            "wide": {"fontRole": "supportWide", "sizePx": 113, "positionPct": [51.9, 23.7]},
+            "pillThin": {
+              "ref": "styles/style-1/style.json#/textPresets/pill-type-thin",
+              "unit": "letter",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "pillThin", "family": "IBM Plex Sans Arabic", "weight": 200, "sizePx": 75, "color": "#FFFFFF"},
+              "in": {
+                "from": {"opacity": 0, "blur": 9, "letterSpacing": "-0.5em"},
+                "to": {"opacity": 1, "blur": 0, "letterSpacing": "0em"},
+                "durationMs": 133,
+                "staggerMs": 67,
+                "easing": "cubic-bezier(0,0,1,1)"
+              },
+              "holdMs": 1300,
+              "out": null,
+              "positionPct": [50.3, 65.5]
+            }
+          }
+        },
+        "style-2": {
+          "ref": "styles/style-2/style.json#/textPresets/neon-thin-blurfade",
+          "unit": "word",
+          "dir": "rtl",
+          "layer": "front",
+          "worldLock": false,
+          "font": {"role": "neon-thin", "family": "Readex Pro", "weight": 200, "sizePx": 108, "color": "#FFFBF9"},
+          "in": {
+            "from": {"opacity": 0, "blur": 12},
+            "to": {"opacity": 1, "blur": 0},
+            "durationMs": 133,
+            "staggerMs": 0,
+            "easing": "cubic-bezier(0.2,0.6,0.35,1)"
+          },
+          "holdMs": 2600,
+          "out": null,
+          "positionPct": [63.2, 22.0],
+          "start": {"anchor": "hero", "offsetMs": [400, 633], "offsetF": [12, 19]},
+          "glow": {
+            "tight": {"color": "rgba(255,255,255,0.9)", "radiusPx": 4},
+            "soft": {"color": "rgba(255,255,255,0.55)", "radiusPx": 45, "strength": 1.0}
+          },
+          "variants": {
+            "typeOn": {
+              "ref": "styles/style-2/style.json#/textPresets/neon-thin-typeon",
+              "unit": "letter",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "neon-thin", "family": "Readex Pro", "weight": 200, "sizePx": 93, "color": "#FFFBF9"},
+              "in": {
+                "from": {"opacity": 0, "blur": 6, "brightness": 1.6},
+                "to": {"opacity": 1, "blur": 0, "brightness": 1},
+                "durationMs": 83,
+                "staggerMs": 38,
+                "easing": "ease-out"
+              },
+              "holdMs": 1000,
+              "out": null,
+              "positionPct": [49.6, 76.0],
+              "start": {"anchor": "cut", "offsetMs": 367, "offsetF": 11}
+            },
+            "cascadeFloat": {
+              "ref": "styles/style-2/style.json#/textPresets/neon-word-cascade-float",
+              "unit": "word",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "neon-thin", "family": "Readex Pro", "weight": 200, "sizePx": 46, "color": "#C9E9F4"},
+              "in": {
+                "from": {"opacity": 0, "blur": 4},
+                "to": {"opacity": 1, "blur": 0},
+                "durationMs": 150,
+                "staggerMs": 200,
+                "easing": "ease-out"
+              },
+              "holdMs": 1500,
+              "out": null,
+              "positionPct": [49.9, 19.5]
+            }
+          }
+        },
+        "style-3": {
+          "ref": "styles/style-3/style.json#/textPresets/typewriter-sub",
+          "unit": "letter",
+          "dir": "rtl",
+          "layer": "front",
+          "worldLock": false,
+          "font": {"role": "subtitle", "family": "Almarai", "weight": 300, "sizePx": 52, "color": "#FFF6EF"},
+          "in": {
+            "from": {"opacity": 0},
+            "to": {"opacity": 1},
+            "durationMs": 160,
+            "staggerMs": 22,
+            "easing": "cubic-bezier(0.2,0.7,0.3,1)"
+          },
+          "holdMs": 1600,
+          "out": null,
+          "positionPct": [49.9, 75.6],
+          "start": {
+            "anchor": "pill",
+            "offsetMs": 280,
+            "note": "starts 6-15 f @25 (240-600 ms) after its pill starts, ~400-700 ms after the hero"
+          },
+          "variants": {
+            "wordStep": {
+              "ref": "styles/style-3/style.json#/textPresets/word-step-reveal",
+              "unit": "word",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "subtitleLarge", "family": "Almarai", "weight": 300, "sizePx": 73, "color": "#FAF3F5"},
+              "in": {
+                "from": {"opacity": 0},
+                "to": {"opacity": 1},
+                "durationMs": 120,
+                "staggerMs": 280,
+                "easing": "cubic-bezier(0.2,0.7,0.3,1)"
+              },
+              "holdMs": 800,
+              "out": null,
+              "positionPct": [50.0, 70.2]
+            },
+            "riseLabel": {
+              "ref": "styles/style-3/style.json#/textPresets/typewriter-sub-rise",
+              "unit": "letter",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "pillLabel", "family": "Almarai", "weight": 800, "sizePx": 60, "color": "#FFFBF8"},
+              "in": {
+                "from": {"opacity": 0, "y": 40},
+                "to": {"opacity": 1, "y": 0},
+                "durationMs": 200,
+                "staggerMs": 40,
+                "easing": "cubic-bezier(0.16,1,0.3,1)"
+              },
+              "holdMs": 1320,
+              "out": null,
+              "positionPct": [49.9, 21.6]
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "pill-label-type",
+      "category": "text",
+      "purpose": "Bold label typed inside a glass-capsule, starting just after the capsule lands.",
+      "styles": {
+        "style-1": {
+          "ref": "styles/style-1/style.json#/textPresets/pill-type",
+          "unit": "letter",
+          "dir": "rtl",
+          "layer": "front",
+          "worldLock": false,
+          "font": {"role": "pillBold", "family": "IBM Plex Sans Arabic", "weight": 700, "sizePx": 72, "color": "#FFFFFF"},
+          "in": {
+            "from": {"opacity": 0, "blur": 9, "letterSpacing": "-0.5em"},
+            "to": {"opacity": 1, "blur": 0, "letterSpacing": "0.03em"},
+            "durationMs": 133,
+            "staggerMs": 40,
+            "easing": "cubic-bezier(0,0,1,1)"
+          },
+          "holdMs": 1500,
+          "out": null,
+          "positionPct": [51.0, 61.6]
+        },
+        "style-2": {
+          "ref": "styles/style-2/style.json#/textPresets/pill-label-typeon",
+          "unit": "letter",
+          "dir": "rtl",
+          "layer": "front",
+          "worldLock": false,
+          "font": {"role": "pill-label", "family": "Readex Pro", "weight": 700, "sizePx": 56, "color": "#FFFAF4"},
+          "in": {
+            "from": {"opacity": 0, "blur": 6},
+            "to": {"opacity": 1, "blur": 0},
+            "durationMs": 83,
+            "staggerMs": 27,
+            "easing": "ease-out"
+          },
+          "holdMs": 1400,
+          "out": null,
+          "positionPct": [51.6, 78.4],
+          "start": {"anchor": "component", "component": "glass-pill-gold", "offsetMs": 33},
+          "variants": {
+            "searchTypewriter": {
+              "ref": "styles/style-2/style.json#/textPresets/search-typewriter",
+              "unit": "letter",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "pill-label", "family": "Readex Pro", "weight": 700, "sizePx": 69, "color": "#E3DCDA"},
+              "in": {"from": {"opacity": 0}, "to": {"opacity": 1}, "durationMs": 67, "staggerMs": 123, "easing": "linear"},
+              "holdMs": 1870,
+              "out": null,
+              "positionPct": [36.0, 69.0],
+              "start": {"anchor": "component", "component": "glass-search-morph", "offsetMs": 533}
+            }
+          }
+        },
+        "style-3": {
+          "ref": "styles/style-3/style.json#/textPresets/typewriter-sub-rise",
+          "unit": "letter",
+          "dir": "rtl",
+          "layer": "front",
+          "worldLock": false,
+          "font": {"role": "pillLabel", "family": "Almarai", "weight": 800, "sizePx": 60, "color": "#FFFBF8"},
+          "in": {
+            "from": {"opacity": 0, "y": 40},
+            "to": {"opacity": 1, "y": 0},
+            "durationMs": 200,
+            "staggerMs": 40,
+            "easing": "cubic-bezier(0.16,1,0.3,1)"
+          },
+          "holdMs": 1320,
+          "out": null,
+          "positionPct": [49.9, 21.6]
+        }
+      }
+    },
+    {
+      "id": "kashida-stretch",
+      "category": "text",
+      "purpose": "Widen a thin Arabic word with repeated tatweel (U+0640) so it spans a partner word, becomes a rule or glows as a line. Never used to justify paragraphs.",
+      "params": {
+        "count": "integer (write the tatweels into the text when only one word is stretched)",
+        "advanceEm": "font-specific tatweel advance",
+        "formula": "count = round(targetStretchPx / (advanceEm * fontSizePx))",
+        "insertAfter": "first joining letter that has a joining successor"
+      },
+      "styles": {
+        "style-1": {
+          "advanceEm": 0.1,
+          "advanceEmByWeight": {"200": 0.1, "700": 0.11},
+          "weight": 200,
+          "measuredCounts": {
+            "بـــس@hero": 6,
+            "هـــواي@lockupThin": 6,
+            "افكـــار@lockupThin": 9,
+            "بيهـــا@lockupThin": 45,
+            "كدامـــك@supportWide": 11
+          },
+          "presets": [
+            {
+              "ref": "styles/style-1/style.json#/textPresets/kashida-rule-word",
+              "unit": "none",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {
+                "role": "lockupThin",
+                "family": "IBM Plex Sans Arabic",
+                "weight": 200,
+                "sizePx": 99,
+                "color": "#FFFFFF"
+              },
+              "in": {
+                "from": {"opacity": 0.25, "blur": 9},
+                "to": {"opacity": 1, "blur": 0},
+                "durationMs": 233,
+                "staggerMs": 0,
+                "easing": "cubic-bezier(0.2,0.7,0.3,1)"
+              },
+              "holdMs": 2800,
+              "out": null,
+              "positionPct": [78.1, 23.7],
+              "start": {"anchor": "cut", "offsetMs": 433},
+              "kashidaCount": 45
+            },
+            {
+              "ref": "styles/style-1/style.json#/textPresets/lockup-thin",
+              "unit": "letter",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {
+                "role": "lockupThin",
+                "family": "IBM Plex Sans Arabic",
+                "weight": 200,
+                "sizePx": 99,
+                "color": "#FFFFFF"
+              },
+              "in": {
+                "from": {"opacity": 0, "blur": 6},
+                "to": {"opacity": 1, "blur": 0},
+                "durationMs": 100,
+                "staggerMs": 50,
+                "easing": "cubic-bezier(0,0,1,1)"
+              },
+              "holdMs": 2800,
+              "out": null,
+              "positionPct": [50.4, 11.7],
+              "start": {"anchor": "cut", "offsetMs": 300}
+            }
+          ],
+          "rules": "Thin words only (one bold exception: the turn word). Tatweels type on as separate dashed units that close with the settle; one long kashida (up to 44% W) becomes a rule into an illustration."
+        },
+        "style-2": {
+          "advanceEm": 0.08,
+          "weight": 200,
+          "measuredCounts": {"هـو": 6, "فكـرته": 12, "بعـدك": 34, "حـل": 3, "طـول / المـدة / مالتـه (per joint)": 8},
+          "fitOrder": ["font-size from target ink height", "scaleX <= 1.3 if still too narrow", "then add kashida"],
+          "presets": [
+            {
+              "ref": "styles/style-2/style.json#/textPresets/neon-thin-blurfade",
+              "unit": "word",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "neon-thin", "family": "Readex Pro", "weight": 200, "sizePx": 108, "color": "#FFFBF9"},
+              "in": {
+                "from": {"opacity": 0, "blur": 12},
+                "to": {"opacity": 1, "blur": 0},
+                "durationMs": 133,
+                "staggerMs": 0,
+                "easing": "cubic-bezier(0.2,0.6,0.35,1)"
+              },
+              "holdMs": 2600,
+              "out": null,
+              "positionPct": [63.2, 22.0],
+              "start": {"anchor": "hero", "offsetMs": [400, 633], "offsetF": [12, 19]}
+            },
+            {
+              "ref": "styles/style-2/style.json#/textPresets/search-typewriter",
+              "unit": "letter",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "pill-label", "family": "Readex Pro", "weight": 700, "sizePx": 69, "color": "#E3DCDA"},
+              "in": {"from": {"opacity": 0}, "to": {"opacity": 1}, "durationMs": 67, "staggerMs": 123, "easing": "linear"},
+              "holdMs": 1870,
+              "out": null,
+              "positionPct": [36.0, 69.0],
+              "start": {"anchor": "component", "component": "glass-search-morph", "offsetMs": 533}
+            }
+          ],
+          "rules": "Widen with kashida, never tracking. In thin weight the stretched kashida glows as a neon line (optional 200 ms glint along it); بعدك wraps 82% W around the gold hero."
+        },
+        "style-3": {
+          "advanceEm": 0.18,
+          "weight": 300,
+          "measuredCounts": {"الطـــالب": 8, "تدريسك قـــوي": 3, "تشـــرح": 3, "بــس": 2},
+          "presets": [
+            {
+              "ref": "styles/style-3/style.json#/textPresets/kashida-draw-behind",
+              "unit": "none",
+              "dir": "rtl",
+              "layer": "behind",
+              "worldLock": false,
+              "font": {"role": "kashidaThin", "family": "Almarai", "weight": 300, "sizePx": 162, "color": "#FFFFFF"},
+              "in": {
+                "from": {"clip": "inset(0% 0% 0% 100%)"},
+                "to": {"clip": "inset(0% 0% 0% 0%)"},
+                "durationMs": 560,
+                "staggerMs": 0,
+                "easing": "cubic-bezier(0,0,1,1)"
+              },
+              "holdMs": 1200,
+              "out": null,
+              "positionPct": [50.4, 42.9],
+              "kashidaCount": 8
+            },
+            {
+              "ref": "styles/style-3/style.json#/textPresets/typewriter-thin-kashida",
+              "unit": "letter",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "kashidaThinSmall", "family": "Almarai", "weight": 300, "sizePx": 100, "color": "#FFFFFF"},
+              "in": {
+                "from": {"opacity": 0},
+                "to": {"opacity": 1},
+                "durationMs": 80,
+                "staggerMs": 40,
+                "easing": "cubic-bezier(0.2,0.7,0.3,1)"
+              },
+              "holdMs": 560,
+              "out": {
+                "unit": "none",
+                "to": {"y": 450},
+                "durationMs": 100,
+                "easing": "cubic-bezier(0.7,0,0.84,0)",
+                "note": "drops with the arch (split exit, bottom group)"
+              },
+              "positionPct": [51.3, 82.4],
+              "kashidaCount": 3
+            }
+          ],
+          "rules": "Light or outline words only (bold exception: the turn word with 2). The kashida is drawn like a line by an RTL clip, often behind the head."
+        }
+      }
+    },
+    {
+      "id": "emphasis-material",
+      "category": "text",
+      "purpose": "The one keyword per section/shot that gets a special surface. Shared rule: at most one special material on screen at a time; everything else is flat white.",
+      "params": {
+        "material": "id from the style catalogue",
+        "fill": "CSS fill",
+        "effects": "glow / rim / extrusion / blend",
+        "preset": "entrance preset"
+      },
+      "renderNote": "Gradient fills use background-clip:text; put glows, rims and extrusions on an under-layer copy or a wrapper filter: drop-shadow(), never text-shadow on the gradient element.",
+      "styles": {
+        "style-1": {
+          "rule": "exactly one special-material word per section, never two in a shot",
+          "catalogue": {
+            "goldGradient": {
+              "fontRef": "styles/style-1/style.json#/fonts/hook",
+              "sizePx": 64,
+              "weight": 700,
+              "fill": {
+                "type": "linear",
+                "gradient": "linear-gradient(90deg, #FFF7F0 0%, #FFF4E5 6%, #FFF1DD 14%, #FFE9CE 22%, #FFE1A7 30%, #FFD985 38%, #FFD57A 45%, #FFD149 53%, #FFD244 61%, #FFD130 69%, #FFD238 77%, #FED25E 85%, #FDD781 92%, #FFDC92 100%)",
+                "space": "shared screen-space band x 25.8%..79.0% W for both hook lines (not per word, not per line)"
+              },
+              "effects": {
+                "glow": {"color": "rgba(255,176,0,0.30)", "radiusPx": 45, "strength": 1},
+                "glowTight": {"color": "rgba(255,196,0,0.35)", "radiusPx": 5},
+                "edgeSoftenPx": 0.75,
+                "stroke": null,
+                "shadow": null,
+                "renderHint": "gradient fill: draw the glow on a duplicated text layer underneath (or filter: drop-shadow on a wrapper); text-shadow bleeds over background-clip:text"
+              },
+              "preset": "styles/style-1/style.json#/textPresets/ember-type",
+              "use": "hook"
+            },
+            "hotYellowFlash": {
+              "preset": "styles/style-1/style.json#/textPresets/glow-sweep",
+              "in": {
+                "from": {
+                  "opacity": 0,
+                  "blur": 12,
+                  "color": "#FAD01E",
+                  "textShadow": "0 0 6px rgba(255,245,92,1), 0 0 24px rgba(250,208,30,0.9)"
+                },
+                "to": {
+                  "opacity": 1,
+                  "blur": 0,
+                  "color": "#FFFFFF",
+                  "textShadow": "0 0 6px rgba(255,245,92,0), 0 0 24px rgba(250,208,30,0)"
+                },
+                "durationMs": 333,
+                "easing": "cubic-bezier(0.25,0.6,0.4,1)",
+                "staggerMs": 67
+              },
+              "use": "turn word"
+            },
+            "orange3d": {
+              "fontRef": "styles/style-1/style.json#/fonts/payoff3d",
+              "sizePx": 245,
+              "weight": 700,
+              "fill": {
+                "type": "linear",
+                "gradient": "linear-gradient(160deg, #A5490B 0%, #B65B26 45%, #D7793F 100%)",
+                "space": "element box"
+              },
+              "effects": {
+                "extrusion": {
+                  "method": "wrapper filter chain",
+                  "css": "drop-shadow(1.5px 1.5px 0 #F5C9A0) drop-shadow(1.5px 1.5px 0 #8A3E14) drop-shadow(1.5px 1.5px 0 #7A3510) drop-shadow(0 9px 12px rgba(0,0,0,0.5))"
+                },
+                "bevelHighlight": "#F5C9A0",
+                "sideColor": "#8A3E14",
+                "glow": null,
+                "stroke": null
+              },
+              "preset": "styles/style-1/style.json#/textPresets/orange-3d-type",
+              "use": "contrast word on the B&W interrupt"
+            },
+            "iceChrome": {
+              "fontRef": "styles/style-1/style.json#/fonts/payoffChrome",
+              "sizePx": 234,
+              "weight": 700,
+              "fill": {
+                "type": "linear",
+                "gradient": "linear-gradient(180deg, #DAF8FE 0%, #DAF8FE 19.5%, #D3F2F8 27.9%, #DEF1EC 40.6%, #A6D0D4 53.3%, #89A4A9 65.9%, #6E8285 74.3%, #4E4C4D 87%, #4E4C4D 100%)",
+                "space": "element line box with lineHeight 1.2 (alef top at 15.8%, baseline at 77.5%, descender bottom at 97.5%)"
+              },
+              "effects": {
+                "rimLight": {
+                  "color": "#6AF3F7",
+                  "medianColor": "#57CFD7",
+                  "widthPx": 4,
+                  "side": "top/upper edges",
+                  "method": "duplicate text in #6AF3F7 offset y -3px, blur 2px, placed under the chrome fill"
+                },
+                "glow": {"color": "rgba(63,232,240,0.45)", "radiusPx": 75, "strength": 1.2},
+                "haloNear": {"color": "#356A6A", "radiusPx": 12},
+                "shadow": null,
+                "stroke": null,
+                "renderHint": "gradient fill: rim + bloom on an under-layer, never text-shadow on the gradient element"
+              },
+              "preset": "styles/style-1/style.json#/textPresets/hero-glow-reveal",
+              "use": "payoff word",
+              "glowBloom": {
+                "fromAlpha": 0,
+                "toAlpha": 1,
+                "delayMs": 233,
+                "durationMs": 333,
+                "easing": "cubic-bezier(0.2,0.7,0.3,1)"
+              }
+            }
+          }
+        },
+        "style-2": {
+          "rule": "one Arabic hero word per graphic shot (53-86% W), a new material each time; only the gold panel + pill may reprise for the CTA set-up",
+          "catalogue": {
+            "differencePeach": {
+              "fontRef": "styles/style-2/style.json#/fonts/hero-difference",
+              "sizePx": 285,
+              "weight": 600,
+              "fill": {"type": "solid", "color": "#FCC29E"},
+              "effects": {"blendMode": "difference", "scaleX": 1.3, "glow": null, "stroke": null, "shadow": null},
+              "preset": "styles/style-2/style.json#/textPresets/hero-difference-world"
+            },
+            "flatWhite": {
+              "fontRef": "styles/style-2/style.json#/fonts/hero-bold",
+              "sizePx": 185,
+              "weight": 700,
+              "fill": {"type": "solid", "color": "#FAFCFF"},
+              "effects": {"glow": null, "stroke": null, "shadow": null},
+              "preset": "styles/style-2/style.json#/textPresets/hero-white-rise"
+            },
+            "cyanGlass3d": {
+              "fontRef": "styles/style-2/style.json#/fonts/hero-cyan-glass",
+              "sizePx": 555,
+              "weight": 700,
+              "fill": {
+                "type": "linear",
+                "gradient": "linear-gradient(90deg, #D7F1F2 0%, #86D9E0 22%, #01B6C4 45%, #00BDCD 52%, #86D9E0 78%, #C1E9EC 100%)",
+                "verticalOverlay": "linear-gradient(180deg, rgba(255,255,255,0) 55%, rgba(173,227,233,0.55) 100%)"
+              },
+              "effects": {
+                "glow": {"color": "rgba(127,230,238,0.55)", "radiusPx": 60, "strength": 1.2},
+                "neonRim": {
+                  "color": "#05F3F8",
+                  "widthPx": 6,
+                  "sides": "lower-left extrusion edges + inside counters",
+                  "glowPx": 9
+                },
+                "extrusion": {"color": "#2E6E78", "offsetX": -8, "offsetY": 10, "depthPx": 14},
+                "perspectiveTiltDeg": {"rotateX": 6, "rotateY": -4},
+                "fauxBold": {
+                  "strokePx": 4,
+                  "note": "Readex Pro stops at 700; the reference is 800-900. Add a same-tone 4 px stroke."
+                }
+              },
+              "preset": "styles/style-2/style.json#/textPresets/hero-cyan-glass-rise"
+            },
+            "goldLightPanel": {
+              "fontRef": "styles/style-2/style.json#/fonts/hero-gold-panel",
+              "sizePx": 600,
+              "weight": 700,
+              "fill": {
+                "type": "per-glyph-alpha-gradient",
+                "glyphGradients": [
+                  {
+                    "glyphIndexRTL": 0,
+                    "glyph": "first alef (screen right)",
+                    "gradient": "linear-gradient(180deg, rgba(213,173,106,0) 0%, rgba(213,173,106,0.25) 35%, rgba(175,135,74,0.95) 100%)"
+                  },
+                  {
+                    "glyphIndexRTL": 1,
+                    "glyph": "ذ (centre)",
+                    "gradient": "linear-gradient(180deg, #D5AD6A 0%, #E9C383 55%, #FDD99B 85%, #F2CB87 100%)"
+                  },
+                  {
+                    "glyphIndexRTL": 2,
+                    "glyph": "last alef (screen left)",
+                    "gradient": "linear-gradient(180deg, #DAB36D 0%, #D5AD6A 40%, rgba(120,90,55,0.35) 85%, rgba(78,58,42,0.1) 100%)"
+                  }
+                ],
+                "note": "Opacity gradients are static. The left and right alefs fade in opposite directions. The talent's arms show through the glyphs."
+              },
+              "effects": {
+                "glow": {"color": "rgba(224,168,90,0.6)", "radiusPx": 75, "strength": 1.5},
+                "rim": {"color": "#FDD99B", "widthPx": 3},
+                "lightSpill": {"targetComponent": "glass-pill-gold", "color": "#EDC179"}
+              },
+              "preset": "styles/style-2/style.json#/textPresets/gold-light-panel-grow"
+            },
+            "goldSpotlight": {
+              "fontRef": "styles/style-2/style.json#/fonts/gold-spotlight",
+              "sizePx": 138,
+              "weight": 600,
+              "fill": {
+                "type": "linear",
+                "gradient": "linear-gradient(90deg, #877453 0%, #886F4A 9%, #C9AC6F 30%, #EDE2AA 50%, #D9C17E 64%, #877453 92%, #6E5E44 100%)"
+              },
+              "effects": {"glow": {"color": "rgba(217,181,110,0.5)", "radiusPx": 42, "strength": 1.0}},
+              "preset": "styles/style-2/style.json#/textPresets/gold-spotlight-letters"
+            }
+          }
+        },
+        "style-3": {
+          "rule": "emphasis comes from light, not new hues; at most one device per shot; all accents stay red/pink",
+          "catalogue": {
+            "roseSheen": {
+              "fontRef": "styles/style-3/style.json#/fonts/heroSheen",
+              "sizePx": 143,
+              "weight": 800,
+              "fill": {
+                "type": "linear",
+                "gradient": "linear-gradient(90deg, #AF8687 0%, #D6C0BD 7%, #ECCCCC 13%, #FFFBF8 25%, #FFFCFA 50%, #FFFCFA 75%, #FAEAEA 80%, #ECDADA 86%, #DEBFC2 93%, #D8B9BD 100%)",
+                "space": "element (word) box; sampled as glyph-pixel column medians on f30 (x205-531 @720)",
+                "optionalBottomShade": "alef/right end darkens to #93494D at the bottom (f25); approximate with a second background layer linear-gradient(180deg, rgba(147,73,77,0) 60%, rgba(147,73,77,0.45) 100%) limited to the right 12%"
+              },
+              "effects": {"glow": null, "shadow": null, "stroke": null},
+              "preset": "styles/style-3/style.json#/textPresets/hook-glyph-pop",
+              "use": "hook word only"
+            },
+            "pinkSweepBand": {
+              "preset": "styles/style-3/style.json#/textPresets/karaoke-sweep",
+              "fill": {
+                "gradient": "linear-gradient(90deg, rgba(240,48,57,0) 0%, rgba(240,48,57,0) 44%, rgba(232,34,44,0.85) 48%, #F03039 50%, rgba(232,34,44,0.85) 52%, rgba(240,48,57,0) 56%, rgba(240,48,57,0) 100%)"
+              },
+              "hold": {
+                "from": {"backgroundPosition": "30% 0%"},
+                "to": {"backgroundPosition": "70% 0%"},
+                "easing": "cubic-bezier(0,0,1,1)",
+                "note": "background-size 400%: band centre x = (2 - 3p) * lineWidth, so 30% -> just right of the line, 70% -> just left of it. FWHM = 0.16 x line width (~92 px on a 576 px line = measured 55-75 px @720)"
+              },
+              "holdMs": 1920,
+              "use": "overlay clone over a white hero; band travels right to left and leaves the letters white"
+            },
+            "neonOutline": {
+              "fontRef": "styles/style-3/style.json#/fonts/neonOutline",
+              "sizePx": 134,
+              "weight": 800,
+              "fill": {"type": "none"},
+              "effects": {
+                "stroke": {"widthPx": 4.5, "color": "#CF0108"},
+                "glow": {"color": "rgba(157,0,1,0.85)", "radiusPx": 30, "strength": 1.2},
+                "innerGlow": "text-shadow of the transparent glyph gives a faint inner fill (#640003 median)",
+                "shadow": null
+              },
+              "preset": "styles/style-3/style.json#/textPresets/neon-blur-in"
+            },
+            "ghostMega": {
+              "fontRef": "styles/style-3/style.json#/fonts/ghostMega",
+              "sizePx": 320,
+              "weight": 800,
+              "fill": {
+                "type": "linear",
+                "gradient": "linear-gradient(180deg, rgba(140,0,0,0) 0%, rgba(140,0,0,0.25) 45%, rgba(140,0,0,0.60) 100%)",
+                "space": "element box; inner fill rises from the wall colour (#4F0400) at the top to #8C0000 at the bottom (M stem column, f20)"
+              },
+              "effects": {
+                "stroke": {"widthPx": 3, "color": "#B00003"},
+                "glow": {"color": "rgba(208,0,5,0.22)", "radiusPx": 18, "strength": 1},
+                "shadow": null,
+                "renderHint": "gradient fill + stroke: put the glow on an under-layer copy (text-shadow paints over background-clip:text)"
+              },
+              "preset": "styles/style-3/style.json#/textPresets/ghost-echo-word",
+              "layer": "behind"
+            },
+            "silverWordmark": {
+              "fontRef": "styles/style-3/style.json#/fonts/wordmark",
+              "sizePx": 258,
+              "weight": 800,
+              "fill": {
+                "type": "linear",
+                "gradient": "linear-gradient(90deg, #A99991 0%, #EBE2D9 10%, #FDFDFD 20%, #FDFDFD 72%, #CBB5AF 87%, #A5807C 100%)",
+                "space": "wordmark box (settled ink x73-635 @720)"
+              },
+              "effects": {
+                "innerBevel": "1 px lighter edge on counters (z_P.png); optional",
+                "glow": null,
+                "shadow": null,
+                "stroke": null
+              },
+              "preset": "styles/style-3/style.json#/textPresets/brand-wordmark"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "turn-word",
+      "category": "text",
+      "purpose": "The one-word pivot (\"but\" / \"if\") that turns problem into solution. Every reference has exactly one, built glyph by glyph with a small overshoot or flash.",
+      "styles": {
+        "style-1": {
+          "ref": "styles/style-1/style.json#/textPresets/glow-sweep",
+          "unit": "letter",
+          "dir": "rtl",
+          "layer": "front",
+          "worldLock": false,
+          "font": {"role": "hero", "family": "IBM Plex Sans Arabic", "weight": 700, "sizePx": 123, "color": "#FFFFFF"},
+          "in": {
+            "from": {
+              "opacity": 0,
+              "blur": 12,
+              "color": "#FAD01E",
+              "textShadow": "0 0 6px rgba(255,245,92,1), 0 0 24px rgba(250,208,30,0.9)"
+            },
+            "to": {
+              "opacity": 1,
+              "blur": 0,
+              "color": "#FFFFFF",
+              "textShadow": "0 0 6px rgba(255,245,92,0), 0 0 24px rgba(250,208,30,0)"
+            },
+            "durationMs": 333,
+            "staggerMs": 67,
+            "easing": "cubic-bezier(0.25,0.6,0.4,1)"
+          },
+          "holdMs": 2600,
+          "out": null,
+          "positionPct": [52.4, 50.6],
+          "start": {"anchor": "cut", "offsetMs": 333},
+          "kashidaCount": 6,
+          "sfx": null,
+          "example": "بـــس"
+        },
+        "style-2": {
+          "ref": "styles/style-2/style.json#/textPresets/gold-light-panel-grow",
+          "unit": "letter",
+          "dir": "rtl",
+          "layer": "front",
+          "worldLock": false,
+          "font": {"role": "hero-gold-panel", "family": "Readex Pro", "weight": 700, "sizePx": 600, "color": "#D5AD6A"},
+          "in": {
+            "from": {"opacity": 0, "scaleX": 0.88, "scaleY": 0, "blur": 6, "brightness": 0.75, "transformOrigin": "50% 100%"},
+            "to": {"opacity": 1, "scaleX": 1, "scaleY": 1, "blur": 0, "brightness": 1, "transformOrigin": "50% 100%"},
+            "durationMs": 733,
+            "staggerMs": 300,
+            "staggerFrom": "center",
+            "easing": "cubic-bezier(0,0.40,0.35,1.40)"
+          },
+          "holdMs": 2600,
+          "out": null,
+          "positionPct": [45.4, 75.2],
+          "start": {"anchor": "cut", "offsetMs": 200, "offsetF": 6},
+          "keyframes": [
+            {"tF": 0, "tMs": 0, "scale": 0},
+            {"tF": 10, "tMs": 333, "scale": 1.12, "easing": "cubic-bezier(0.2,0.6,0.35,1)"},
+            {"tF": 22, "tMs": 733, "scale": 1.0, "easing": "cubic-bezier(0.45,0,0.55,1)"}
+          ],
+          "staggerOrder": ["centre glyph (ذ) body", "ذ dot +233ms (7F)", "outer glyphs +300ms (9F) and +333ms (10F)"],
+          "sfx": "shimmerTwoTone",
+          "example": "اذا"
+        },
+        "style-3": {
+          "ref": "styles/style-3/style.json#/textPresets/glyph-scale-pop",
+          "unit": "letter",
+          "dir": "rtl",
+          "layer": "front",
+          "worldLock": false,
+          "font": {"role": "displayPop", "family": "Almarai", "weight": 800, "sizePx": 240, "color": "#FDFBF9"},
+          "in": {
+            "from": {"scale": 0, "opacity": 1},
+            "to": {"scale": 1},
+            "durationMs": 680,
+            "staggerMs": 120,
+            "easing": "cubic-bezier(0.33,1.3,0.55,1)"
+          },
+          "holdMs": 1100,
+          "out": null,
+          "positionPct": [49.2, 55.5],
+          "kashidaCount": 2,
+          "keyframes": [
+            {
+              "unit": "first (and tatweel units)",
+              "steps": [{"scale": 0, "tMs": 0}, {"scale": 1, "tMs": 320, "easing": "cubic-bezier(0.25,0.48,0.5,0.99)"}],
+              "measured": "'بـ' 5x12 -> 85x122 px @720, f216-224, height progress .10/.31/.51/.67/.80/.89/.95/.99/1"
+            },
+            {
+              "unit": "last",
+              "steps": [
+                {"scale": 0, "tMs": 0},
+                {"scale": 1.04, "tMs": 280, "easing": "cubic-bezier(0.25,0.48,0.5,0.99)"},
+                {"scale": 1, "tMs": 680, "easing": "cubic-bezier(0.4,0,0.2,1)"}
+              ],
+              "measured": "word width 241->371 (peak f232) -> 356-359 @720: +3.6% overshoot, 10 f settle"
+            }
+          ],
+          "sfx": ["tickHF", "popHF", "ding4k"],
+          "example": "بــس"
+        }
+      }
+    },
+    {
+      "id": "difference-word",
+      "category": "text",
+      "purpose": "Huge word in mix-blend-mode: difference, so it changes colour over the plate, props and talent.",
+      "params": {
+        "baseColor": "colour of the blended layer",
+        "sizePx": "number",
+        "formula": "base = desiredVisible + localPlate (per channel, clipped at 255); the visible colour depends on the plate"
+      },
+      "renderNote": "mix-blend-mode only works if no ancestor creates an isolated stacking context (no opacity/transform/filter/isolation on #front).",
+      "styles": {
+        "style-1": {
+          "enabled": false,
+          "reason": "Not in the Ember Glass vocabulary: over the orange backdrop a white Difference layer reads blue, which the style forbids."
+        },
+        "style-2": {
+          "ref": "styles/style-2/style.json#/textPresets/hero-difference-world",
+          "unit": "none",
+          "dir": "rtl",
+          "layer": "front",
+          "worldLock": true,
+          "font": {"role": "hero-difference", "family": "Readex Pro", "weight": 600, "sizePx": 285, "color": "#FCC29E"},
+          "in": {
+            "from": {"opacity": 0, "blur": 12, "scaleX": 1.3},
+            "to": {"opacity": 1, "blur": 0, "scaleX": 1.3},
+            "durationMs": 1000,
+            "staggerMs": 0,
+            "easing": "cubic-bezier(0.25,0.5,0.4,1)"
+          },
+          "holdMs": 3270,
+          "out": null,
+          "positionPct": [50, 19.5],
+          "start": {"anchor": "cut", "offsetMs": 100, "offsetF": 3},
+          "baseColor": "#FCC29E",
+          "scaleX": 1.3,
+          "variants": {
+            "scriptCyan": {
+              "font": "latin-script",
+              "color": "#2EFFFF",
+              "blendMode": "difference",
+              "note": "renders #0DD2C5 over the teal plate and red over white text"
+            }
+          },
+          "rule": "hook hero only; recompute the base colour for any non-teal plate"
+        },
+        "style-3": {
+          "ref": "styles/style-3/style.json#/textPresets/difference-rise",
+          "unit": "none",
+          "dir": "rtl",
+          "layer": "front",
+          "worldLock": false,
+          "font": {"role": "differenceDisplay", "family": "Almarai", "weight": 800, "sizePx": 263, "color": "#FFFFFF"},
+          "in": {
+            "from": {"opacity": 0.45, "y": 90},
+            "to": {"opacity": 1, "y": 0},
+            "durationMs": 560,
+            "staggerMs": 0,
+            "easing": "cubic-bezier(0.16,1,0.3,1)"
+          },
+          "holdMs": 760,
+          "out": {
+            "unit": "none",
+            "to": {"opacity": 0},
+            "durationMs": 0,
+            "easing": "cubic-bezier(0,0,1,1)",
+            "note": "1-frame swap-out at f278; next word arrives on the following frame"
+          },
+          "positionPct": [46.0, 51.8],
+          "baseColor": "#FFFFFF",
+          "variants": {
+            "redSlam": {
+              "ref": "styles/style-3/style.json#/textPresets/difference-slam",
+              "unit": "none",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "differenceRed", "family": "Almarai", "weight": 800, "sizePx": 255, "color": "#EE1B1E"},
+              "in": {
+                "from": {"opacity": 1},
+                "to": {"opacity": 1},
+                "durationMs": 0,
+                "staggerMs": 0,
+                "easing": "cubic-bezier(0,0,1,1)"
+              },
+              "holdMs": 320,
+              "out": null,
+              "positionPct": [48.0, 53.1]
+            }
+          },
+          "rule": "wide shots only, across the torso band, max 2 words in one beat; the only way cool colours appear"
+        }
+      }
+    },
+    {
+      "id": "echo-word",
+      "category": "text",
+      "purpose": "A weaker second voice next to the hero: a literal English translation or a ghosted mega-word that overlaps the hero instead of stacking under it.",
+      "styles": {
+        "style-1": {
+          "enabled": false,
+          "reason": "Latin appears only in the brand lockup; Arabic and Latin never share a shot outside it.",
+          "substitute": "brand-lockup"
+        },
+        "style-2": {
+          "ref": "styles/style-2/style.json#/textPresets/english-ghost-centre-out",
+          "unit": "line",
+          "dir": "ltr",
+          "layer": "front",
+          "worldLock": false,
+          "font": {"role": "latin-ghost", "family": "Inter", "weight": 700, "sizePx": 237, "color": "#44A2A1"},
+          "in": {
+            "from": {"opacity": 0, "clip": "inset(0 50% 0 50%)"},
+            "to": {"opacity": 1, "clip": "inset(0 0% 0 0%)"},
+            "durationMs": 633,
+            "staggerMs": 0,
+            "easing": "cubic-bezier(0.2,0.6,0.35,1)"
+          },
+          "holdMs": 1200,
+          "out": null,
+          "positionPct": [49.7, 67.7],
+          "start": {"anchor": "cut", "offsetMs": 300, "offsetF": 9},
+          "fill": {
+            "type": "centre-hot",
+            "gradient": "linear-gradient(90deg, rgba(72,190,184,0) 0%, rgba(72,190,184,0.28) 15%, rgba(72,190,184,0.6) 33%, rgba(80,200,192,0.92) 50%, rgba(72,190,184,0.6) 67%, rgba(72,190,184,0.28) 85%, rgba(72,190,184,0) 100%)"
+          },
+          "tints": {"teal": "#44A2A1", "cyan": "#39A0B4", "tan": "#BE8F6C"},
+          "variants": {
+            "small": {
+              "ref": "styles/style-2/style.json#/textPresets/english-small-blurfade",
+              "unit": "word",
+              "dir": "ltr",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "latin-ghost", "family": "Inter", "weight": 700, "sizePx": 62, "color": "#44A2A1"},
+              "in": {
+                "from": {"opacity": 0, "blur": 12},
+                "to": {"opacity": 0.75, "blur": 0},
+                "durationMs": 133,
+                "staggerMs": 0,
+                "easing": "ease-out"
+              },
+              "holdMs": 2400,
+              "out": null,
+              "positionPct": [66.0, 26.4],
+              "start": {"anchor": "hero", "offsetMs": 800, "offsetF": 24}
+            },
+            "trackingAccent": {
+              "ref": "styles/style-2/style.json#/textPresets/english-tracking-in",
+              "unit": "letter",
+              "dir": "ltr",
+              "layer": "behind",
+              "worldLock": true,
+              "font": {"role": "latin-accent", "family": "Inter", "weight": 700, "sizePx": 191, "color": "#DB9D7B"},
+              "in": {
+                "from": {"opacity": 0, "letterSpacing": 76},
+                "to": {"opacity": 1, "letterSpacing": 0},
+                "durationMs": 333,
+                "staggerMs": 67,
+                "easing": "cubic-bezier(0.16,1,0.3,1)"
+              },
+              "holdMs": 4000,
+              "out": null,
+              "positionPct": [8.1, 35.5],
+              "start": {"anchor": "cut", "offsetMs": 433, "offsetF": 13}
+            },
+            "script": {
+              "ref": "styles/style-2/style.json#/textPresets/english-script-accent",
+              "unit": "none",
+              "dir": "ltr",
+              "layer": "front",
+              "worldLock": true,
+              "font": {"role": "latin-script", "family": "Pinyon Script", "weight": 400, "sizePx": 135, "color": "#B5B0AA"},
+              "in": {"from": {"opacity": 0}, "to": {"opacity": 1}, "durationMs": 133, "staggerMs": 0, "easing": "linear"},
+              "holdMs": 3000,
+              "out": null,
+              "positionPct": [61.1, 18.6],
+              "start": {"anchor": "cut", "offsetMs": 167, "offsetF": 5}
+            }
+          },
+          "rule": "English is the literal translation and always the weaker layer (35-90% alpha, centre-hot fade, hairline script or small)"
+        },
+        "style-3": {
+          "ref": "styles/style-3/style.json#/textPresets/ghost-echo-word",
+          "unit": "none",
+          "dir": "ltr",
+          "layer": "behind",
+          "worldLock": true,
+          "font": {"role": "ghostMega", "family": "Almarai", "weight": 800, "sizePx": 320, "color": "transparent"},
+          "in": {
+            "from": {"opacity": 0},
+            "to": {"opacity": 1},
+            "durationMs": 180,
+            "staggerMs": 0,
+            "easing": "cubic-bezier(0,0,1,1)"
+          },
+          "holdMs": 1440,
+          "out": {
+            "unit": "none",
+            "to": {"y": -22, "opacity": 0, "blur": 8},
+            "durationMs": 80,
+            "easing": "cubic-bezier(0.7,0,0.84,0)"
+          },
+          "positionPct": [53.5, 16.8],
+          "rule": "translucent red mega-word at wall depth behind the hero; never overlaps the talent"
+        }
+      }
+    },
+    {
+      "id": "brand-lockup",
+      "category": "text+graphic",
+      "purpose": "Brand name moment.",
+      "styles": {
+        "style-1": {
+          "refs": [
+            "styles/style-1/style.json#/textPresets/latin-letter-fade",
+            "styles/style-1/style.json#/textPresets/latin-letter-fade-fast",
+            "styles/style-1/style.json#/textPresets/micro-tracked-reverse"
+          ],
+          "parts": {
+            "wordmark": {
+              "ref": "styles/style-1/style.json#/textPresets/latin-letter-fade",
+              "unit": "letter",
+              "dir": "ltr",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "latinWordmark", "family": "Inter", "weight": 900, "sizePx": 99, "color": "#F8FBFD"},
+              "in": {
+                "from": {"opacity": 0},
+                "to": {"opacity": 1},
+                "durationMs": 283,
+                "staggerMs": 267,
+                "easing": "cubic-bezier(0,0,1,1)"
+              },
+              "holdMs": 1500,
+              "out": null,
+              "positionPct": [51.8, 57.5]
+            },
+            "tagline": {
+              "ref": "styles/style-1/style.json#/textPresets/latin-letter-fade-fast",
+              "unit": "letter",
+              "dir": "ltr",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "latinTagline", "family": "Inter", "weight": 600, "sizePx": 72, "color": "#F8FBFD"},
+              "in": {
+                "from": {"opacity": 0},
+                "to": {"opacity": 1},
+                "durationMs": 117,
+                "staggerMs": 117,
+                "easing": "cubic-bezier(0,0,1,1)"
+              },
+              "holdMs": 1000,
+              "out": null,
+              "positionPct": [51.9, 61.7]
+            },
+            "micro": {
+              "ref": "styles/style-1/style.json#/textPresets/micro-tracked-reverse",
+              "unit": "letter",
+              "dir": "ltr",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "latinMicro", "family": "Inter", "weight": 400, "sizePx": 27, "color": "#E8DE5C"},
+              "in": {
+                "from": {"opacity": 0},
+                "to": {"opacity": 1},
+                "durationMs": 133,
+                "staggerMs": 133,
+                "staggerFrom": "end",
+                "easing": "cubic-bezier(0,0,1,1)"
+              },
+              "holdMs": 1000,
+              "out": null,
+              "positionPct": [40.9, 74.9]
+            }
+          },
+          "container": "glass-capsule.clearBrand + name tag with capsule-button",
+          "worldLock": false,
+          "placement": "MCU chest band, turn + brand beat"
+        },
+        "style-2": {
+          "refs": [
+            "styles/style-2/style.json#/textPresets/gold-light-panel-grow",
+            "styles/style-2/style.json#/graphicComponents/glass-pill-gold"
+          ],
+          "parts": {
+            "productKeyword": {
+              "ref": "styles/style-2/style.json#/textPresets/gold-light-panel-grow",
+              "unit": "letter",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "hero-gold-panel", "family": "Readex Pro", "weight": 700, "sizePx": 600, "color": "#D5AD6A"},
+              "in": {
+                "from": {
+                  "opacity": 0,
+                  "scaleX": 0.88,
+                  "scaleY": 0,
+                  "blur": 6,
+                  "brightness": 0.75,
+                  "transformOrigin": "50% 100%"
+                },
+                "to": {"opacity": 1, "scaleX": 1, "scaleY": 1, "blur": 0, "brightness": 1, "transformOrigin": "50% 100%"},
+                "durationMs": 733,
+                "staggerMs": 300,
+                "staggerFrom": "center",
+                "easing": "cubic-bezier(0,0.40,0.35,1.40)"
+              },
+              "holdMs": 2600,
+              "out": null,
+              "positionPct": [45.4, 75.2],
+              "start": {"anchor": "cut", "offsetMs": 200, "offsetF": 6}
+            },
+            "label": {
+              "ref": "styles/style-2/style.json#/textPresets/pill-label-typeon",
+              "unit": "letter",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": false,
+              "font": {"role": "pill-label", "family": "Readex Pro", "weight": 700, "sizePx": 56, "color": "#FFFAF4"},
+              "in": {
+                "from": {"opacity": 0, "blur": 6},
+                "to": {"opacity": 1, "blur": 0},
+                "durationMs": 83,
+                "staggerMs": 27,
+                "easing": "ease-out"
+              },
+              "holdMs": 1400,
+              "out": null,
+              "positionPct": [51.6, 78.4],
+              "start": {"anchor": "component", "component": "glass-pill-gold", "offsetMs": 33}
+            }
+          },
+          "container": "glass-capsule.goldLabel",
+          "worldLock": true,
+          "note": "No wordmark: the product keyword (gold panel + glass pill + shimmer) is reprised as the CTA set-up inside a pull-back."
+        },
+        "style-3": {
+          "refs": ["styles/style-3/style.json#/graphicComponents/brand-lockup"],
+          "parts": {
+            "wordmark": {
+              "ref": "styles/style-3/style.json#/textPresets/brand-wordmark",
+              "unit": "none",
+              "dir": "ltr",
+              "layer": "front",
+              "worldLock": true,
+              "font": {"role": "wordmark", "family": "Almarai", "weight": 800, "sizePx": 258, "color": "#FDFDFD"},
+              "in": {
+                "from": {"opacity": 1},
+                "to": {"opacity": 1},
+                "durationMs": 0,
+                "staggerMs": 0,
+                "easing": "cubic-bezier(0,0,1,1)"
+              },
+              "holdMs": 2760,
+              "out": null,
+              "positionPct": [49.2, 14.3]
+            },
+            "script": {
+              "ref": "styles/style-3/style.json#/textPresets/script-accent",
+              "unit": "none",
+              "dir": "ltr",
+              "layer": "front",
+              "worldLock": true,
+              "font": {"role": "scriptAccent", "family": "Pinyon Script", "weight": 400, "sizePx": 172, "color": "#EC0206"},
+              "in": {
+                "from": {"opacity": 1},
+                "to": {"opacity": 1},
+                "durationMs": 0,
+                "staggerMs": 0,
+                "easing": "cubic-bezier(0,0,1,1)"
+              },
+              "holdMs": 2760,
+              "out": null,
+              "positionPct": [68.8, 14.0]
+            },
+            "tagline": {
+              "ref": "styles/style-3/style.json#/textPresets/word-cascade-fade",
+              "unit": "word",
+              "dir": "rtl",
+              "layer": "front",
+              "worldLock": true,
+              "font": {"role": "taglineLight", "family": "Almarai", "weight": 300, "sizePx": 63, "color": "#FFFFFF"},
+              "in": {
+                "from": {"opacity": 0.3},
+                "to": {"opacity": 1},
+                "durationMs": 140,
+                "staggerMs": 130,
+                "easing": "cubic-bezier(0.2,0.7,0.3,1)"
+              },
+              "holdMs": 2100,
+              "out": null,
+              "positionPct": [49.9, 24.2]
+            }
+          },
+          "camera": {
+            "ref": "styles/style-3/style.json#/cameraMoves/pullback-brand",
+            "type": "scale",
+            "scaleFrom": 1.73,
+            "scaleTo": 1.0,
+            "durationMs": 3040,
+            "durationF": 91,
+            "easing": "cubic-bezier(0.32,0.06,0.07,1.06)",
+            "focus": [0.5, 0.5],
+            "appliesTo": ["plate", "talent", "worldLockedText", "worldLockedComponents"]
+          },
+          "worldLock": true,
+          "placement": "parked above the frame in world space; the pull-back drops it in"
+        }
+      }
+    },
+    {
+      "id": "beat-open-camera",
+      "category": "camera",
+      "purpose": "Digital zoom-OUT on the first frame of a key shot (all three styles open beats by pulling back, never pushing in).",
+      "params": {
+        "scaleFrom": "number",
+        "scaleTo": "number",
+        "durationMs": "number",
+        "easing": "cubic-bezier",
+        "focus": "\"face\" | [x, y] fractions",
+        "worldLock": "true = captions/UI ride the move"
+      },
+      "engine": {
+        "cue": {"type": "camera", "preset": "<cameraMoves id>"},
+        "note": "runtime scales #plateWrap + #talentWrap; world-locked cues need a wrapper that copies the camera transform (worldLockSpec)"
+      },
+      "styles": {
+        "style-1": {
+          "ref": "styles/style-1/style.json#/cameraMoves/punch-out-settle",
+          "type": "scale",
+          "scaleFrom": 1.38,
+          "scaleTo": 1.0,
+          "durationMs": 567,
+          "durationF": 17,
+          "delayMs": 67,
+          "easing": "cubic-bezier(0.25,0,0.1,1)",
+          "focus": "face",
+          "appliesTo": ["plate", "talent"],
+          "worldLock": false,
+          "when": "first frame of each new beat shot (4 of 7 shots); not on the brand MCU, the breather or the closing wide",
+          "variants": {
+            "zoomThrough": {
+              "ref": "styles/style-1/style.json#/cameraMoves/precut-pullback",
+              "type": "scale",
+              "scaleFrom": 1.0,
+              "scaleTo": 0.961,
+              "durationMs": 33,
+              "durationF": 1,
+              "easing": "steps(1)",
+              "focus": [0.5, 0.5],
+              "appliesTo": ["plate", "talent", "captions", "graphics"],
+              "then": "punch-out-settle from 1.374",
+              "transition": "styles/style-1/style.json#/transitions/zoom-through"
+            },
+            "wobble": {
+              "ref": "styles/style-1/style.json#/cameraMoves/plate-wobble",
+              "type": "handheld",
+              "scaleFrom": 1.0,
+              "scaleTo": 1.0,
+              "durationMs": 1500,
+              "durationF": 45,
+              "easing": "sine.inOut",
+              "appliesTo": ["plate", "talent", "captions", "graphics"]
+            }
+          }
+        },
+        "style-2": {
+          "ref": "styles/style-2/style.json#/cameraMoves/pullback-two-step",
+          "type": "keyframes",
+          "scaleFrom": 2.49,
+          "scaleTo": 1.0,
+          "durationMs": 2400,
+          "durationF": 72,
+          "easing": "cubic-bezier(0.33,0.08,0.02,0.91)",
+          "focus": [0.5, 0.41],
+          "keyframes": [
+            {"tF": 0, "tMs": 0, "scale": 2.49},
+            {"tF": 1, "tMs": 33, "scale": 2.49, "note": "1 frame static"},
+            {"tF": 31, "tMs": 1033, "scale": 1.297, "easing": "cubic-bezier(0.33,0.08,0.02,0.91)", "fitRmse": 0.0044},
+            {"tF": 36, "tMs": 1200, "scale": 1.29, "easing": "linear", "note": "near-hold 5-6 F"},
+            {"tF": 72, "tMs": 2400, "scale": 1.0, "easing": "cubic-bezier(0.31,0.08,0.0,0.97)", "fitRmse": 0.0061}
+          ],
+          "appliesTo": ["plate", "talent", "worldLockedText", "worldLockedComponents"],
+          "worldLock": true,
+          "when": "cut into a key-message WS: hook, feature and CTA set-up (3 of 5 WS)",
+          "engineSplit": [
+            {
+              "ref": "styles/style-2/style.json#/cameraMoves/pullback-step1",
+              "type": "scale",
+              "scaleFrom": 2.49,
+              "scaleTo": 1.297,
+              "durationMs": 1033,
+              "durationF": 31,
+              "easing": "cubic-bezier(0.33,0.08,0.02,0.91)",
+              "focus": [0.5, 0.41]
+            },
+            {
+              "ref": "styles/style-2/style.json#/cameraMoves/pullback-step2",
+              "type": "scale",
+              "scaleFrom": 1.29,
+              "scaleTo": 1.0,
+              "durationMs": 1200,
+              "durationF": 36,
+              "easing": "cubic-bezier(0.31,0.08,0.0,0.97)",
+              "focus": [0.5, 0.41],
+              "cueOffsetMs": 1200
+            }
+          ]
+        },
+        "style-3": {
+          "ref": "styles/style-3/style.json#/cameraMoves/pullback-expo-open",
+          "type": "scale",
+          "scaleFrom": 1.69,
+          "scaleTo": 1.0,
+          "durationMs": 880,
+          "durationF": 26,
+          "easing": "cubic-bezier(0.3,0,0.05,1)",
+          "focus": [0.5, 0.5],
+          "appliesTo": ["plate", "talent", "worldLockedText", "worldLockedComponents"],
+          "worldLock": true,
+          "when": "hook (then settle-float), problem reveal, text-free breather, brand",
+          "variants": {
+            "settleFloat": {
+              "ref": "styles/style-3/style.json#/cameraMoves/settle-float",
+              "type": "scale",
+              "scaleFrom": 1.0,
+              "scaleTo": 0.982,
+              "durationMs": 640,
+              "durationF": 19,
+              "easing": "cubic-bezier(0.2,0.7,0.3,1)",
+              "focus": [0.5, 0.5],
+              "appliesTo": ["plate", "talent", "worldLockedText", "worldLockedComponents"]
+            },
+            "revealVoid": {
+              "ref": "styles/style-3/style.json#/cameraMoves/reveal-pullback-void",
+              "type": "scale",
+              "scaleFrom": 1.0,
+              "scaleTo": 0.27,
+              "durationMs": 1120,
+              "durationF": 34,
+              "easing": "cubic-bezier(0.26,-0.03,0.36,1.09)",
+              "focus": [0.5, 0.5],
+              "appliesTo": ["plate", "talent", "worldLockedText", "worldLockedComponents"]
+            },
+            "slowParallax": {
+              "ref": "styles/style-3/style.json#/cameraMoves/pullback-slow-parallax",
+              "type": "scale",
+              "scaleFrom": 1.724,
+              "scaleTo": 1.0,
+              "durationMs": 3480,
+              "durationF": 104,
+              "easing": "cubic-bezier(0.56,0.27,0.43,0.79)",
+              "focus": [0.5, 0.5],
+              "appliesTo": ["plate", "talent", "worldLockedText", "worldLockedComponents"]
+            },
+            "brandDrop": {
+              "ref": "styles/style-3/style.json#/cameraMoves/pullback-brand",
+              "type": "scale",
+              "scaleFrom": 1.73,
+              "scaleTo": 1.0,
+              "durationMs": 3040,
+              "durationF": 91,
+              "easing": "cubic-bezier(0.32,0.06,0.07,1.06)",
+              "focus": [0.5, 0.5],
+              "appliesTo": ["plate", "talent", "worldLockedText", "worldLockedComponents"]
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "mcu-crop",
+      "category": "camera",
+      "purpose": "Static digital crop that turns a wide 4K take into the tight shot of the wide/tight alternation.",
+      "styles": {
+        "style-1": {
+          "ref": "styles/style-1/style.json#/cameraMoves/mcu-digital-punch",
+          "type": "static",
+          "scaleFrom": 2.35,
+          "scaleTo": 2.35,
+          "durationMs": 0,
+          "durationF": 0,
+          "easing": "linear",
+          "focus": "face",
+          "variants": {
+            "punchSettle": {
+              "ref": "styles/style-1/style.json#/cameraMoves/mcu-punch-settle",
+              "type": "scale",
+              "scaleFrom": 3.23,
+              "scaleTo": 2.35,
+              "durationMs": 567,
+              "durationF": 17,
+              "delayMs": 67,
+              "easing": "cubic-bezier(0.25,0,0.1,1)",
+              "focus": "face"
+            }
+          }
+        },
+        "style-2": {
+          "enabled": true,
+          "scale": null,
+          "note": "Reference MCUs come from a second framing on a longer lens (very shallow DOF); the tight CU is about 1.3x the MCU. Shoot WS + MCU, or crop a 4K WS.",
+          "ref": "styles/style-2/style.json#/cameraMoves/locked-off"
+        },
+        "style-3": {
+          "ref": "styles/style-3/style.json#/cameraMoves/mcu-crop",
+          "type": "static",
+          "scaleFrom": null,
+          "scaleTo": 2.3,
+          "durationMs": 0,
+          "durationF": 0,
+          "easing": "cubic-bezier(0,0,1,1)",
+          "focus": "face"
+        }
+      }
+    },
+    {
+      "id": "hard-cut",
+      "category": "edit",
+      "purpose": "The only transition in all three styles: a hard cut in a speech pause that flips shot size; every caption drops on the cut; no SFX.",
+      "defaults": {"sfx": null, "captionsDropOnCut": true, "beatSync": false},
+      "styles": {
+        "style-1": {
+          "ref": "styles/style-1/style.json#/transitions/hard-cut",
+          "placement": "inside a VO pause, 0-300 ms (0-9 f) before the next phrase onset",
+          "sfx": "none",
+          "overlays": "all captions of the outgoing shot drop on the cut",
+          "alternation": "wide <-> MCU and world plate <-> studio"
+        },
+        "style-2": {
+          "ref": "styles/style-2/style.json#/transitions/hard-cut",
+          "placement": "in a speech pause; next phrase starts 1-3 F (33-100 ms) after the cut",
+          "beatSync": false,
+          "flash": false,
+          "whoosh": false,
+          "fadeInAtStart": false,
+          "fadeOutAtEnd": false,
+          "scaleMatchedCut": {"from": "MCU", "to": "WS punched in to 2.49x", "then": "pullback-two-step", "faceRatio": 0.79},
+          "alternation": "WS <-> MCU strictly"
+        },
+        "style-3": {
+          "ref": "styles/style-3/style.json#/transitions/hard-cut-size-flip",
+          "sizeFlip": "tight (MS/MCU, head 18-20% H) <-> wide (WS, head 8-10% H): x2-2.6 subject scale; x6-7 out of the extreme wide",
+          "exceptions": "1 of 9 cuts is MS->MS (into the parallax breathing shot)",
+          "placement": "speech micro-pause: 4 of 9 within +-45 ms of a voice minimum (5.36 +20, 10.36 +40, 11.72 +10, 14.48 -40 ms), the rest within 70-390 ms",
+          "graphics": "every caption leaves on the cut frame (no exit animation)",
+          "sfx": "none"
+        }
+      }
+    },
+    {
+      "id": "pattern-interrupt",
+      "category": "edit",
+      "purpose": "One mid-reel jolt that resets attention. Use exactly one per video.",
+      "styles": {
+        "style-1": {
+          "ref": "styles/style-1/style.json#/transitions/bw-focus-interrupt",
+          "blurPx": 13.5,
+          "blurPx720": 9,
+          "blurRamp": {"durationMs": 267, "easing": "cubic-bezier(0,0,1,1)"},
+          "saturateTo": 0.1,
+          "desatDelayMs": 67,
+          "desatDurationMs": 200,
+          "desatEasing": "cubic-bezier(0,0,1,1)",
+          "brightness": 1.0,
+          "appliesTo": "plate + talent + every earlier caption (they become grey ghosts)",
+          "holdMs": 1000,
+          "release": "hard cut to a sharp full-colour shot, no ramp back",
+          "leadsPhraseMs": 167,
+          "pairedWith": "smoked-pill-autosize + orange3d word, then a clean breather"
+        },
+        "style-2": {
+          "enabled": false,
+          "reason": "No interrupt device: attention is reset by a new hero material on every graphic shot and by long clean MCUs."
+        },
+        "style-3": {
+          "ref": "styles/style-3/style.json#/transitions/glass-focus-wipe",
+          "component": "glass-corner-panels",
+          "oldWord": "becomes frosted and -21% brighter in 2-3 f as the panel passes",
+          "newWord": "blur-wipe-in on top, 120 ms after the panels start",
+          "variants": {
+            "splitExit": {
+              "ref": "styles/style-3/style.json#/transitions/split-exit",
+              "topGroup": {"to": {"y": -22, "opacity": 0, "blur": 8}, "durationMs": 80},
+              "bottomGroup": {"to": {"y": 450}, "durationMs": 100},
+              "easing": "cubic-bezier(0.7,0,0.84,0)",
+              "followedBy": "reveal-pullback-void starting 1 frame later",
+              "measured": "f38-40 @25"
+            },
+            "wordSwap": {
+              "ref": "styles/style-3/style.json#/transitions/word-swap",
+              "out": "outgoing word removed in 1 frame",
+              "in": "incoming word blur-ghost-in starts on the next frame",
+              "measured": "'شلون؟' gone f278, 'راح' from f279"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "clean-breather",
+      "category": "edit",
+      "purpose": "Talking head with zero graphics. All three styles rest the eye; they differ in how often and how long.",
+      "styles": {
+        "style-1": {
+          "count": 1,
+          "durationsMs": [2667],
+          "shot": "MCU studio",
+          "placement": "right after the B&W interrupt, before proof + payoff"
+        },
+        "style-2": {
+          "count": 2,
+          "durationsMs": [4700, 5433],
+          "shot": "tight CU, then MCU",
+          "cleanTalkingHeadPct": 36.4,
+          "placement": "only after the first ~16 s; the spoken CTA MCU is also clean"
+        },
+        "style-3": {
+          "count": 2,
+          "durationsMs": [3680, 3280],
+          "shot": "MS with pullback-slow-parallax + roses, then a locked tight MCU",
+          "placement": "turn beat and proof beat"
+        }
+      }
+    },
+    {
+      "id": "end-hold",
+      "category": "edit",
+      "purpose": "How the reel ends. None of the three uses a logo card or a fade.",
+      "styles": {
+        "style-1": {
+          "holdMs": 1267,
+          "what": "static hold of the chrome payoff word with the CTA capsule and lens rings still on screen"
+        },
+        "style-2": {"holdMs": 0, "what": "hard-cut end on the spoken CTA (clean MCU, 3.37 s); no card, logo, hold or fade"},
+        "style-3": {"holdMs": 1320, "what": "headline cascade + outline pill + typed label, then hold"}
+      }
+    },
+    {
+      "id": "caption-exit",
+      "category": "motion",
+      "purpose": "Self-animated exits. Shared rule: captions leave on the cut; each style allows one narrow exception.",
+      "defaults": {"out": null},
+      "styles": {
+        "style-1": {
+          "exception": {
+            "to": {"opacity": 0, "blur": 9},
+            "durationMs": 100,
+            "easing": "cubic-bezier(0,0,1,1)",
+            "staggerMs": 67,
+            "staggerFrom": "end",
+            "note": "reverse type-off: last glyph first, stacked lines erase together, ~667 ms for 10 glyphs"
+          },
+          "where": "reverse type-off inside the static closing shot only",
+          "ref": "styles/style-1/style.json#/textPresets/ink-up"
+        },
+        "style-2": {"exception": null, "where": "never: the hard cut removes every graphic"},
+        "style-3": {
+          "exception": {
+            "splitExit": {
+              "topGroup": {"to": {"y": -22, "opacity": 0, "blur": 8}, "durationMs": 80},
+              "bottomGroup": {"to": {"y": 450}, "durationMs": 100},
+              "easing": "cubic-bezier(0.7,0,0.84,0)",
+              "followedBy": "reveal-pullback-void starting 1 frame later",
+              "measured": "f38-40 @25"
+            },
+            "earlyWordOut": {
+              "what": "first hero word fades out 2 f @25 before the cut so the second word stands alone",
+              "measured": "'يمكن' f130-132"
+            }
+          },
+          "maxMs": 80,
+          "where": "hook split exit before the void reveal; first hero word may leave 80 ms before the cut"
+        }
+      }
+    },
+    {
+      "id": "backdrop",
+      "category": "set",
+      "purpose": "Background replacement / set look behind the matted talent, plus the style's signature backdrop element.",
+      "engine": {"fallback": "bg-replace (gradient or image src, blurPx)"},
+      "styles": {
+        "style-1": {
+          "refs": ["styles/style-1/style.json#/backgrounds"],
+          "plates": {
+            "studioWide": {"type": "gradient", "use": "full-body wide shots (orange cyc with amber floor band from 80% H)"},
+            "studioMcu": {"type": "gradient", "use": "MCU shots (hot spot left of head, near-black top-right)"},
+            "labCorridorPlate": {"type": "ai-plate", "blurPx": 2},
+            "labWallPlate": {"type": "ai-plate", "blurPx": 0},
+            "bwInterruptBackdrop": {"type": "derived"}
+          },
+          "signature": "AI world plates with depth-sandwich props (badge ribbon, molecule, flask + fog), alternating with the plain orange studio",
+          "needsMatte": "person (standing)"
+        },
+        "style-2": {
+          "refs": ["styles/style-2/style.json#/backgrounds", "styles/style-2/style.json#/graphicComponents/teal-grid-stage"],
+          "plates": {
+            "wsPlate": {
+              "type": "ai-plate",
+              "use": "WS when the source set is warm, bright or busy (bg-replace with the person matte)",
+              "blurPx": [2, 4]
+            },
+            "mcuPlate": {"type": "ai-plate", "use": "MCU / CU background wash", "blurPx": [14, 20]},
+            "tubeHaze": {"type": "overlay", "use": "WS only"},
+            "cyanRimRelight": {"type": "talent-overlay"},
+            "darkCoolSet": {
+              "type": "grade-only",
+              "use": "source set already dark, cool or neutral: grade (grade.ffmpeg) and add cyan practicals (bloom blobs at the top corners)"
+            }
+          },
+          "signature": "dark teal clinic plate with cyan practicals; teal grid stage under the 3D prop in the hook",
+          "needsMatte": "person (for behind-head heroes and replacement)",
+          "note": "a grade cannot turn a warm set teal: replace or relight"
+        },
+        "style-3": {
+          "refs": [
+            "styles/style-3/style.json#/backgrounds",
+            "styles/style-3/style.json#/graphicComponents/sunburst-halo",
+            "styles/style-3/style.json#/graphicComponents/contact-shadow",
+            "styles/style-3/style.json#/graphicComponents/void-pullback"
+          ],
+          "plates": {
+            "redStudioWide": {"type": "gradient", "use": "full-body wide shots (head top 34% H)"},
+            "redStudioMcu": {"type": "gradient", "use": "MCU / MS shots (head top 14-24% H)"},
+            "voidExtension": {"type": "gradient", "use": "extreme-wide reveal (the shrunken studio floats in a dark smoky void)"},
+            "redStudioPlate": {"type": "ai-plate", "use": "alternative to the redStudioWide gradient"}
+          },
+          "signature": {
+            "sunburstHalo": {
+              "type": "radial rays (canvas or SVG)",
+              "centre": {"rule": "face cx, head-top y - 7 px (1080)", "wideShotPx": [531, 683], "wideShotPct": [49.2, 35.5]},
+              "rayCount": 45,
+              "pitchDeg": {"median": 8, "min": 6, "max": 11, "jitterSeed": 3},
+              "innerRadius": {"medianPx": 159, "rangePx": [119, 260], "perHeadWidth": 1.18},
+              "outerRadius": {"medianPx": 515, "rangePx": [362, 629], "perHeadWidth": 3.8},
+              "rayWidthPx": 19,
+              "caps": "round",
+              "edgeBlurPx": 4,
+              "dashes": {"probability": 0.5, "segments": [2, 3], "gapPx": [15, 30]},
+              "fill": {"normal": "#6B0505", "alt": "#230303 with mix-blend-mode plus-lighter (adds +34 R everywhere)"},
+              "contrast": "rays only +30-35 R levels over the wall (#6B0505 on #4A0004)",
+              "scaleWithShot": "radius ~105 px @720 in the extreme wide, ~343 in the wide, overflowing the frame in MCU (use perHeadWidth with the face track)"
+            }
+          },
+          "persistent": [
+            {"component": "sunburst-halo", "t": 0, "layer": "behind", "worldLock": true},
+            {"component": "plate-vignette", "t": 0, "layer": "behind", "worldLock": true}
+          ],
+          "needsMatte": "person + chair"
+        }
+      }
+    },
+    {
+      "id": "prop-layer",
+      "category": "graphic",
+      "purpose": "Photoreal or 3D prop (PNG / PNG sequence with alpha) placed in front of or behind the talent for depth.",
+      "engine": {"fallback": "image | sequence (widthPct, position, float)"},
+      "styles": {
+        "style-1": {
+          "refs": [
+            "styles/style-1/style.json#/graphicComponents/badge-ribbon",
+            "styles/style-1/style.json#/graphicComponents/glass-molecule",
+            "styles/style-1/style.json#/graphicComponents/foreground-flask-fog",
+            "styles/style-1/style.json#/graphicComponents/clay-ui-card"
+          ],
+          "rules": "props live on the AI world-plate shots; ribbon back arc behind the arm, front arc and flask in front; slow loops only (< 0.5 Hz, molecule 6.9 deg/s)"
+        },
+        "style-2": {
+          "refs": [
+            "styles/style-2/style.json#/graphicComponents/prop-3d-enter-spin",
+            "styles/style-2/style.json#/graphicComponents/phone-glide-in"
+          ],
+          "enter": {
+            "from": {"xPct": 112, "opacity": 1},
+            "to": {"xPct": 71.5},
+            "durationMs": 1000,
+            "durationF": 30,
+            "easing": "cubic-bezier(0.2,0.6,0.3,1)",
+            "secondMove": {
+              "dxPx": -150,
+              "dyPx": -150,
+              "delayMs": 1167,
+              "delayF": 35,
+              "durationMs": 500,
+              "durationF": 15,
+              "easing": "cubic-bezier(0.2,0.6,0.3,1)"
+            },
+            "variants": {
+              "corner-dof": {
+                "from": "top-left corner, off-frame",
+                "durationMs": 300,
+                "durationF": 9,
+                "thenGrow": {"scaleTo": 1.45, "durationMs": 1700, "durationF": 51, "easing": "linear"}
+              },
+              "flyby-behind-head": {
+                "from": {"rightEdgePct": 14.7},
+                "to": {"rightEdgePct": 85},
+                "durationMs": 567,
+                "durationF": 17,
+                "easing": "cubic-bezier(0.2,0.6,0.3,1)",
+                "yBandPct": [18, 42]
+              }
+            }
+          },
+          "loop": {"yawDegPerSec": 45, "yawRangeDegPerSec": [30, 60], "driftPxPerSec": 25},
+          "phone": {
+            "build": {
+              "bodyWidthPx": 315,
+              "bodyHeightPx": 705,
+              "cornerRadiusPx": 44,
+              "frame": {"color": "#686767", "litEdge": "#F2F1F4", "widthPx": 5},
+              "bezelPx": 9,
+              "dynamicIsland": true,
+              "screen": {
+                "background": "#F2F1F4",
+                "content": "looping video or PNG sequence; animated counter and progress bar #21A4F0"
+              },
+              "final": {"centrePct": [41.7, 75.8], "rotateDeg": -11.1}
+            },
+            "in": {
+              "from": {"rightEdgePx": 6, "rotateY": 90, "rotate": 0},
+              "to": {"rightEdgePx": 678, "rotateY": 0, "rotate": -11.1},
+              "durationMs": 1733,
+              "durationF": 52,
+              "easing": "cubic-bezier(0.0,0.0,0.35,1.0)",
+              "tracks": [
+                {"prop": "rotateY", "from": 90, "to": 0, "durationMs": 767, "durationF": 23, "easing": "ease-out"},
+                {
+                  "prop": "rotate",
+                  "keyframes": [
+                    {"tF": 0, "tMs": 0, "rotate": 0},
+                    {"tF": 27, "tMs": 900, "rotate": -4.0},
+                    {"tF": 32, "tMs": 1067, "rotate": -7.5},
+                    {"tF": 37, "tMs": 1233, "rotate": -10.5},
+                    {"tF": 42, "tMs": 1400, "rotate": -12.65},
+                    {"tF": 52, "tMs": 1733, "rotate": -11.1}
+                  ]
+                }
+              ]
+            }
+          },
+          "rules": "enters from a frame edge, keeps a slow yaw spin, never exits, unshadowed and ungraded"
+        },
+        "style-3": {
+          "refs": ["styles/style-3/style.json#/graphicComponents/fg-rose-parallax"],
+          "build": {
+            "assets": "2 PNGs with alpha; prompt: 'single deep red rose bloom, glossy velvety petals, spiral centre, macro, studio lighting, isolated on transparent background'",
+            "blurPx": 20,
+            "bottomLeft": {
+              "boxPx": {"x": [0, 705], "y": [1335, 1920]},
+              "colour": {"highlight": "#B30005", "mid": "#8C0000"},
+              "layer": "front"
+            },
+            "topRight": {
+              "boxPx": {"x": [540, 1080], "y": [0, 660]},
+              "colour": "#8E0408 (darker, further back)",
+              "layer": "front",
+              "overlapsTalent": false
+            }
+          },
+          "in": {
+            "from": {"scale": 1.0},
+            "to": {"scale": 2.2},
+            "durationMs": 3480,
+            "easing": "cubic-bezier(0.56,0.27,0.43,0.79)",
+            "transformOrigin": "0% 100% (BL) / 100% 0% (TR)",
+            "measured": "BL top edge y1099 -> 888, right edge x345 -> 427 @720 while the plate scales x0.58"
+          },
+          "rules": "foreground props only in text-free shots; they counter-scale against the pull-back"
+        }
+      }
+    },
+    {
+      "id": "vignette",
+      "category": "look",
+      "purpose": "Edge falloff. Captions are never darkened in any style.",
+      "styles": {
+        "style-1": {
+          "layer": "fx",
+          "vignette": {
+            "shape": "80% 65%",
+            "centerYPct": 38,
+            "centerXPct": 42,
+            "innerPct": 50,
+            "color": "rgba(8,1,0,0.55)",
+            "strength": 0.6,
+            "note": "mild because the strong falloff lives in the backdrop gradients; disable on bright AI-plate shots; must not darken captions (reference captions stay #FFFFFF at the top band)"
+          },
+          "tint": {
+            "color": "linear-gradient(225deg, rgba(10,1,0,0.55) 0%, rgba(10,1,0,0) 42%)",
+            "blend": "multiply",
+            "opacity": 1,
+            "note": "top-right corner shade (reference corner #210601)"
+          },
+          "rule": "off on bright AI plates"
+        },
+        "style-2": {
+          "layer": "fx",
+          "vignette": {"shape": "85% 62%", "centerYPct": 36, "innerPct": 40, "color": "rgba(0,2,8,0.80)", "strength": 1.0},
+          "tint": {"color": "#0F6A80", "blend": "soft-light", "opacity": 0.3},
+          "bottomFade": {"gradient": "linear-gradient(180deg, rgba(0,0,0,0) 62%, rgba(0,0,0,0.55) 100%)"}
+        },
+        "style-3": {
+          "layer": "behind + talentWrap mask",
+          "component": "styles/style-3/style.json#/graphicComponents/plate-vignette",
+          "build": {
+            "behindLayer": "radial-gradient(ellipse 70% 55% at 50% 42%, rgba(12,0,0,0) 45%, rgba(12,0,0,0.80) 100%) + linear-gradient(180deg, rgba(6,0,0,0.6) 0%, rgba(6,0,0,0) 14%)",
+            "talentMask": "#talentWrap mask-image: linear-gradient(180deg, #000 0%, #000 86%, rgba(0,0,0,0.55) 100%) (bottom falls to Y~12 in MCUs)",
+            "targets": "corners ~2.1 stops under centre"
+          },
+          "rule": "never in fx (fx sits above the captions)"
+        }
+      }
+    },
+    {
+      "id": "grade",
+      "category": "look",
+      "purpose": "Plate/talent grade. Graphics are never graded.",
+      "engine": {"key": "grade.css on the plate + talent canvases"},
+      "styles": {
+        "style-1": {
+          "css": "contrast(1.10) brightness(0.95) saturate(1.06)",
+          "ffmpeg": "eq=contrast=1.12:brightness=-0.035:saturation=1.08,curves=master='0/0 0.06/0.01 0.25/0.17 0.5/0.45 0.75/0.70 1/0.86',colorbalance=rs=0.06:bs=-0.06:rm=0.03:bm=-0.03,vignette=angle=PI/3.6:x0=w*0.42:y0=h*0.36",
+          "targetsRef": "styles/style-1/style.json#/grade/targets"
+        },
+        "style-2": {
+          "css": "brightness(0.68) contrast(1.08) saturate(1.25)",
+          "ffmpeg": "curves=r='0/0 0.10/0.05 0.30/0.20 0.45/0.46 0.70/0.74 1/1':g='0/0 0.10/0.09 0.30/0.30 0.50/0.50 1/1':b='0/0.03 0.10/0.14 0.30/0.36 0.45/0.43 0.70/0.62 1/0.88':m='0/0 0.05/0 0.15/0.10 0.30/0.24 0.50/0.44 0.70/0.59 0.88/0.66 1/0.69',eq=saturation=1.22,vignette=angle=0.70:x0=w/2:y0=h*0.36",
+          "targetsRef": "styles/style-2/style.json#/grade/targets",
+          "preferBakedFfmpeg": true,
+          "normalize": "eq=gamma=G:brightness=B  -> choose G (1.0-1.5) so the face-box median luma before the look curve is about 0.50 (128)"
+        },
+        "style-3": {
+          "css": "contrast(1.2) brightness(0.74) saturate(1.4)",
+          "ffmpeg": "eq=contrast=1.18:brightness=-0.03:saturation=1.38,curves=master='0/0 0.07/0 0.25/0.15 0.5/0.40 0.75/0.58 1/0.68',colorbalance=rs=-0.02:bs=0.04:rm=0.06:gm=-0.02:bm=-0.04:rh=0.03:bh=-0.03,vignette=angle=PI/3.2:x0=w/2:y0=h*0.42",
+          "targetsRef": "styles/style-3/style.json#/grade/targets"
+        }
+      }
+    },
+    {
+      "id": "world-lock",
+      "category": "behaviour",
+      "purpose": "Whether captions/UI are parented to the camera move (the zoom delivers the type) or stay screen-locked.",
+      "styles": {
+        "style-1": {
+          "what": "Captions and glass UI are screen-locked: punch-out-settle / mcu-* scale only #plateWrap and #talentWrap (captions are not scaled). Exceptions that move the whole composite incl. captions: plate-wobble (AI world plates) and the 1-frame precut-pullback.",
+          "default": false,
+          "lockedPresets": []
+        },
+        "style-2": {
+          "what": "Text/UI whose preset or component has worldLock:true receives the same transform as the plate during pullback-two-step (same origin, same scale keys), so it shrinks and drops with the camera.",
+          "formula1080": "x = ox + (xFinal - ox) * S, y = oy + (yFinal - oy) * S, scale = S, with (ox, oy) = focusPx (540, 787) and S = current camera scale / final camera scale",
+          "measuredFit": "hero height 243 -> 187 px (@720) in step 2 while the camera ratio is 0.795",
+          "runtimeNote": "the engine scales only #plateWrap and #talentWrap; wrap world-locked cues in a container driven by the camera tween",
+          "default": false,
+          "lockedPresets": [
+            "hero-difference-world",
+            "hero-white-world-behind",
+            "english-tracking-in",
+            "english-script-accent",
+            "visionos-glass-ui"
+          ]
+        },
+        "style-3": {
+          "what": "Captions/logos/sunburst marked worldLock:true ride the camera move (they are parented to the zooming comp in the reference).",
+          "formula1080": "x = 540 + (xFinal - 540) * S, y = 960 + (yFinal - 960) * S, scale = S, where S = current camera scale / final camera scale",
+          "measuredFit": "'استاذي' top within 5-13 px, PRIME top within +-5 px of the prediction (720 frame, centre 640)",
+          "runtimeNote": "engine/compositor applies cameraMoves only to #plateWrap and #talentWrap. Implement cameraLocked in style-3 components.js with an onFrame hook that copies gsap.getProperty('#plateWrap','scale'/'x'/'y') and transformOrigin onto a wrapper around the locked element.",
+          "default": false,
+          "lockedPresets": [
+            "hook-glyph-pop",
+            "ghost-echo-word",
+            "world-locked-question",
+            "word-cascade-fade",
+            "brand-wordmark",
+            "script-accent",
+            "sunburst-halo",
+            "contact-shadow",
+            "plate-vignette"
+          ]
+        }
+      }
+    },
+    {
+      "id": "sfx-accent",
+      "category": "audio",
+      "purpose": "Sparse, tonal, high-frequency accents tied to text/graphic events. Shared rule: nothing on cuts or camera moves; no whooshes, risers or impacts; sync to speech, not beats.",
+      "engine": {
+        "key": "sfx[] rules (event/preset/sound/offsetMs/gainDb); idealSound names a soundSpecs entry for a style synth"
+      },
+      "styles": {
+        "style-1": {
+          "policy": "No whooshes, risers, impacts or pops on cuts or graphics. Speech drives timing. Only optional sparkle: paired ~8.36 kHz pings 300 ms apart on three reveals.",
+          "soundSpecs": {
+            "ping8k": {
+              "type": "sine ping",
+              "freqHz": 8360,
+              "durationMs": 60,
+              "envelope": "2 ms attack, exponential decay",
+              "pairSpacingMs": 300,
+              "confidence": "medium (spectrogram only; needs a listening check)"
+            }
+          },
+          "rules": [
+            {
+              "event": "component_in",
+              "preset": "lens-disc-slide",
+              "sound": "tick",
+              "idealSound": "ping8k",
+              "offsetMs": -267,
+              "gainDb": -24
+            },
+            {
+              "event": "component_in",
+              "preset": "lens-disc-slide",
+              "sound": "tick",
+              "idealSound": "ping8k",
+              "offsetMs": 67,
+              "gainDb": -24
+            },
+            {
+              "event": "text_in",
+              "preset": "orange-3d-type",
+              "sound": "tick",
+              "idealSound": "ping8k",
+              "offsetMs": 217,
+              "gainDb": -24
+            },
+            {
+              "event": "text_in",
+              "preset": "orange-3d-type",
+              "sound": "tick",
+              "idealSound": "ping8k",
+              "offsetMs": 517,
+              "gainDb": -24
+            },
+            {
+              "event": "text_in",
+              "preset": "hero-glow-reveal",
+              "sound": "tick",
+              "idealSound": "ping8k",
+              "offsetMs": -173,
+              "gainDb": -24
+            },
+            {
+              "event": "text_in",
+              "preset": "hero-glow-reveal",
+              "sound": "tick",
+              "idealSound": "ping8k",
+              "offsetMs": 127,
+              "gainDb": -24
+            }
+          ]
+        },
+        "style-2": {
+          "policy": "Sparse, tonal SFX tied to a graphic type (gold shimmer, glass chime, near-inaudible ticks on type-ons). No whoosh, impact or riser on cuts or pull-backs. No music bed.",
+          "soundSpecs": {
+            "shimmerTwoTone": {
+              "type": "two-tone",
+              "tones": [{"hz": 9250, "ms": 100}, {"hz": 5600, "ms": 60}],
+              "attackMs": 4,
+              "releaseMs": 30
+            },
+            "tick8k1Series": {"type": "tone-tick", "hz": 8100, "ms": 60, "repeatOffsetsMs": [0, 240, 310, 400, 670]},
+            "tick7k2": {"type": "tone-tick", "hz": 7200, "ms": 50},
+            "chimeGlass": {
+              "type": "inharmonic-bell",
+              "partialsHz": [4090, 7000, 10290],
+              "partialGainsDb": [0, -10, -3.5],
+              "durationMs": 480,
+              "decayPerSec": 6
+            },
+            "sparkle": {"type": "partials", "partialsHz": [8350, 11540], "durationMs": 130},
+            "sparkleSequence": {"type": "partials-sequence", "steps": [{"hz": 8360, "ms": 350}, {"hz": 12900, "ms": 60}]}
+          },
+          "rules": [
+            {
+              "event": "text_in",
+              "preset": "gold-light-panel-grow",
+              "sound": "shimmer",
+              "idealSound": "shimmerTwoTone",
+              "offsetMs": 0,
+              "gainDb": -22,
+              "measured": "9252 Hz 5.17-5.27 s, 5597 Hz 5.27-5.33 s; reused at 29.55 s. Band level -32..-41 dBFS vs speech about -12 dBFS. Lands on the first glyph (S3) or on the outer glyphs (S9, +200 ms)."
+            },
+            {
+              "event": "component_in",
+              "preset": "glass-pill-gold",
+              "sound": "tick",
+              "idealSound": "tick8k1Series",
+              "offsetMs": 200,
+              "gainDb": -36,
+              "measured": "8.1 kHz ticks 6.18-6.46 / 6.75-6.85 s plus a 4.0 kHz event 6.58-6.72 s; band level about -57 dBFS (barely audible)"
+            },
+            {
+              "event": "text_in",
+              "preset": "neon-word-cascade-float",
+              "sound": "tick",
+              "idealSound": "tick7k2",
+              "offsetMs": 100,
+              "gainDb": -34,
+              "perUnit": true,
+              "measured": "7.21 kHz at 30.72-31.03 and 31.20 s, about -48 dBFS; one per word"
+            },
+            {
+              "event": "component_in",
+              "preset": "visionos-glass-ui",
+              "sound": "chime",
+              "idealSound": "chimeGlass",
+              "offsetMs": -33,
+              "gainDb": -14,
+              "measured": "11.40-11.88 s, the loudest SFX: 4.09 kHz partial about -25 dBFS. Starts 1 F before the cut into the UI shot."
+            },
+            {
+              "event": "text_in",
+              "preset": "english-tracking-in",
+              "sound": "sparkle",
+              "idealSound": "sparkle",
+              "offsetMs": 150,
+              "gainDb": -24,
+              "measured": "12.02-12.14 s, about -39 dBFS"
+            },
+            {
+              "event": "camera",
+              "preset": "pullback-step2",
+              "sound": "sparkle",
+              "idealSound": "sparkleSequence",
+              "offsetMs": 167,
+              "gainDb": -24,
+              "condition": "only when the shot carries visionos-glass-ui",
+              "measured": "12.83-13.26 s, about -34..-39 dBFS"
+            }
+          ]
+        },
+        "style-3": {
+          "policy": "Voice-first. No whooshes/risers/impacts on cuts or pull-backs. SFX only on text events: typing rattle (first typed subtitle), tick (1 f before the cut into the turn word), pop + ding on the turn word glyphs. Optional click when the arch lands.",
+          "soundSpecs": {
+            "typingRattleHF": {
+              "desc": "train of tiny transients above 11 kHz, one every 22-46 ms (~22 Hz), 480 ms long, +40 dB over the HF band median",
+              "measuredHpLevelDbfs": -25.0
+            },
+            "tickHF": {"desc": "6.64 kHz tonal tick + broadband >11 kHz burst, ~50 ms", "measuredHpLevelDbfs": -23.7},
+            "popHF": {"desc": "short pop with spectral peak ~10-10.7 kHz, ~90 ms", "measuredHpLevelDbfs": -16.8},
+            "ding4k": {
+              "desc": "4.19 kHz fundamental + 8.38 kHz partial (partial 2.6 dB louder), decays ~25 dB by 220 ms, ~300 ms ring",
+              "peakBandLevelDbfs": -13.0
+            },
+            "clickHF": {"desc": "single ~25 ms >11 kHz click (low confidence)", "measuredHpLevelDbfs": -32.5}
+          },
+          "rules": [
+            {
+              "event": "text_in",
+              "preset": "typewriter-sub",
+              "sound": "shimmer",
+              "idealSound": "typingRattleHF",
+              "offsetMs": 0,
+              "gainDb": -12,
+              "onlyFirstInReel": true,
+              "note": "only the first typed subtitle of the reel gets typing audio (3.61-4.09 s)"
+            },
+            {
+              "event": "text_in",
+              "preset": "glyph-scale-pop",
+              "sound": "tick",
+              "idealSound": "tickHF",
+              "offsetMs": -30,
+              "gainDb": -10,
+              "note": "one frame before the cut into the pop shot (8.62-8.66 s)"
+            },
+            {
+              "event": "text_in",
+              "preset": "glyph-scale-pop",
+              "sound": "pop",
+              "idealSound": "popHF",
+              "offsetMs": 60,
+              "gainDb": -6,
+              "note": "at peak growth of the first glyph (8.71-8.80 s)"
+            },
+            {
+              "event": "text_in",
+              "preset": "glyph-scale-pop",
+              "sound": "ding",
+              "idealSound": "ding4k",
+              "offsetMs": 460,
+              "gainDb": -8,
+              "note": "100 ms after the second glyph starts (onset 9.10 s), leads into the bell"
+            },
+            {
+              "event": "component_in",
+              "preset": "glass-arch-rise",
+              "sound": "click",
+              "idealSound": "clickHF",
+              "offsetMs": 240,
+              "gainDb": -18,
+              "note": "as the arch lands and its line starts typing (0.98 s); low confidence"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "music-bed",
+      "category": "audio",
+      "purpose": "Music under the voice. Never beat-synced in any style.",
+      "styles": {
+        "style-1": {
+          "present": true,
+          "bpm": 112.3,
+          "gainDbUnderVoice": -17,
+          "duck": false,
+          "character": "light stepping bass/pluck ostinato, no hits, drops or swells",
+          "beatLock": false
+        },
+        "style-2": {
+          "present": false,
+          "bpm": null,
+          "gainDbUnderVoice": null,
+          "duck": false,
+          "character": "none: dialogue-led mix (speech RMS p50 -17.8 dBFS)",
+          "note": "No music bed detected. Dialogue-led. Room tone about -30 dBFS (50 Hz hum) is incidental; do not add.",
+          "beatLock": false
+        },
+        "style-3": {
+          "present": true,
+          "bpm": null,
+          "bpmCandidates": {"metricsJson": 86, "librosaLowBand": 115},
+          "bpmNote": "do not beat-sync",
+          "character": "sustained sub-bass pad/bass line, fundamental 41 Hz (E1) with harmonics 82/123 Hz, no drum grid",
+          "levelDbfsRms": -22.4,
+          "gainDbUnderVoice": -3,
+          "voiceBandDbfsRms": -20.3,
+          "duck": false,
+          "phraseChangeSec": 5.5,
+          "phraseChangesAt": [
+            "just before a cut into a difference/question beat (9.85-10.40 s, ~100 Hz note)",
+            "around the cut out of the brand shot (20.3-21.4 s, ~90 -> 70 Hz)"
+          ],
+          "beatLock": false
+        }
+      }
+    }
+  ]
+}

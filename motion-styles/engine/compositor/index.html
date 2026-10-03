@@ -6,8 +6,7 @@
 <style>
   html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
   #stage { position: relative; overflow: hidden; background: #000; }
-  #stage > * { position: absolute; inset: 0; }
-  #plateWrap, #talentWrap { will-change: transform; }
+  #stage > * { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
   #plate, #talent { width: 100%; height: 100%; display: block; }
   .layer { pointer-events: none; }
   .mg-text { white-space: nowrap; font-kerning: normal; text-rendering: geometricPrecision; -webkit-font-smoothing: antialiased; }
@@ -22,9 +21,12 @@
 <div id="stage">
   <div id="plateWrap"><canvas id="plate"></canvas></div>
   <div id="bg" class="layer"></div>
+  <div id="bgW" class="layer"></div>
   <div id="behind" class="layer"></div>
+  <div id="behindW" class="layer"></div>
   <div id="talentWrap"><canvas id="talent"></canvas></div>
   <div id="front" class="layer"></div>
+  <div id="frontW" class="layer"></div>
   <div id="fx" class="layer"></div>
 </div>
 </body>

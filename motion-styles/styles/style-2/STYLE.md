@@ -282,12 +282,12 @@ eq=saturation=1.22,vignette=angle=0.70:x0=w/2:y0=h*0.36" -c:a copy graded.mp4
 
 ## 6. Graphic component library
 
-Layer order, back to front: plate → `teal-grid-stage` → **behindTalent** (cyan hero, white hero in pull-backs, end of "idea", flyby tray) → **talent** → **front** (gold glyphs, pills, glass UI, phone, props, ghost English) → thin neon captions → fx (tint, vignette, bottom fade).
+Layer order, back to front: plate → `teal-grid-stage` → **behind** layer (cyan hero, white hero in pull-backs, end of "idea", flyby tray) → **talent** → **front** (gold glyphs, pills, glass UI, phone, props, ghost English) → thin neon captions → fx (tint, vignette, bottom fade).
 
 | id | Purpose | Construction @1080 (@720 in brackets) | Layer |
 |---|---|---|---|
 | `teal-grid-stage` | Product stage under a 3D prop (hook) | Region y 70.3-100% H, full width.<br>Gradient transparent → `#13494D` at the bottom.<br>Flat orthographic grid, 1.5 px lines `rgba(130,225,232,.13)` (+8-12 luma), pitch X 60 px (40), pitch Y 93 px (62), first vertical line at x = 48 (32).<br>In: grid from F55 over 15 F; gradient from F60 over 30 F. | front, below props and hero |
-| `prop-3d-enter-spin` | Photoreal 3D domain object | Transparent PNG turntable (360° in 180 F), soft top-front key, **no cast shadow**, saturated ungraded colours, about 6 px motion blur when moving.<br>Hero size 46.5% W × 33% H. Variants:<br>- `corner-dof`: off the top-left corner, 12 px depth-of-field blur, sits under the hero's ي, enters in 9 F then grows 1.45x over 51 F<br>- `flyby-behind-head`: 76% W tray across the top third, behind the talent | front; flyby = behindTalent |
+| `prop-3d-enter-spin` | Photoreal 3D domain object | Transparent PNG turntable (360° in 180 F), soft top-front key, **no cast shadow**, saturated ungraded colours, about 6 px motion blur when moving.<br>Hero size 46.5% W × 33% H. Variants:<br>- `corner-dof`: off the top-left corner, 12 px depth-of-field blur, sits under the hero's ي, enters in 9 F then grows 1.45x over 51 F<br>- `flyby-behind-head`: 76% W tray across the top third, behind the talent | front; flyby = behind |
 | `glass-pill-gold` | Label capsule under the gold hero | 570×186 (380×124), radius 93.<br>Fill: `rgba(255,255,255,.06)` + backdrop blur 24, warm top spill `radial-gradient(60% 70% at 50% 0%, rgba(237,193,121,.55), rgba(200,153,80,.25) 45%, transparent)`, teal tint on the right edge `rgba(61,66,61,.35)`.<br>Rim: 2 px top highlight `rgba(255,255,255,.35)`.<br>Centre (50%, 78.2%); 80.9% when a long neon kashida wraps above it (S3 sits 33 px lower than S9). | front |
 | `glass-search-morph` | Ring → search pill with a typed label and a gold arrow button | **Ring:** outer Ø 230 (153), band 40 (26-28), fill 20-25% white + blur 18, 1.5 px rims inside and out, centre (65%, 70.2%).<br>**Pill:** 848×233 (565×155), radius 116, fill 13% white (`#695552` over brown) + blur 24, 3 px top specular.<br>**Inner dark capsule:** 456×166 (304×111), radius 83, `rgba(0,0,0,.28)`, inset 38, on the left.<br>**Button:** Ø 165 (110), `#392A21`, gold ring Ø 118 with 7.5 px stroke `#C19359`, ↖ arrow with 7.5 px stroke and round caps. | front, over the chest |
 | `visionos-glass-ui` | Spatial-app UI for "how it works" | **Tab bar:** 360×75 (240×50), radius 38, centre (58.3%, 52.3%); labels Photos / **Album** / Favorite at 20 px; back-chevron circle Ø 48 at (35.1%, 52.2%); selected segment `rgba(255,255,255,.22)`.<br>**Window:** 648×520 (432×347), radius 36, centre (52.8%, 66.9%), `perspective(1400px) rotateY(−14°) rotateX(8°)` (rotation estimated), neutral grey glass 16% + blur 26, 1.5 px specular diagonal bottom edge, looping carousel of 3-4 translucent trays.<br>**Dock:** 89×308 (59×205), radius 44, centre (14.9%, 70.1%), icons home / photos / plus at 33 px `#E5E8E8`.<br>**Grabber:** 90×9 white, 24 px under the window. | front, world-locked |
@@ -405,7 +405,7 @@ Reference shot lengths (F): 102, 47, 97, 97, 139, 141, 87, 163, 139, 101.
 | `neon-word-cascade-float` (CTA sub-caption) | 7.2 kHz tick per word | +100 ms per word | ≈−48 → −34 |
 | Search typewriter, ring morph, هو rise, phone glide, gold spotlight | **silence** (no SFX) | — | — |
 
-The engine's procedural `shimmer` (random 2.6-7.2 kHz partials, 800 ms) and `ding` (1320 Hz based) do not match. `style.json` carries a `synth` spec for each sound so a style-specific generator can reproduce the real tones.
+The engine's procedural `shimmer` (random 2.6-7.2 kHz partials, 800 ms) and `ding` (1320 Hz based) do not match. `style.json` carries a synth spec for each sound in `soundSpecs` (referenced by `sfx[].idealSound`) so a style-specific generator can reproduce the real tones.
 
 ---
 
@@ -489,7 +489,7 @@ The engine's procedural `shimmer` (random 2.6-7.2 kHz partials, 800 ms) and `din
    - the cyan extrusion and neon rim (fallback: gradient plus glow)
    - multi-`tracks` sub-animations
    - kashida auto-fit
-   - `perUnit` SFX and `synth` tones
+   - `perUnit` SFX and the `soundSpecs` tones
    - `overlays.bottomFade`
 10. **SFX.** Use `autoSfx: true` with the `style.json` rules. Audition them, then remove anything not in the §9 table. No music.
 11. **QA against measurable targets:**

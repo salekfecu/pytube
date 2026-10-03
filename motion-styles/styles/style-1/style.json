@@ -1,380 +1,1711 @@
 {
- "id": "style-1",
- "name": "Ember Glass",
- "reference": "ref1_chemistry.mp4",
- "referenceCanvas": {"width": 720, "height": 1280, "fps": 30, "frames": 718, "durationSec": 23.93},
- "canvas": {"width": 1080, "height": 1920, "fps": 30},
- "units": "All px values are for the 1080x1920 canvas (= reference 720x1280 measurements x1.5). Fields ending in 720 are the raw reference measurements. Durations are ms at 30 fps (1 frame = 33.3 ms).",
- "evidence": "/home/user/pytube/motion-styles/_work/ref1_chemistry/scratch_style/ (calib.json, calib2.json, refbox.json, bgsamples.json) + scratch_look/, scratch_motion/, scratch_verify/",
-
- "fonts": [
-  {"role": "hook", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 700, "sizePx": 64, "sizePx720": 43, "lineHeight": 1.35, "letterSpacing": 0, "color": "#FFD244",
-   "fill": {"gradient": "linear-gradient(90deg, #FFF7F0 0%, #FFF4E5 6%, #FFF1DD 14%, #FFE9CE 22%, #FFE1A7 30%, #FFD985 38%, #FFD57A 45%, #FFD149 53%, #FFD244 61%, #FFD130 69%, #FFD238 77%, #FED25E 85%, #FDD781 92%, #FFDC92 100%)", "space": "shared screen-space band x 25.8%..79.0% W for both hook lines (not per word, not per line)"},
-   "effects": {"glow": {"color": "rgba(255,176,0,0.30)", "radiusPx": 45, "strength": 1}, "glowTight": {"color": "rgba(255,196,0,0.35)", "radiusPx": 5}, "edgeSoftenPx": 0.75, "stroke": null, "shadow": null, "renderHint": "gradient fill: draw the glow on a duplicated text layer underneath (or filter: drop-shadow on a wrapper); text-shadow bleeds over background-clip:text"}},
-  {"role": "hero", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 700, "sizePx": 116, "sizePx720": 77, "lineHeight": 1.2, "letterSpacing": 0, "color": "#FFFFFF", "fill": null, "effects": {"glow": null, "shadow": null, "stroke": null}},
-  {"role": "heroWide", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 700, "sizePx": 165, "sizePx720": 110, "lineHeight": 1.2, "letterSpacing": 0, "color": "#FFFFFF", "fill": null, "effects": {"glow": null, "shadow": null, "stroke": null}},
-  {"role": "heroMid", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 700, "sizePx": 96, "sizePx720": 64, "lineHeight": 1.2, "letterSpacing": 0, "color": "#FFFFFF", "fill": null, "effects": {"glow": null, "shadow": null, "stroke": null}},
-  {"role": "giant", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 700, "sizePx": 192, "sizePx720": 128, "lineHeight": 1.2, "letterSpacing": 0, "color": "#FFFFFF", "fill": null,
-   "effects": {"glow": {"color": "rgba(255,255,255,0.10)", "radiusPx": 22, "strength": 1}, "glowUse": "only when the word sits on a busy AI plate", "shadow": null, "stroke": null}},
-  {"role": "payoffChrome", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 700, "sizePx": 234, "sizePx720": 156, "lineHeight": 1.2, "letterSpacing": 0, "color": "#A6D0D4",
-   "fill": {"gradient": "linear-gradient(180deg, #DAF8FE 0%, #DAF8FE 19.5%, #D3F2F8 27.9%, #DEF1EC 40.6%, #A6D0D4 53.3%, #89A4A9 65.9%, #6E8285 74.3%, #4E4C4D 87%, #4E4C4D 100%)", "space": "element line box with lineHeight 1.2 (alef top at 15.8%, baseline at 77.5%, descender bottom at 97.5%)"},
-   "effects": {"rimLight": {"color": "#6AF3F7", "medianColor": "#57CFD7", "widthPx": 4, "side": "top/upper edges", "method": "duplicate text in #6AF3F7 offset y -3px, blur 2px, placed under the chrome fill"},
-    "glow": {"color": "rgba(63,232,240,0.45)", "radiusPx": 75, "strength": 1.2}, "haloNear": {"color": "#356A6A", "radiusPx": 12}, "shadow": null, "stroke": null,
-    "renderHint": "gradient fill: rim + bloom on an under-layer, never text-shadow on the gradient element"}},
-  {"role": "payoff3d", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 700, "sizePx": 245, "sizePx720": 163, "lineHeight": 1.2, "letterSpacing": 0, "color": "#B65B26",
-   "fill": {"gradient": "linear-gradient(160deg, #A5490B 0%, #B65B26 45%, #D7793F 100%)", "space": "element box"},
-   "effects": {"extrusion": {"method": "wrapper filter chain", "css": "drop-shadow(1.5px 1.5px 0 #F5C9A0) drop-shadow(1.5px 1.5px 0 #8A3E14) drop-shadow(1.5px 1.5px 0 #7A3510) drop-shadow(0 9px 12px rgba(0,0,0,0.5))"}, "bevelHighlight": "#F5C9A0", "sideColor": "#8A3E14", "glow": null, "stroke": null}},
-  {"role": "support", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 200, "sizePx": 69, "sizePx720": 46, "lineHeight": 1.2, "letterSpacing": 0, "color": "#FFFFFF", "fill": null, "effects": {"glow": null, "shadow": null, "stroke": null}},
-  {"role": "supportWide", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 200, "sizePx": 113, "sizePx720": 75, "lineHeight": 1.2, "letterSpacing": 0, "color": "#FFFFFF", "fill": null, "effects": {"glow": null, "shadow": null, "stroke": null}, "note": "stroke/height sits between Plex 200 and 300 at this size; 200 chosen"},
-  {"role": "supportSmall", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 200, "sizePx": 66, "sizePx720": 44, "lineHeight": 1.2, "letterSpacing": 0, "color": "#FFFFFF", "fill": null, "effects": {"glow": null, "shadow": null, "stroke": null}, "note": "estimated (line is half hidden by the lens ring)"},
-  {"role": "lockupThin", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 200, "sizePx": 99, "sizePx720": 66, "lineHeight": 1.2, "letterSpacing": 0, "color": "#FFFFFF", "fill": null, "effects": {"glow": null, "shadow": null, "stroke": null}},
-  {"role": "pillBold", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 700, "sizePx": 72, "sizePx720": 48, "lineHeight": 1.2, "letterSpacing": 0, "color": "#FFFFFF", "fill": null, "effects": {"glow": null, "shadow": null, "stroke": null}, "range720": [47, 52]},
-  {"role": "pillThin", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 200, "sizePx": 75, "sizePx720": 50, "lineHeight": 1.2, "letterSpacing": 0, "color": "#FFFFFF", "fill": null, "effects": {"glow": null, "shadow": null, "stroke": null}},
-  {"role": "pillSmall", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 700, "sizePx": 47, "sizePx720": 31, "lineHeight": 1.2, "letterSpacing": 0, "color": "#FFFFFF", "fill": null, "effects": {"glow": null, "shadow": null, "stroke": null}},
-  {"role": "pillSubDark", "family": "IBM Plex Sans Arabic", "fontsource": "@fontsource/ibm-plex-sans-arabic", "weight": 300, "sizePx": 47, "sizePx720": 31, "lineHeight": 1.2, "letterSpacing": 0, "color": "#340C0C", "fill": null, "effects": {"glow": null, "shadow": null, "stroke": null}, "note": "only dark text in the style; sits on the frosted CTA interior (#CBBEB9 over light wardrobe)"},
-  {"role": "latinWordmark", "family": "Inter", "fontsource": "@fontsource/inter", "weight": 900, "sizePx": 99, "sizePx720": 66, "lineHeight": 1.0, "letterSpacing": "-0.02em", "color": "#F8FBFD", "fill": null, "effects": {"glow": null, "shadow": null, "stroke": null}, "note": "Helvetica Neue Heavy is the likely original; Inter 900 IoU 0.870"},
-  {"role": "latinTagline", "family": "Inter", "fontsource": "@fontsource/inter", "weight": 600, "sizePx": 72, "sizePx720": 48, "lineHeight": 1.0, "letterSpacing": 0, "color": "#F8FBFD", "fill": null, "effects": {"glow": null, "shadow": null, "stroke": null}},
-  {"role": "latinMicro", "family": "Inter", "fontsource": "@fontsource/inter", "weight": 400, "sizePx": 27, "sizePx720": 18, "lineHeight": 1.0, "letterSpacing": "0.6em", "color": "#E8DE5C", "fill": null, "effects": {"glow": null, "shadow": null, "stroke": null}, "note": "colour uncertain (2 px strokes, anti-aliasing); warm yellow close to the CTA ring"}
- ],
-
- "typeScale": {
-  "heroToSupportRatio": [1.5, 1.9],
-  "boldWeight": 700, "thinWeight": 200, "forbiddenArabicWeights": [400, 500, 600],
-  "lineGaps1080": {"hookBaselinePitch": 87, "mcuHeroToSupportBaseline": 98, "wideHeroToSupportBaseline": 159, "wordmarkToTaglineBaseline": 70},
-  "tatweel": {"advanceEmAt200": 0.10, "advanceEmAt700": 0.11, "formula": "count = round(kashidaLengthPx / (0.10 * fontSizePx))", "measuredCounts": {"بـــس@hero": 6, "هـــواي@lockupThin": 6, "افكـــار@lockupThin": 9, "بيهـــا@lockupThin": 45, "كدامـــك@supportWide": 11}}
- },
-
- "palette": {
-  "backdropHot": "#7E3302", "backdropMid": "#692501", "backdropMidDark": "#541800", "backdropCorner": "#210601", "floorAmber": "#AF6303", "mcuHotspot": "#893B00", "mcuCorner": "#1A0400",
-  "captionWhite": "#FFFFFF",
-  "hookCream": "#FFF7F0", "hookPeak": "#FFD130", "hookEnd": "#FFDC92", "hookGlowNear": "#81590E", "hookGlowFar": "#4A2812",
-  "revealYellow": "#FAD01E", "revealYellowPeak": "#FFF55C",
-  "ctaLime": "#DAD530", "ctaLimeLight": "#E4DD4B", "ctaYellowFinal": "#FAD635", "latinMicro": "#E8DE5C",
-  "buttonDiscDark": "#1B1D21", "buttonDiscMaroon": "#511B02", "buttonGlassRing": "#A97354",
-  "glassRim": "rgba(255,255,255,0.40)", "glassRimTop": "rgba(255,255,255,0.60)", "glassFillClear": "rgba(255,255,255,0.03)", "smokedFill": "rgba(0,0,0,0.30)", "lensStroke": "rgba(255,255,255,0.37)",
-  "ctaPillFrost": "#854219", "ctaPillTopHighlight": "#985936", "ctaPillBottomRim": "#AE6D4C", "ctaPillTint": "#7E3E1E", "ctaPillOverLight": "#CBBEB9", "darkSubtitle": "#340C0C",
-  "smokedPillOnBW": "#373438", "smokedRimOnBW": "#5A575B", "bwBackdrop": "#2F2C30",
-  "orange3dFace": "#B65B26", "orange3dLit": "#D7793F", "orange3dShade": "#A5490B", "orange3dSide": "#8A3E14", "orange3dBevel": "#F5C9A0",
-  "chromeTop": "#DAF8FE", "chromeMid": "#A6D0D4", "chromeLow": "#6E8285", "chromeBottom": "#4E4C4D", "cyanRim": "#6AF3F7", "cyanRimMedian": "#57CFD7", "cyanHalo": "#356A6A",
-  "flaskLiquid": "#01DDD6", "flaskDeep": "#009898", "flaskSurface": "#73ECF1", "fogTeal": "#61C2C7", "fogBright": "#73E8EB", "moleculeGlass": "#6DB1B7", "moleculeHighlight": "#83C5CF", "specular": "#FFF6E6",
-  "labWallHot": "#BE551B", "labWallGlow": "#E8A55A", "chalk": "#FECEB0", "corridorGlow": "#823C31", "corridorCeiling": "#1C0C07", "steam": "#563425",
-  "ribbonBody": "#2B1610", "ribbonFront": "#49231F", "badgeRim": "#9A5532", "badgeRimBright": "#B66F43", "badgeIcon": "#B3A4A1", "hudLine": "#D7A67A",
-  "clayCard": "#652601", "clayCardSide": "#5B2100", "clayDeboss": "#3A1500", "clayButton": "#090200",
-  "skin": "#C89175", "shirtTeal": "#2C3C40", "shirtShadow": "#12080E", "trousersCream": "#A0958F", "hair": "#0F0A0C"
- },
-
- "grade": {
-  "css": "contrast(1.10) brightness(0.95) saturate(1.06)",
-  "contrast": 1.10, "brightness": 0.95, "saturate": 1.06,
-  "ffmpeg": "eq=contrast=1.12:brightness=-0.035:saturation=1.08,curves=master='0/0 0.06/0.01 0.25/0.17 0.5/0.45 0.75/0.70 1/0.86',colorbalance=rs=0.06:bs=-0.06:rm=0.03:bm=-0.03,vignette=angle=PI/3.6:x0=w*0.42:y0=h*0.36",
-  "applyTo": "talent + real backdrop only; replaced CSS/AI backdrops already carry the look; never grade graphics",
-  "targets": {"lumaP0_5": [2, 10], "lumaP5": [11, 15], "lumaP50": [48, 51], "lumaP95": [134, 164], "lumaP99_5MaxExcludingGraphics": 190, "vignetteCentreVsEdgeLuma": [[87, 34], [105, 29]], "backdropSatMedianHSV": [228, 253], "backdropHueDeg": [16, 24], "skinCheek": "#C89175", "shirt": "#2C3C40"},
-  "perShot": {"studio": "full recipe", "aiPlateBright": "no vignette (measured centre 103 vs edge 93), brighter/flatter: luma p50 ~125", "aiPlateCorridor": "very heavy vignette (centre 83 vs edge 12)", "bwInterrupt": "see transitions.bw-focus-interrupt"}
- },
-
- "overlays": {
-  "vignette": {"shape": "80% 65%", "centerYPct": 38, "centerXPct": 42, "innerPct": 50, "color": "rgba(8,1,0,0.55)", "strength": 0.6, "note": "mild because the strong falloff lives in the backdrop gradients; disable on bright AI-plate shots; must not darken captions (reference captions stay #FFFFFF at the top band)"},
-  "tint": {"color": "linear-gradient(225deg, rgba(10,1,0,0.55) 0%, rgba(10,1,0,0) 42%)", "blend": "multiply", "opacity": 1, "note": "top-right corner shade (reference corner #210601)"},
-  "grain": null
- },
-
- "backgrounds": {
-  "studioWide": {"type": "gradient", "gradient": "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 80.5%, #4E1A03 83.5%, #8A4504 89%, #A65C04 94%, #A35A03 100%), radial-gradient(ellipse 60% 20% at 12% 2%, rgba(140,58,4,0.95) 0%, rgba(140,58,4,0) 100%), radial-gradient(ellipse 50% 36% at 82% 62%, rgba(113,41,0,0.95) 0%, rgba(113,41,0,0) 100%), radial-gradient(ellipse 45% 25% at 28% 36%, rgba(118,42,0,0.9) 0%, rgba(118,42,0,0) 100%), linear-gradient(200deg, #1E0200 0%, #3A1000 25%, #4A1400 50%, #2E0701 75%, #300903 100%)", "fitError": "mean abs 5.0/255 per channel vs f450 backdrop samples", "use": "full-body wide shots (orange cyc with amber floor band from 80% H)"},
-  "studioMcu": {"type": "gradient", "gradient": "radial-gradient(ellipse 95% 62% at 28% 42%, #893B00 0%, #7C3100 28%, #652602 52%, #451700 74%, #1A0400 100%)", "fitError": "mean abs 5.7/255 per channel vs f547 backdrop samples", "use": "MCU shots (hot spot left of head, near-black top-right)"},
-  "labCorridorPlate": {"type": "ai-plate", "blurPx": 2, "prompt": "Vertical 9:16 cinematic photo of a futuristic chemistry laboratory corridor in one-point perspective, dark lab benches with glassware receding on both sides, tall white steam columns rising at left and right, warm orange-red glow on the far back wall, near-black ceiling, faint peach holographic HUD dashboard panels floating at mid height on both sides, empty centre aisle for a standing presenter, warm haze, shallow depth of field, no people, no text, orange and dark brown palette (#823C31 back wall, #1C0C07 ceiling)", "motion": "animated steam (AI video or particles), whole composite handheld wobble +-10 px"},
-  "labWallPlate": {"type": "ai-plate", "blurPx": 0, "prompt": "Vertical 9:16 bright warm laboratory wall with an orange-to-amber gradient (#BE551B top-left to #E8A55A glow right of centre), chalk-style chemical formulas handwritten on the wall at the right, a lab bench at the right with beakers and flasks of glowing teal liquid (#01DDD6) and a retort stand, small teal beakers at far left, low teal fog rolling across the floor, empty centre for a standing presenter, soft studio light, no people, no text overlays", "motion": "fog drift, formula shimmer; no vignette"},
-  "bwInterruptBackdrop": {"type": "derived", "from": "current frame", "note": "grayscale + blur of the live composite, see transitions"}
- },
-
- "textPresets": [
-  {"id": "ember-type", "use": "hook title line 1 over a busy world plate; the only gold text in the piece", "unit": "letter", "dir": "rtl", "reflow": true,
-   "in": {"from": {"opacity": 0, "blur": 12, "letterSpacing": "-0.45em"}, "to": {"opacity": 1, "blur": 0, "letterSpacing": "0.03em"}, "durationMs": 133, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 25, "startAfterCutMs": 133},
-   "hold": {"target": "units", "from": {"letterSpacing": "0.03em"}, "to": {"letterSpacing": "0em"}, "easing": "expo.out"},
-   "settle": {"property": "letterSpacing", "fromEm": 0.03, "toEm": 0, "durationMs": 433, "easing": "cubic-bezier(0.2,0.7,0.3,1)", "measured": "L1 width 403 -> 376 px(720) f21-33"},
-   "holdMs": 2200, "out": null,
-   "style": {"fontRole": "hook", "glow": {"color": "rgba(255,176,0,0.30)", "radiusPx": 45, "strength": 1}, "shadow": null},
-   "position": {"anchor": "center", "xPct": 52.0, "yPct": 17.2, "align": "center"}, "layer": "front"},
-  {"id": "ember-words", "use": "hook title line 2 (same gradient band as line 1), right-anchored, no drift", "unit": "word", "dir": "rtl", "reflow": false,
-   "in": {"from": {"opacity": 0, "blur": 9}, "to": {"opacity": 1, "blur": 0}, "durationMs": 333, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 100, "startAfterPrevLineMs": 67},
-   "holdMs": 1700, "out": null,
-   "style": {"fontRole": "hook", "glow": {"color": "rgba(255,176,0,0.30)", "radiusPx": 45, "strength": 1}},
-   "position": {"anchor": "right", "xPct": 79.0, "yPct": 22.4, "align": "right"}, "layer": "front"},
-  {"id": "blur-type", "use": "default bold hero line (MCU chest band or wide top band); typed with live reflow", "unit": "letter", "dir": "rtl", "reflow": true,
-   "in": {"from": {"opacity": 0, "blur": 12, "letterSpacing": "-0.5em"}, "to": {"opacity": 1, "blur": 0, "letterSpacing": "0.03em"}, "durationMs": 167, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 50, "staggerRangeMs": [24, 67], "startAfterCutMs": [33, 200]},
-   "hold": {"target": "units", "from": {"letterSpacing": "0.03em"}, "to": {"letterSpacing": "0em"}, "easing": "expo.out"},
-   "settle": {"property": "letterSpacing", "fromEm": 0.03, "toEm": 0, "durationMs": 400, "easing": "cubic-bezier(0.2,0.7,0.3,1)", "measured": "كل فكرة 268->249 px(720) f325-337; حتى تشوف 505->487 f432-447"},
-   "optionalRise": {"from": {"y": 66}, "to": {"y": 0}, "durationMs": 400, "easing": "cubic-bezier(0.2,0.7,0.3,1)", "note": "seen once (كل فكرة f318-330, 44 px at 720)"},
-   "holdMs": 1750, "out": null,
-   "style": {"fontRole": "hero", "color": "#FFFFFF", "glow": null, "shadow": null},
-   "position": {"anchor": "center", "xPct": 52.4, "yPct": 50.4, "align": "center"},
-   "positionVariants": {"mcuChestLine1": {"xPct": 52.4, "yPct": 50.4, "fontRole": "hero"}, "wideTopLine1": {"xPct": 52.2, "yPct": 15.3, "fontRole": "heroWide"}},
-   "layer": "front"},
-  {"id": "blur-type-thin", "use": "hairline support line under/beside the hero; carries the kashida", "unit": "letter", "dir": "rtl", "reflow": true,
-   "in": {"from": {"opacity": 0, "blur": 9, "letterSpacing": "-0.5em"}, "to": {"opacity": 1, "blur": 0, "letterSpacing": "0.03em"}, "durationMs": 100, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 50, "staggerRangeMs": [40, 67], "startAfterHeroDoneMs": [100, 300]},
-   "hold": {"target": "units", "from": {"letterSpacing": "0.03em"}, "to": {"letterSpacing": "0em"}, "easing": "expo.out"},
-   "kashida": {"typedAs": "repeated U+0640, one unit per tatweel", "dashedWhileTyping": true, "closesWithSettle": true, "measured": "كدامـــك dashed ~10 px segments f444-448, solid by f460"},
-   "holdMs": 1500, "out": null,
-   "style": {"fontRole": "support", "color": "#FFFFFF", "opacity": 1, "glow": null},
-   "position": {"anchor": "center", "xPct": 50.3, "yPct": 55.3, "align": "center"},
-   "positionVariants": {"mcuChestLine2": {"xPct": 50.3, "yPct": 55.3, "fontRole": "support"}, "wideTopLine2": {"xPct": 51.9, "yPct": 23.7, "fontRole": "supportWide"}},
-   "layer": "front"},
-  {"id": "glyph-pop", "use": "single giant word in a lockup (لأن); glyphs pop from baseline-right while the plate settles", "unit": "letter", "dir": "rtl", "reflow": false,
-   "in": {"from": {"scale": 0.19, "y": -33, "transformOrigin": "100% 85%"}, "to": {"scale": 1, "y": 0, "transformOrigin": "100% 85%"}, "durationMs": 300, "easing": "cubic-bezier(0.16,1,0.3,1)", "staggerMs": 233, "startAfterCutMs": 33},
-   "hold": {"target": "el", "from": {"y": 0}, "to": {"y": 33}, "easing": "expo.out"},
-   "drift": {"y": 33, "durationMs": 433, "easing": "cubic-bezier(0.2,0.7,0.3,1)", "appliesTo": "whole lockup group", "measured": "22 px(720) f208-221"},
-   "holdMs": 3100, "out": {"note": "1-frame pre-cut pull-back with the whole composite, then hard cut"},
-   "style": {"fontRole": "giant", "color": "#FFFFFF", "glow": {"color": "rgba(255,255,255,0.10)", "radiusPx": 22, "strength": 1}},
-   "position": {"anchor": "right", "xPct": 76.5, "yPct": 14.8, "align": "right"}, "layer": "front"},
-  {"id": "lockup-thin", "use": "two stacked hairline words left of the giant word (top aligned to its cap, bottom to its baseline); kashida sets both to equal width", "unit": "letter", "dir": "rtl", "reflow": false,
-   "in": {"from": {"opacity": 0, "blur": 6}, "to": {"opacity": 1, "blur": 0}, "durationMs": 100, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 50, "startAfterCutMs": 300},
-   "hold": {"target": "el", "from": {"y": 0}, "to": {"y": 33}, "easing": "expo.out"},
-   "holdMs": 2800, "out": null,
-   "style": {"fontRole": "lockupThin", "color": "#FFFFFF"},
-   "position": {"anchor": "right", "xPct": 50.4, "yPct": 11.7, "align": "right"},
-   "positionVariants": {"upper": {"xPct": 50.4, "yPct": 11.7}, "lower": {"xPct": 50.1, "yPct": 17.8}},
-   "layer": "front"},
-  {"id": "kashida-rule-word", "use": "thin word whose long kashida (up to 44% W) becomes a horizontal rule running into an illustration", "unit": "none", "dir": "rtl", "reflow": false,
-   "in": {"from": {"opacity": 0.25, "blur": 9}, "to": {"opacity": 1, "blur": 0}, "durationMs": 233, "easing": "cubic-bezier(0.2,0.7,0.3,1)", "staggerMs": 0, "startAfterCutMs": 433},
-   "holdMs": 2800, "out": null,
-   "style": {"fontRole": "lockupThin", "color": "#FFFFFF"},
-   "tatweelCount": 45, "ruleLengthPx": 473, "ruleThicknessPx": 6,
-   "position": {"anchor": "right", "xPct": 78.1, "yPct": 23.7, "align": "right"}, "layer": "front"},
-  {"id": "glow-sweep", "use": "the turn word (بـــس / 'but'); each glyph lands hot-yellow with a halo and cools to white", "unit": "letter", "dir": "rtl", "reflow": false,
-   "in": {"from": {"opacity": 0, "blur": 12, "color": "#FAD01E", "textShadow": "0 0 6px rgba(255,245,92,1), 0 0 24px rgba(250,208,30,0.9)"}, "to": {"opacity": 1, "blur": 0, "color": "#FFFFFF", "textShadow": "0 0 6px rgba(255,245,92,0), 0 0 24px rgba(250,208,30,0)"}, "durationMs": 333, "easing": "cubic-bezier(0.25,0.6,0.4,1)", "staggerMs": 67, "startAfterCutMs": 333},
-   "holdMs": 2600, "out": null,
-   "style": {"fontRole": "hero", "sizePx": 123, "color": "#FFFFFF"},
-   "tatweelCount": 6,
-   "position": {"anchor": "center", "xPct": 52.4, "yPct": 50.6, "align": "center"}, "layer": "front"},
-  {"id": "latin-letter-fade", "use": "Latin brand wordmark (MAX); letters fade in place L->R, no motion", "unit": "letter", "dir": "ltr", "reflow": false,
-   "in": {"from": {"opacity": 0}, "to": {"opacity": 1}, "durationMs": 283, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 267},
-   "holdMs": 1500, "out": null, "style": {"fontRole": "latinWordmark"},
-   "position": {"anchor": "center", "xPct": 51.8, "yPct": 57.5, "align": "center"}, "layer": "front"},
-  {"id": "latin-letter-fade-fast", "use": "Latin tagline under the wordmark (ACADEMY); starts 400 ms after the wordmark", "unit": "letter", "dir": "ltr", "reflow": false,
-   "in": {"from": {"opacity": 0}, "to": {"opacity": 1}, "durationMs": 117, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 117},
-   "holdMs": 1000, "out": null, "style": {"fontRole": "latinTagline"},
-   "position": {"anchor": "center", "xPct": 51.9, "yPct": 61.7, "align": "center"}, "layer": "front"},
-  {"id": "micro-tracked-reverse", "use": "tiny tracked Latin subtitle under a name (Chemistry); revealed from the END of the word", "unit": "letter", "dir": "ltr", "reflow": false,
-   "in": {"from": {"opacity": 0}, "to": {"opacity": 1}, "durationMs": 133, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 133, "staggerFrom": "end"},
-   "holdMs": 1000, "out": null, "style": {"fontRole": "latinMicro"},
-   "position": {"anchor": "center", "xPct": 40.9, "yPct": 74.9, "align": "center"}, "layer": "front"},
-  {"id": "wipe-reveal-reverse", "use": "name inside the name-tag capsule; soft wipe AGAINST reading direction (Arabic revealed from the left = string end)", "unit": "none", "dir": "rtl", "reflow": false,
-   "in": {"from": {"clip": "inset(-20% 100% -20% 0)"}, "to": {"clip": "inset(-20% 0% -20% 0)"}, "durationMs": 800, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 0, "featherPx": 15},
-   "holdMs": 1700, "out": null, "style": {"fontRole": "pillBold"},
-   "position": {"anchor": "center", "xPct": 41.9, "yPct": 72.0, "align": "center"}, "layer": "front"},
-  {"id": "pill-type", "use": "bold line inside a glass/smoked pill; starts 67 ms after its pill lands", "unit": "letter", "dir": "rtl", "reflow": true,
-   "in": {"from": {"opacity": 0, "blur": 9, "letterSpacing": "-0.5em"}, "to": {"opacity": 1, "blur": 0, "letterSpacing": "0.03em"}, "durationMs": 133, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 40},
-   "hold": {"target": "units", "from": {"letterSpacing": "0.03em"}, "to": {"letterSpacing": "0em"}, "easing": "expo.out"},
-   "holdMs": 1500, "out": null, "style": {"fontRole": "pillBold", "color": "#FFFFFF"},
-   "position": {"anchor": "center", "xPct": 51.0, "yPct": 61.6, "align": "center"}, "layer": "front"},
-  {"id": "pill-type-thin", "use": "thin second line inside/over the lower edge of a pill", "unit": "letter", "dir": "rtl", "reflow": true,
-   "in": {"from": {"opacity": 0, "blur": 9, "letterSpacing": "-0.5em"}, "to": {"opacity": 1, "blur": 0, "letterSpacing": "0em"}, "durationMs": 133, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 67},
-   "holdMs": 1300, "out": null, "style": {"fontRole": "pillThin", "color": "#FFFFFF"},
-   "position": {"anchor": "center", "xPct": 50.3, "yPct": 65.5, "align": "center"}, "layer": "front"},
-  {"id": "pill-sweep", "use": "two small lines inside the final CTA pill; fast soft R->L opacity sweep, no blur", "unit": "letter", "dir": "rtl", "reflow": false,
-   "in": {"from": {"opacity": 0}, "to": {"opacity": 1}, "durationMs": 367, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 12},
-   "holdMs": 2500, "out": null, "style": {"fontRole": "pillSmall", "color": "#FFFFFF"},
-   "position": {"anchor": "center", "xPct": 50.6, "yPct": 53.9, "align": "center"},
-   "positionVariants": {"line1": {"xPct": 50.6, "yPct": 53.9, "fontRole": "pillSmall"}, "line2": {"xPct": 50.7, "yPct": 56.4, "fontRole": "pillSubDark", "delayMs": 333}},
-   "layer": "front"},
-  {"id": "ink-up", "use": "right-anchored bold title in a static closing shot; no drift; swapped out with a reverse type-off", "unit": "letter", "dir": "rtl", "reflow": false,
-   "in": {"from": {"opacity": 0, "blur": 9, "brightness": 0.4}, "to": {"opacity": 1, "blur": 0, "brightness": 1}, "durationMs": 267, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 33, "startAfterCutMs": 33},
-   "holdMs": 1000,
-   "out": {"to": {"opacity": 0, "blur": 9}, "durationMs": 100, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 67, "staggerFrom": "end", "note": "reverse type-off: last glyph first, stacked lines erase together, ~667 ms for 10 glyphs"},
-   "style": {"fontRole": "heroMid", "color": "#FFFFFF"},
-   "position": {"anchor": "right", "xPct": 70.0, "yPct": 18.8, "align": "right"}, "layer": "front"},
-  {"id": "ink-up-thin", "use": "thin sub-line under ink-up (name + praise word)", "unit": "letter", "dir": "rtl", "reflow": false,
-   "in": {"from": {"opacity": 0, "blur": 6}, "to": {"opacity": 1, "blur": 0}, "durationMs": 133, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 50, "startAfterPrevLineMs": 133},
-   "holdMs": 300,
-   "out": {"to": {"opacity": 0, "blur": 9}, "durationMs": 100, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 67, "staggerFrom": "end"},
-   "style": {"fontRole": "supportSmall", "color": "#FFFFFF"},
-   "position": {"anchor": "right", "xPct": 68.6, "yPct": 23.9, "align": "right"}, "layer": "front"},
-  {"id": "orange-3d-type", "use": "single orange extruded word on the B&W interrupt (the only colour in frame); emerges from under the smoked pill", "unit": "letter", "dir": "rtl", "reflow": true,
-   "in": {"from": {"opacity": 0, "blur": 12, "letterSpacing": "-0.5em"}, "to": {"opacity": 1, "blur": 0, "letterSpacing": "0em"}, "durationMs": 167, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 80, "startAfterPillMs": 333},
-   "holdMs": 100, "out": {"note": "hard cut releases the interrupt 3 frames after the word completes"},
-   "style": {"fontRole": "payoff3d"},
-   "position": {"anchor": "center", "xPct": 50.6, "yPct": 60.2, "align": "center"}, "layer": "front", "zOrder": "below the smoked pill (its ascenders tuck under the pill's bottom edge), above the B&W adjustment"},
-  {"id": "hero-glow-reveal", "use": "final payoff word; ice-chrome fill with cyan rim and bloom, revealed R->L then held to the end", "unit": "letter", "dir": "rtl", "reflow": false,
-   "in": {"from": {"opacity": 0}, "to": {"opacity": 1}, "durationMs": 367, "easing": "cubic-bezier(0,0,1,1)", "staggerMs": 50, "startBeforePhraseMs": 267},
-   "glowBloom": {"fromAlpha": 0, "toAlpha": 1, "delayMs": 233, "durationMs": 333, "easing": "cubic-bezier(0.2,0.7,0.3,1)"},
-   "holdMs": 1267, "out": null,
-   "style": {"fontRole": "payoffChrome"},
-   "position": {"anchor": "center", "xPct": 49.9, "yPct": 20.5, "align": "center"}, "layer": "front", "zOrder": "above lens rings (not refracted)"}
- ],
-
- "graphicComponents": [
-  {"id": "glass-ring-pop", "use": "turn/brand beat opener: two glass torus rings pop on a damped spring, then morph into capsules",
-   "build": {"outerDiameterPx": 155, "bandWidthPx": 30, "fill": "rgba(255,255,255,0.18)", "backdropBlurPx": 4.5, "rimInner": "1.5px rgba(255,255,255,0.60)", "rimOuter": "1.5px rgba(255,255,255,0.60)", "rimHighlight": "top-left arc +25% brighter", "instances": [{"cxPct": 17.9, "cyPct": 15.4, "diameterPx": 155}, {"cxPct": 72.2, "cyPct": 72.3, "diameterPx": 195, "delayMs": 67}]},
-   "in": {"type": "keyframes", "prop": "scale", "keyframes": [[0, 0.117], [67, 0.476], [133, 0.903], [200, 1.058], [267, 1.087], [433, 0.903], [600, 0.99], [733, 1.0]], "durationMs": 733, "gsapApprox": "elastic.out(1,0.5)", "startAfterCutMs": 67},
-   "loop": null, "out": {"type": "morph", "to": "nametag-capsule / echo-capsule"}, "layer": "front"},
-  {"id": "nametag-capsule", "use": "name + discipline tag with CTA button; grows out of a glass ring",
-   "build": {"outer": {"widthPx": 852, "heightPx": 177, "radiusPx": 88.5, "fill": "rgba(255,255,255,0.08)", "backdropBlurPx": 6, "rim": "1.5px rgba(255,255,255,0.40)", "rimTopBoost": "rgba(255,255,255,0.65)"},
-    "innerField": {"leftInsetPx": 27, "widthPx": 561, "heightPx": 130, "radiusPx": 65, "fill": "rgba(0,0,0,0.30)", "rim": "1.5px rgba(255,255,255,0.30)"},
-    "button": {"component": "cta-button", "arrow": "↖", "centreFromRightEdgePx": 92},
-    "centrePct": [51.9, 72.3]},
-   "in": {"type": "ringStretch", "leftEdgeTravelPx": 549, "durationMs": 533, "easing": "cubic-bezier(0.4,0,0.2,1)", "startAfterRingMs": 600, "buttonPopDelayMs": 167, "textDelayMs": 533},
-   "loop": null, "out": {"type": "hardCut"}, "layer": "front", "note": "hands must stay visible (frosted) through the glass; inner field edge draws over fingers"},
-  {"id": "echo-capsule", "use": "decorative blurred duplicate of the name tag, cropped by the frame edge, top-left",
-   "build": {"scale": 0.95, "blurPx": 4.5, "heightPx": 160, "cropLeft": true, "centreYPct": 15.4, "truncatedText": "اسـ", "button": {"component": "cta-button", "arrow": "↖", "ringDiameterPx": 82}},
-   "in": {"type": "ringStretchOffscreen", "durationMs": 200, "easing": "cubic-bezier(0.4,0,0.2,1)", "buttonPop": {"durationMs": 233, "easing": "cubic-bezier(0.34,1.56,0.64,1)"}},
-   "loop": {"buttonDriftXPx": 84, "durationMs": 2400, "easing": "cubic-bezier(0.2,0.7,0.3,1)"}, "out": {"type": "hardCut"}, "layer": "front"},
-  {"id": "cta-button", "use": "round arrow button in every capsule",
-   "build": {"discDiameterPx": 123, "discFill": "#1B1D21", "discOpacity": 0.85, "discRim": "1.5px rgba(255,255,255,0.50)", "glassRingDiameterPx": 135, "glassRingStroke": "1.5px rgba(255,255,255,0.35)", "ringDiameterPx": 84, "ringStrokePx": 4.5, "ringColor": "#DAD530", "arrowLengthPx": 39, "arrowStrokePx": 5, "arrowCaps": "round", "arrowColor": "#DAD530",
-    "variants": {"nametag": {"arrow": "↖", "discFill": "#1B1D21", "ringColor": "#DAD530"}, "finalCta": {"arrow": "↗", "discFill": "#511B02", "discDiameterPx": 75, "ringDiameterPx": 57, "ringColor": "#FAD635", "glassRingColor": "#A97354"}}},
-   "in": {"from": {"scale": 0, "opacity": 1}, "to": {"scale": 1}, "durationMs": 233, "easing": "cubic-bezier(0.34,1.56,0.64,1)"},
-   "loop": null, "out": {"type": "withParent"}, "layer": "front"},
-  {"id": "glass-pill-clear", "use": "clear frosted stadium behind a key line (brand lockup, 3rd/4th line of a chest stack)",
-   "build": {"variants": {"brand": {"widthPx": 729, "heightPx": 240, "radiusPx": 120, "centrePct": [51.7, 59.1]}, "chest": {"widthPx": 591, "heightPx": 189, "radiusPx": 94.5, "centrePct": [50.0, 63.3]}},
-    "fill": "rgba(255,255,255,0.03)", "backdropBlurPx": 7.5, "rim": "1.5px rgba(255,255,255,0.35)", "rimTop": "rgba(255,255,255,0.55)", "shadow": null},
-   "in": {"from": {"scaleX": 0.6, "opacity": 0}, "to": {"scaleX": 1, "opacity": 1}, "durationMs": 150, "easing": "cubic-bezier(0.2,0.8,0.2,1)", "textStartsAfterMs": 67},
-   "loop": null, "out": {"type": "hardCut"}, "layer": "front"},
-  {"id": "smoked-pill-autosize", "use": "dark capsule holding the contrast line on the B&W interrupt; width tracks the typed text",
-   "build": {"heightPx": 183, "radiusPx": 91.5, "paddingXPx": 82, "finalWidthPx": 575, "fill": "rgba(0,0,0,0.30)", "rim": "1.5px rgba(255,255,255,0.15)", "rimHighlight": "top-left", "backdropBlurPx": 0, "centrePct": [49.9, 50.1]},
-   "in": {"from": {"opacity": 0, "widthPx": 375}, "to": {"opacity": 1}, "durationMs": 100, "widthFollowsTextMs": 500, "growth": "symmetric about centre", "easing": "cubic-bezier(0,0,1,1)", "startAfterInterruptMs": 233},
-   "loop": null, "out": {"type": "hardCut"}, "layer": "front"},
-  {"id": "lens-disc-slide", "use": "huge refractive glass disc rising from the bottom-right corner in front of the talent (detail beat)",
-   "build": {"radiusPx": 486, "radiusEndPx": 507, "rim": "2.5px rgba(255,255,255,0.75)", "interior": {"magnify": 1.2, "blurPx": 7.5, "tint": null}, "centreStartPct": [104, 108], "centreLandPct": [87.9, 98.4], "centreEndPct": [83.7, 98.0]},
-   "in": {"travelPx": 300, "direction": "up-left diagonal from off-screen", "durationMs": 367, "easing": "cubic-bezier(0.16,1,0.3,1)", "startAfterHeroLineMs": 333},
-   "loop": {"dxPerFramePx": -0.62, "dRadiusPerFramePx": 0.29, "easing": "linear", "until": "cut"},
-   "out": {"type": "hardCut"}, "layer": "front"},
-  {"id": "lens-ring-pair", "use": "two thin refractive circles anchored off-frame at opposite corners in the closing shot; they bend the earlier caption",
-   "build": {"radiusPx": 428.5, "strokePx": 3.5, "stroke": "rgba(255,255,255,0.37)", "interior": {"displacePx": [-38, -98], "blurPx": 4.5, "tint": "warm, dims text ~30%"}, "centresPx": {"topLeft": [28, 409], "bottomRight": [1087, 1539]}, "centresPct": {"topLeft": [2.6, 21.3], "bottomRight": [100.6, 80.2]}},
-   "in": {"from": {"cxOffsetPx": -207, "scale": 0.77}, "to": {"cxOffsetPx": -37, "scale": 0.96}, "durationMs": 400, "easing": "cubic-bezier(0.16,1,0.3,1)", "mirroredForBottomRight": true, "startAfterCutMs": 567},
-   "loop": {"durationMs": 1067, "dxPerFramePx": 1.0, "dRadiusPerFramePx": 0.47, "easing": "linear", "thenStatic": true},
-   "out": {"type": "none (held to end)"}, "layer": "front", "zOrder": "above earlier captions (refracts them), below the payoff word"},
-  {"id": "glass-bead-capsule", "use": "final CTA: a glass bead pops on the talent's waist, stretches into an orange-frosted capsule, button + two lines arrive",
-   "build": {"bead": {"diameterPx": 119, "rim": "2px rgba(255,255,255,0.70)", "interior": {"magnify": 1.25}, "startCentrePct": [38.6, 54.9]},
-    "capsule": {"widthPx": 491, "heightPx": 110, "radiusPx": 55, "fill": "#854219", "tint": "rgba(126,62,30,0.55)", "backdropBlurPx": 6, "topHighlight": "#985936", "bottomRimGlow": "#AE6D4C", "overLightWardrobe": "#CBBEB9", "rim": "1.5px rgba(255,255,255,0.40)", "centrePct": [48.5, 55.0]},
-    "button": {"component": "cta-button", "variant": "finalCta", "side": "left", "centrePct": [30.8, 54.8]}},
-   "in": {"steps": [
-     {"what": "bead pop", "from": {"diameterPx": 12}, "to": {"diameterPx": 119}, "durationMs": 133, "easing": "cubic-bezier(0.34,1.56,0.64,1)"},
-     {"what": "bead hold/drift", "durationMs": 200},
-     {"what": "stretch right (left cap fixed)", "from": {"widthPx": 119}, "to": {"widthPx": 491}, "durationMs": 733, "easing": "cubic-bezier(0.4,0,0.2,1)"},
-     {"what": "orange tint fill", "atMsFromStretch": 333, "durationMs": 200},
-     {"what": "button pop", "atMsFromStretch": 400, "durationMs": 333, "easing": "cubic-bezier(0.34,1.56,0.64,1)"},
-     {"what": "line 1 pill-sweep", "atMsFromStretch": 1100},
-     {"what": "line 2 pill-sweep", "atMsFromStretch": 1433}],
-    "startAfterCutMs": 567},
-   "loop": null, "out": {"type": "none (held to end)"}, "layer": "front"},
-  {"id": "badge-ribbon", "use": "hook world shot: curved 3D band of capsule badges wrapping around the talent (depth sandwich)",
-   "build": {"asset": "PNG pair: ribbon_back.png (behind talent) + ribbon_front.png (in front of legs)", "bandHeightPx": 345, "badgeBackPx": [165, 255], "badgeFrontPx": [300, 495], "bandFill": "#2B1610", "frontFill": "#49231F", "badgeRim": "linear-gradient(180deg,#9A5532,#B66F43) 3-4.5px", "icon": "#B3A4A1 line art 3-4.5px", "blurBackPx": 3, "blurFrontPx": 13.5, "backArcRegionPct": {"x": [0, 35], "y": [36, 55]}, "frontArcRegionPct": {"x": [0, 100], "y": [70, 100]}},
-   "in": {"steps": [
-     {"what": "back slab swings open from edge-on at x 26.3% W", "durationMs": 467, "easing": "cubic-bezier(0.2,0.7,0.3,1)", "atMs": 200},
-     {"what": "front band rises from bottom", "durationMs": 400, "easing": "cubic-bezier(0.2,0.7,0.3,1)", "atMs": 267},
-     {"what": "card outlines fade to 40%", "durationMs": 133, "atMs": 800},
-     {"what": "icons fade, nearest first", "durationMs": 200, "staggerMs": 83, "atMs": 1000}]},
-   "loop": {"type": "plate wobble with the composite"}, "out": {"type": "hardCut"}, "layer": "behindTalent+front"},
-  {"id": "glass-molecule", "use": "floating cyan glass molecule in the method world shot; receives the kashida rule",
-   "build": {"asset": "PNG/sequence with alpha", "boxPx": [315, 330], "regionPct": {"x": [2.8, 32], "y": [14.8, 30.5]}, "glass": "#6DB1B7", "highlight": "#83C5CF", "specular": "#FFF6E6", "glowPx": 12},
-   "in": {"type": "cut-in with plate"}, "loop": {"rotateDegPerSec": 6.9, "direction": "clockwise", "floatPx": 6}, "out": {"type": "hardCut"}, "layer": "front", "note": "does not overlap the talent"},
-  {"id": "foreground-flask-fog", "use": "giant translucent flask of glowing teal liquid + teal fog in front of the talent (depth sandwich)",
-   "build": {"asset": "flask PNG with alpha (glass mostly transparent, legs read through it)", "flaskBoxPx": {"x": [0, 555], "y": [885, 1920]}, "liquidSurfaceYPx": 1418, "liquid": ["#73ECF1", "#009898", "#01DDD6"], "glassRim": "#FAE6D9 3-6px", "fog": {"regionPx": {"x": [645, 1080], "y": [1230, 1920]}, "color": ["#61C2C7", "#73E8EB"], "opacity": [0.4, 0.7]}},
-   "in": {"type": "cut-in with plate"}, "loop": {"fogDrift": "slow, <0.5 Hz", "liquidBubbles": true}, "out": {"type": "hardCut"}, "layer": "front"},
-  {"id": "clay-ui-card", "use": "tone-on-tone orange 3D UI card floating behind the talent in an MCU (topic label)",
-   "build": {"asset": "PNG/3D render", "regionPx": {"x": [758, 1080], "y": [225, 675]}, "yawDeg": 32, "cornerRadiusPx": 33, "extrusionPx": 20, "face": "#652601", "side": "#5B2100", "label": {"color": "#3A1500", "sizePx": 36, "treatment": "debossed"}, "buttons": {"color": "#090200", "sizePx": [210, 68]}, "blurPx": 3},
-   "in": {"from": {"rotateY": 80}, "to": {"rotateY": 0}, "durationMs": 800, "easing": "cubic-bezier(0.2,0.7,0.3,1)", "atMs": 33},
-   "loop": {"labelTypeOnMs": 833, "chipsInAtMs": 1400, "chipsOutAtMs": 2900, "finalSwingToCamera": {"scale": 1.4, "durationMs": 467, "easing": "ease-in-out", "endsAtCut": true}},
-   "out": {"type": "hardCut"}, "layer": "behindTalent"},
-  {"id": "hud-panels", "use": "faint holographic dashboards baked into the corridor plate",
-   "build": {"sizePx": [[225, 150], [285, 195]], "radiusPx": 9, "stroke": "1.5-2px #D7A67A at 55%", "blurPx": 3, "regionPct": {"left": [6, 28], "right": [74, 99], "y": [35, 59]}},
-   "in": {"type": "part of plate"}, "loop": null, "out": {"type": "hardCut"}, "layer": "bg"}
- ],
-
- "cameraMoves": [
-  {"id": "punch-out-settle", "type": "scale", "scaleFrom": 1.38, "scaleTo": 1.0, "durationMs": 567, "delayMs": 67, "easing": "cubic-bezier(0.25,0,0.1,1)", "focus": "face", "appliesTo": "plate+talent only (captions are not scaled)", "motionBlur": "directional on the 2-3 fastest frames (frames 3-5 of the move)", "trigger": "first frame of each new beat shot (ref shots 1,3,4,5); not on the brand MCU, the breather or the closing wide", "measured": "S1 138.2%, S3 138.0%, S4 137.4%, S5 139.1%; 17 f; peak per-frame step 0.939 at f4->5"},
-  {"id": "mcu-digital-punch", "type": "static", "scaleFrom": 2.35, "scaleTo": 2.35, "durationMs": 0, "easing": "linear", "focus": "face", "framing": "eye line at 30-31% H, head top 17-20% H, shoulders fill width", "trigger": "MCU shots cut from a single wide take (measured 2.27-2.47x)"},
-  {"id": "mcu-punch-settle", "type": "scale", "scaleFrom": 3.23, "scaleTo": 2.35, "durationMs": 567, "delayMs": 67, "easing": "cubic-bezier(0.25,0,0.1,1)", "focus": "face", "trigger": "MCU beat shot made from a wide take; only with >=4K source"},
-  {"id": "reset-wide", "type": "static", "scaleFrom": 1.0, "scaleTo": 1.0, "durationMs": 0, "easing": "linear", "focus": "face", "trigger": "plain hard cut back to a locked-off wide"},
-  {"id": "precut-pullback", "type": "scale", "scaleFrom": 1.0, "scaleTo": 0.961, "durationMs": 33, "easing": "steps(1)", "y": 26, "focus": "center", "appliesTo": "whole composite incl. captions", "trigger": "last frame before a zoom-through cut (used once)"},
-  {"id": "plate-wobble", "type": "handheld", "scaleFrom": 1.0, "scaleTo": 1.0, "durationMs": 1500, "easing": "sine.inOut", "amplitudePx": 10, "amplitudePx720": 7, "appliesTo": "whole composite incl. captions", "trigger": "AI world-plate shots only; studio shots are locked off"}
- ],
-
- "transitions": [
-  {"id": "hard-cut", "type": "cut", "durationMs": 0, "params": {"placement": "inside a VO pause, 0-300 ms (0-9 f) before the next phrase onset", "sfx": "none", "overlays": "all captions of the outgoing shot drop on the cut"}},
-  {"id": "cut-punch-settle", "type": "cut+camera", "durationMs": 633, "params": {"camera": "punch-out-settle", "firstOverlayAfterCutMs": [33, 200]}},
-  {"id": "zoom-through", "type": "cut+camera", "durationMs": 667, "params": {"outgoing": "precut-pullback (1 frame at 96.1%)", "incoming": "punch-out-settle from 137.4%", "effectiveScaleJump": 1.43}},
-  {"id": "bw-focus-interrupt", "type": "in-shot adjustment", "durationMs": 267, "params": {"blurPx": 13.5, "blurPx720": 9, "blurRamp": {"durationMs": 267, "easing": "cubic-bezier(0,0,1,1)"}, "saturateTo": 0.1, "desatDelayMs": 67, "desatDurationMs": 200, "desatEasing": "cubic-bezier(0,0,1,1)", "brightness": 1.0, "appliesTo": "plate + talent + every earlier caption (they become grey ghosts)", "holdMs": 1000, "release": "hard cut to a sharp full-colour shot, no ramp back", "leadsPhraseMs": 167}},
-  {"id": "not-used", "type": "none", "durationMs": 0, "params": {"list": ["whip pan", "flash frame", "dissolve", "light leak", "glitch", "speed ramp", "match cut"]}}
- ],
-
- "pacing": {
-  "avgShotSec": 3.42, "shotLengthsFrames": [88, 112, 107, 104, 91, 79, 137], "shotsPer10s": 2.93,
-  "textEventsPer10s": 10.4, "graphicEventsPer10s": 9, "captionHoldMs": 1750, "captionHoldMedianMs": 1670, "captionHoldRangeMs": [100, 3133],
-  "captionBuildMs": [333, 667], "stackCompleteAfterCutMs": [500, 1200], "firstOverlayAfterCutMs": [33, 200],
-  "maxWordsOnScreen": 7, "maxWordsPerLine": 3, "linesPerCard": [2, 4],
-  "textCoveragePct": 86, "breatherMs": 2667, "endHoldMs": 1267,
-  "shotPattern": ["wide-world", "mcu-studio", "wide-world", "mcu-studio", "wide-studio", "mcu-studio-clean", "wide-studio"]
- },
-
- "music": {"bpm": 112.3, "gainDbUnderVoice": -17, "duck": false, "character": "light stepping bass/pluck ostinato, no hits, drops or swells", "beatLock": false},
- "sfxPolicy": "No whooshes, risers, impacts or pops on cuts or graphics. Speech drives timing. Only optional sparkle: paired ~8.36 kHz pings 300 ms apart on three reveals.",
- "soundSpecs": {"ping8k": {"type": "sine ping", "freqHz": 8360, "durationMs": 60, "envelope": "2 ms attack, exponential decay", "pairSpacingMs": 300, "confidence": "medium (spectrogram only; needs a listening check)"}},
- "sfx": [
-  {"event": "component_in", "preset": "lens-disc-slide", "sound": "tick", "idealSound": "ping8k", "offsetMs": -267, "gainDb": -24},
-  {"event": "component_in", "preset": "lens-disc-slide", "sound": "tick", "idealSound": "ping8k", "offsetMs": 67, "gainDb": -24},
-  {"event": "text_in", "preset": "orange-3d-type", "sound": "tick", "idealSound": "ping8k", "offsetMs": 217, "gainDb": -24},
-  {"event": "text_in", "preset": "orange-3d-type", "sound": "tick", "idealSound": "ping8k", "offsetMs": 517, "gainDb": -24},
-  {"event": "text_in", "preset": "hero-glow-reveal", "sound": "tick", "idealSound": "ping8k", "offsetMs": -173, "gainDb": -24},
-  {"event": "text_in", "preset": "hero-glow-reveal", "sound": "tick", "idealSound": "ping8k", "offsetMs": 127, "gainDb": -24}
- ],
-
- "layout": {
-  "safe": {"top": 9.2, "bottom": 23.0, "left": 15.3, "right": 11.5, "unit": "% of frame from each edge", "px": {"top": 177, "bottom": 1478, "left": 165, "right": 956}},
-  "zones": {
-   "wideTopBand": {"yPct": [9.2, 26.5], "xPct": [15.3, 88.5], "blockCentreXPct": 52.0, "slots": {"line1": [52.2, 15.3], "line2": [51.9, 23.7], "hookL1": [52.0, 17.2], "hookL2": [52.3, 22.4], "payoff": [49.9, 20.5]}},
-   "wideFace": {"yPct": [27, 38], "rule": "no text"},
-   "giantLockup": {"giantRightXPct": 76.5, "giantCentreYPct": 14.8, "thinUpper": [50.4, 11.7], "thinLower": [50.1, 17.8], "ruleBaselineYPct": 24.8, "ruleXPct": [26.8, 78.1]},
-   "mcuFace": {"yPct": [17, 40], "rule": "no text"},
-   "mcuChestBand": {"yPct": [46, 77], "xPct": [12.5, 91.4], "slots": {"line1": [52.4, 50.4], "line2": [50.3, 55.3], "pill": [50.0, 63.3], "pillLine1": [51.0, 61.6], "pillLine2": [50.3, 65.5], "brandPill": [51.7, 59.1], "nameTag": [51.9, 72.3], "turnWord": [52.4, 50.6]}},
-   "waistCta": {"yPct": [52.1, 57.8], "xPct": [25.8, 71.3], "centre": [48.5, 55.0]},
-   "bwInterrupt": {"smokedPill": [49.9, 50.1], "accentWord": [50.6, 60.2]},
-   "cornerLenses": {"topLeftCentre": [2.6, 21.3], "bottomRightCentre": [100.6, 80.2], "radiusPctW": 39.7},
-   "talentWide": {"headTopYPct": [27, 28], "feetYPct": [93, 96], "bodyAxisXPct": [48.6, 52.1], "heightPctH": 68},
-   "talentMcu": {"headTopYPct": [17, 20], "eyeLineYPct": [30, 31], "chinYPct": 39}
-  }
- },
-
- "director": {"captionPreset": "blur-type", "keywordPreset": "blur-type", "subPreset": "blur-type-thin", "maxWordsPerCaption": 3, "punchInEveryNCaptions": 2, "punchInPreset": "punch-out-settle"},
-
- "rules": {
-  "do": [
-   "Use IBM Plex Sans Arabic only, in two weights: 700 for heroes and pill lines, 200 for support lines (300 only for the tiny dark CTA subtitle).",
-   "Keep the hero 1.5-1.9x the support line; the payoff word is 156-163 px at 720 (234-245 px at 1080).",
-   "Type every caption glyph by glyph (blur 12->0 px, opacity 0->1, 100-167 ms per glyph, 25-67 ms stagger) with live reflow and a 400 ms tracking settle.",
-   "Default fill is flat #FFFFFF with no stroke or shadow; give exactly one word per section a special material (gold gradient, hot-yellow flash, orange 3D, ice chrome).",
-   "Stretch thin words with repeated tatweel so stacked thin words match widths; let one long kashida (up to 44% W) become a rule into an illustration.",
-   "Max 3 words per line, 2-4 lines per card, lines broken by meaning (hero / complement / pill line 1 / pill line 2).",
-   "Wide shots: text in the top band (9-26.5% H) above the head. MCU shots: text on the chest band (46-77% H) over the dark shirt.",
-   "Glass UI in front of the talent: stadium radius = height/2, 1.5 px white rim at 35-60% brightest on top, 4.5-9 px backdrop blur, clear / smoked 30% / orange-frosted fills.",
-   "Every capsule carries a round button: dark disc + thin glass ring + 4.5 px lime/yellow ring + arrow.",
-   "Open each new beat shot with the 138%->100% punch-out settle (567 ms, cubic-bezier(0.25,0,0.1,1)); start captions 1-6 frames after the cut.",
-   "Alternate wide and MCU strictly; alternate AI world plates (with props in front of and behind the talent) and the plain orange studio.",
-   "Cut only in VO pauses, 0-300 ms before the next phrase.",
-   "Use the B&W focus-pull interrupt once, for the 'not just X' contrast, then a 2.7 s clean MCU breather before the payoff.",
-   "End on a static 1.27 s hold of the payoff word with the CTA capsule and lens rings still on screen.",
-   "Grade: crushed blacks (p0.5 luma <=10), saturated red-orange backdrop (hue 16-24 deg), natural skin, teal wardrobe; teal/cyan reserved for props and the payoff glow."
+  "schemaVersion": "mg-style/1",
+  "id": "style-1",
+  "name": "Ember Glass",
+  "reference": "ref1_chemistry.mp4",
+  "referenceCanvas": {"width": 720, "height": 1280, "fps": 30, "frames": 718, "durationSec": 23.93},
+  "canvas": {"width": 1080, "height": 1920, "fps": 30},
+  "units": {
+    "px": "px on the 1080x1920 render canvas (= 720x1280 reference measurement x1.5)",
+    "px720": "keys ending in 720 hold the raw reference measurement in 720x1280 px",
+    "pct": "keys ending in Pct are % of canvas width (x) or height (y); identical at 720 and 1080",
+    "pointPct": "[xPct, yPct] arrays; centrePct = element centre",
+    "time": "ms (keys ending in Ms)",
+    "frames": "keys ending in F (durationF, startOffsetF, tF ...) are frames at 30 fps, the render rate",
+    "angles": "deg",
+    "letterSpacing": "number = px @1080; string = CSS length (em)",
+    "colour": "#RRGGBB (uppercase) or rgba(); gradients are CSS strings",
+    "ranges": "[min, max] arrays",
+    "keyframes": "list of objects with tMs (optional tF) plus the animated property name",
+    "gainDb": "dB relative to full scale for the engine mixer (audio.py)",
+    "layers": "engine layer names: bg | behind | front | fx (plateWrap / talentWrap for the camera targets)",
+    "note": "All px values are for the 1080x1920 canvas (= reference 720x1280 measurements x1.5). Fields ending in 720 are the raw reference measurements. Durations are ms at 30 fps (1 frame = 33.3 ms)."
+  },
+  "frameIndex": "keyframes_full/k_NNN = native frame 15*NNN+7; all frame numbers in STYLE.md are native frames @30",
+  "evidence": "/home/user/pytube/motion-styles/_work/ref1_chemistry/scratch_style/ (calib.json, calib2.json, refbox.json, bgsamples.json) + scratch_look/, scratch_motion/, scratch_verify/",
+  "fonts": [
+    {
+      "role": "hook",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 700,
+      "sizePx": 64,
+      "sizePx720": 43,
+      "lineHeight": 1.35,
+      "letterSpacing": 0,
+      "color": "#FFD244",
+      "fill": {
+        "type": "linear",
+        "gradient": "linear-gradient(90deg, #FFF7F0 0%, #FFF4E5 6%, #FFF1DD 14%, #FFE9CE 22%, #FFE1A7 30%, #FFD985 38%, #FFD57A 45%, #FFD149 53%, #FFD244 61%, #FFD130 69%, #FFD238 77%, #FED25E 85%, #FDD781 92%, #FFDC92 100%)",
+        "space": "shared screen-space band x 25.8%..79.0% W for both hook lines (not per word, not per line)"
+      },
+      "effects": {
+        "glow": {"color": "rgba(255,176,0,0.30)", "radiusPx": 45, "strength": 1},
+        "glowTight": {"color": "rgba(255,196,0,0.35)", "radiusPx": 5},
+        "edgeSoftenPx": 0.75,
+        "stroke": null,
+        "shadow": null,
+        "renderHint": "gradient fill: draw the glow on a duplicated text layer underneath (or filter: drop-shadow on a wrapper); text-shadow bleeds over background-clip:text"
+      }
+    },
+    {
+      "role": "hero",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 700,
+      "sizePx": 116,
+      "sizePx720": 77,
+      "lineHeight": 1.2,
+      "letterSpacing": 0,
+      "color": "#FFFFFF",
+      "fill": {"type": "solid", "color": "#FFFFFF"},
+      "effects": {"glow": null, "shadow": null, "stroke": null}
+    },
+    {
+      "role": "heroWide",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 700,
+      "sizePx": 165,
+      "sizePx720": 110,
+      "lineHeight": 1.2,
+      "letterSpacing": 0,
+      "color": "#FFFFFF",
+      "fill": {"type": "solid", "color": "#FFFFFF"},
+      "effects": {"glow": null, "shadow": null, "stroke": null}
+    },
+    {
+      "role": "heroMid",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 700,
+      "sizePx": 96,
+      "sizePx720": 64,
+      "lineHeight": 1.2,
+      "letterSpacing": 0,
+      "color": "#FFFFFF",
+      "fill": {"type": "solid", "color": "#FFFFFF"},
+      "effects": {"glow": null, "shadow": null, "stroke": null}
+    },
+    {
+      "role": "giant",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 700,
+      "sizePx": 192,
+      "sizePx720": 128,
+      "lineHeight": 1.2,
+      "letterSpacing": 0,
+      "color": "#FFFFFF",
+      "fill": {"type": "solid", "color": "#FFFFFF"},
+      "effects": {
+        "glow": {"color": "rgba(255,255,255,0.10)", "radiusPx": 22, "strength": 1},
+        "glowUse": "only when the word sits on a busy AI plate",
+        "shadow": null,
+        "stroke": null
+      }
+    },
+    {
+      "role": "payoffChrome",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 700,
+      "sizePx": 234,
+      "sizePx720": 156,
+      "lineHeight": 1.2,
+      "letterSpacing": 0,
+      "color": "#A6D0D4",
+      "fill": {
+        "type": "linear",
+        "gradient": "linear-gradient(180deg, #DAF8FE 0%, #DAF8FE 19.5%, #D3F2F8 27.9%, #DEF1EC 40.6%, #A6D0D4 53.3%, #89A4A9 65.9%, #6E8285 74.3%, #4E4C4D 87%, #4E4C4D 100%)",
+        "space": "element line box with lineHeight 1.2 (alef top at 15.8%, baseline at 77.5%, descender bottom at 97.5%)"
+      },
+      "effects": {
+        "rimLight": {
+          "color": "#6AF3F7",
+          "medianColor": "#57CFD7",
+          "widthPx": 4,
+          "side": "top/upper edges",
+          "method": "duplicate text in #6AF3F7 offset y -3px, blur 2px, placed under the chrome fill"
+        },
+        "glow": {"color": "rgba(63,232,240,0.45)", "radiusPx": 75, "strength": 1.2},
+        "haloNear": {"color": "#356A6A", "radiusPx": 12},
+        "shadow": null,
+        "stroke": null,
+        "renderHint": "gradient fill: rim + bloom on an under-layer, never text-shadow on the gradient element"
+      }
+    },
+    {
+      "role": "payoff3d",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 700,
+      "sizePx": 245,
+      "sizePx720": 163,
+      "lineHeight": 1.2,
+      "letterSpacing": 0,
+      "color": "#B65B26",
+      "fill": {
+        "type": "linear",
+        "gradient": "linear-gradient(160deg, #A5490B 0%, #B65B26 45%, #D7793F 100%)",
+        "space": "element box"
+      },
+      "effects": {
+        "extrusion": {
+          "method": "wrapper filter chain",
+          "css": "drop-shadow(1.5px 1.5px 0 #F5C9A0) drop-shadow(1.5px 1.5px 0 #8A3E14) drop-shadow(1.5px 1.5px 0 #7A3510) drop-shadow(0 9px 12px rgba(0,0,0,0.5))"
+        },
+        "bevelHighlight": "#F5C9A0",
+        "sideColor": "#8A3E14",
+        "glow": null,
+        "stroke": null
+      }
+    },
+    {
+      "role": "support",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 200,
+      "sizePx": 69,
+      "sizePx720": 46,
+      "lineHeight": 1.2,
+      "letterSpacing": 0,
+      "color": "#FFFFFF",
+      "fill": {"type": "solid", "color": "#FFFFFF"},
+      "effects": {"glow": null, "shadow": null, "stroke": null}
+    },
+    {
+      "role": "supportWide",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 200,
+      "sizePx": 113,
+      "sizePx720": 75,
+      "lineHeight": 1.2,
+      "letterSpacing": 0,
+      "color": "#FFFFFF",
+      "fill": {"type": "solid", "color": "#FFFFFF"},
+      "effects": {"glow": null, "shadow": null, "stroke": null},
+      "note": "stroke/height sits between Plex 200 and 300 at this size; 200 chosen"
+    },
+    {
+      "role": "supportSmall",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 200,
+      "sizePx": 66,
+      "sizePx720": 44,
+      "lineHeight": 1.2,
+      "letterSpacing": 0,
+      "color": "#FFFFFF",
+      "fill": {"type": "solid", "color": "#FFFFFF"},
+      "effects": {"glow": null, "shadow": null, "stroke": null},
+      "note": "estimated (line is half hidden by the lens ring)"
+    },
+    {
+      "role": "lockupThin",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 200,
+      "sizePx": 99,
+      "sizePx720": 66,
+      "lineHeight": 1.2,
+      "letterSpacing": 0,
+      "color": "#FFFFFF",
+      "fill": {"type": "solid", "color": "#FFFFFF"},
+      "effects": {"glow": null, "shadow": null, "stroke": null}
+    },
+    {
+      "role": "pillBold",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 700,
+      "sizePx": 72,
+      "sizePx720": 48,
+      "lineHeight": 1.2,
+      "letterSpacing": 0,
+      "color": "#FFFFFF",
+      "fill": {"type": "solid", "color": "#FFFFFF"},
+      "effects": {"glow": null, "shadow": null, "stroke": null},
+      "sizeRangePx720": [47, 52]
+    },
+    {
+      "role": "pillThin",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 200,
+      "sizePx": 75,
+      "sizePx720": 50,
+      "lineHeight": 1.2,
+      "letterSpacing": 0,
+      "color": "#FFFFFF",
+      "fill": {"type": "solid", "color": "#FFFFFF"},
+      "effects": {"glow": null, "shadow": null, "stroke": null}
+    },
+    {
+      "role": "pillSmall",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 700,
+      "sizePx": 47,
+      "sizePx720": 31,
+      "lineHeight": 1.2,
+      "letterSpacing": 0,
+      "color": "#FFFFFF",
+      "fill": {"type": "solid", "color": "#FFFFFF"},
+      "effects": {"glow": null, "shadow": null, "stroke": null}
+    },
+    {
+      "role": "pillSubDark",
+      "family": "IBM Plex Sans Arabic",
+      "fontsource": "@fontsource/ibm-plex-sans-arabic",
+      "weight": 300,
+      "sizePx": 47,
+      "sizePx720": 31,
+      "lineHeight": 1.2,
+      "letterSpacing": 0,
+      "color": "#340C0C",
+      "fill": {"type": "solid", "color": "#340C0C"},
+      "effects": {"glow": null, "shadow": null, "stroke": null},
+      "note": "only dark text in the style; sits on the frosted CTA interior (#CBBEB9 over light wardrobe)"
+    },
+    {
+      "role": "latinWordmark",
+      "family": "Inter",
+      "fontsource": "@fontsource/inter",
+      "weight": 900,
+      "sizePx": 99,
+      "sizePx720": 66,
+      "lineHeight": 1.0,
+      "letterSpacing": "-0.02em",
+      "color": "#F8FBFD",
+      "fill": {"type": "solid", "color": "#F8FBFD"},
+      "effects": {"glow": null, "shadow": null, "stroke": null},
+      "note": "Helvetica Neue Heavy is the likely original; Inter 900 IoU 0.870"
+    },
+    {
+      "role": "latinTagline",
+      "family": "Inter",
+      "fontsource": "@fontsource/inter",
+      "weight": 600,
+      "sizePx": 72,
+      "sizePx720": 48,
+      "lineHeight": 1.0,
+      "letterSpacing": 0,
+      "color": "#F8FBFD",
+      "fill": {"type": "solid", "color": "#F8FBFD"},
+      "effects": {"glow": null, "shadow": null, "stroke": null}
+    },
+    {
+      "role": "latinMicro",
+      "family": "Inter",
+      "fontsource": "@fontsource/inter",
+      "weight": 400,
+      "sizePx": 27,
+      "sizePx720": 18,
+      "lineHeight": 1.0,
+      "letterSpacing": "0.6em",
+      "color": "#E8DE5C",
+      "fill": {"type": "solid", "color": "#E8DE5C"},
+      "effects": {"glow": null, "shadow": null, "stroke": null},
+      "note": "colour uncertain (2 px strokes, anti-aliasing); warm yellow close to the CTA ring"
+    }
   ],
-  "dont": [
-   "Don't use Arabic weights 400-600, strokes, drop shadows on studio captions, or more than one accent colour per section.",
-   "Don't put text over the face (MCU 17-40% H, wide 27-38% H) or below 77% H.",
-   "Don't animate captions out except the reverse type-off inside a static closing shot; everything else leaves on a hard cut.",
-   "Don't add whooshes, risers, impacts, pops, flashes, light leaks, glitches, dissolves, whip pans or speed ramps.",
-   "Don't beat-sync cuts or reveals to the music; sync to speech.",
-   "Don't apply the vignette to bright AI-plate shots or to captions.",
-   "Don't loop anything faster than ~0.5 Hz; ambient motion is slow (molecule 6.9 deg/s, fog drift, wobble ~1.5 s period).",
-   "Don't add a logo end card or fade to black.",
-   "Don't scale captions with the camera settle; only the plate and talent move.",
-   "Don't use blue/purple accents; the only cold colour is teal/cyan."
+  "typeScale": {
+    "heroToSupportRatio": [1.5, 1.9],
+    "boldWeight": 700,
+    "thinWeight": 200,
+    "forbiddenArabicWeights": [400, 500, 600],
+    "lineGaps1080": {
+      "hookBaselinePitch": 87,
+      "mcuHeroToSupportBaseline": 98,
+      "wideHeroToSupportBaseline": 159,
+      "wordmarkToTaglineBaseline": 70
+    },
+    "tatweel": {
+      "advanceEm": 0.1,
+      "advanceEmByWeight": {"200": 0.1, "700": 0.11},
+      "formula": "count = round(kashidaLengthPx / (0.10 * fontSizePx))",
+      "insertAfter": "first joining letter that has a joining successor (engine tatweel())",
+      "measuredCounts": {
+        "بـــس@hero": 6,
+        "هـــواي@lockupThin": 6,
+        "افكـــار@lockupThin": 9,
+        "بيهـــا@lockupThin": 45,
+        "كدامـــك@supportWide": 11
+      }
+    }
+  },
+  "palette": {
+    "backdropHot": "#7E3302",
+    "backdropMid": "#692501",
+    "backdropMidDark": "#541800",
+    "backdropCorner": "#210601",
+    "floorAmber": "#AF6303",
+    "mcuHotspot": "#893B00",
+    "mcuCorner": "#1A0400",
+    "captionWhite": "#FFFFFF",
+    "hookCream": "#FFF7F0",
+    "hookPeak": "#FFD130",
+    "hookEnd": "#FFDC92",
+    "hookGlowNear": "#81590E",
+    "hookGlowFar": "#4A2812",
+    "revealYellow": "#FAD01E",
+    "revealYellowPeak": "#FFF55C",
+    "ctaLime": "#DAD530",
+    "ctaLimeLight": "#E4DD4B",
+    "ctaYellowFinal": "#FAD635",
+    "latinMicro": "#E8DE5C",
+    "buttonDiscDark": "#1B1D21",
+    "buttonDiscMaroon": "#511B02",
+    "buttonGlassRing": "#A97354",
+    "glassRim": "rgba(255,255,255,0.40)",
+    "glassRimTop": "rgba(255,255,255,0.60)",
+    "glassFillClear": "rgba(255,255,255,0.03)",
+    "smokedFill": "rgba(0,0,0,0.30)",
+    "lensStroke": "rgba(255,255,255,0.37)",
+    "ctaPillFrost": "#854219",
+    "ctaPillTopHighlight": "#985936",
+    "ctaPillBottomRim": "#AE6D4C",
+    "ctaPillTint": "#7E3E1E",
+    "ctaPillOverLight": "#CBBEB9",
+    "darkSubtitle": "#340C0C",
+    "smokedPillOnBW": "#373438",
+    "smokedRimOnBW": "#5A575B",
+    "bwBackdrop": "#2F2C30",
+    "orange3dFace": "#B65B26",
+    "orange3dLit": "#D7793F",
+    "orange3dShade": "#A5490B",
+    "orange3dSide": "#8A3E14",
+    "orange3dBevel": "#F5C9A0",
+    "chromeTop": "#DAF8FE",
+    "chromeMid": "#A6D0D4",
+    "chromeLow": "#6E8285",
+    "chromeBottom": "#4E4C4D",
+    "cyanRim": "#6AF3F7",
+    "cyanRimMedian": "#57CFD7",
+    "cyanHalo": "#356A6A",
+    "flaskLiquid": "#01DDD6",
+    "flaskDeep": "#009898",
+    "flaskSurface": "#73ECF1",
+    "fogTeal": "#61C2C7",
+    "fogBright": "#73E8EB",
+    "moleculeGlass": "#6DB1B7",
+    "moleculeHighlight": "#83C5CF",
+    "specular": "#FFF6E6",
+    "labWallHot": "#BE551B",
+    "labWallGlow": "#E8A55A",
+    "chalk": "#FECEB0",
+    "corridorGlow": "#823C31",
+    "corridorCeiling": "#1C0C07",
+    "steam": "#563425",
+    "ribbonBody": "#2B1610",
+    "ribbonFront": "#49231F",
+    "badgeRim": "#9A5532",
+    "badgeRimBright": "#B66F43",
+    "badgeIcon": "#B3A4A1",
+    "hudLine": "#D7A67A",
+    "clayCard": "#652601",
+    "clayCardSide": "#5B2100",
+    "clayDeboss": "#3A1500",
+    "clayButton": "#090200",
+    "skin": "#C89175",
+    "shirtTeal": "#2C3C40",
+    "shirtShadow": "#12080E",
+    "trousersCream": "#A0958F",
+    "hair": "#0F0A0C"
+  },
+  "grade": {
+    "css": "contrast(1.10) brightness(0.95) saturate(1.06)",
+    "contrast": 1.1,
+    "brightness": 0.95,
+    "saturate": 1.06,
+    "ffmpeg": {
+      "filter": "eq=contrast=1.12:brightness=-0.035:saturation=1.08,curves=master='0/0 0.06/0.01 0.25/0.17 0.5/0.45 0.75/0.70 1/0.86',colorbalance=rs=0.06:bs=-0.06:rm=0.03:bm=-0.03,vignette=angle=PI/3.6:x0=w*0.42:y0=h*0.36"
+    },
+    "applyTo": "talent + real backdrop only; replaced CSS/AI backdrops already carry the look; never grade graphics",
+    "targets": {
+      "lumaP0_5": [2, 10],
+      "lumaP5": [11, 15],
+      "lumaP50": [48, 51],
+      "lumaP95": [134, 164],
+      "lumaP99_5MaxExcludingGraphics": 190,
+      "vignetteCentreVsEdgeLuma": [[87, 34], [105, 29]],
+      "backdropSatMedianHSV": [228, 253],
+      "backdropHueDeg": [16, 24],
+      "skinCheek": "#C89175",
+      "shirt": "#2C3C40"
+    },
+    "perShot": {
+      "studio": "full recipe",
+      "aiPlateBright": "no vignette (measured centre 103 vs edge 93), brighter/flatter: luma p50 ~125",
+      "aiPlateCorridor": "very heavy vignette (centre 83 vs edge 12)",
+      "bwInterrupt": "see transitions.bw-focus-interrupt"
+    }
+  },
+  "overlays": {
+    "vignette": {
+      "shape": "80% 65%",
+      "centerYPct": 38,
+      "centerXPct": 42,
+      "innerPct": 50,
+      "color": "rgba(8,1,0,0.55)",
+      "strength": 0.6,
+      "note": "mild because the strong falloff lives in the backdrop gradients; disable on bright AI-plate shots; must not darken captions (reference captions stay #FFFFFF at the top band)"
+    },
+    "tint": {
+      "color": "linear-gradient(225deg, rgba(10,1,0,0.55) 0%, rgba(10,1,0,0) 42%)",
+      "blend": "multiply",
+      "opacity": 1,
+      "note": "top-right corner shade (reference corner #210601)"
+    },
+    "grain": null
+  },
+  "backgrounds": {
+    "studioWide": {
+      "type": "gradient",
+      "gradient": "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 80.5%, #4E1A03 83.5%, #8A4504 89%, #A65C04 94%, #A35A03 100%), radial-gradient(ellipse 60% 20% at 12% 2%, rgba(140,58,4,0.95) 0%, rgba(140,58,4,0) 100%), radial-gradient(ellipse 50% 36% at 82% 62%, rgba(113,41,0,0.95) 0%, rgba(113,41,0,0) 100%), radial-gradient(ellipse 45% 25% at 28% 36%, rgba(118,42,0,0.9) 0%, rgba(118,42,0,0) 100%), linear-gradient(200deg, #1E0200 0%, #3A1000 25%, #4A1400 50%, #2E0701 75%, #300903 100%)",
+      "fitError": "mean abs 5.0/255 per channel vs f450 backdrop samples",
+      "use": "full-body wide shots (orange cyc with amber floor band from 80% H)"
+    },
+    "studioMcu": {
+      "type": "gradient",
+      "gradient": "radial-gradient(ellipse 95% 62% at 28% 42%, #893B00 0%, #7C3100 28%, #652602 52%, #451700 74%, #1A0400 100%)",
+      "fitError": "mean abs 5.7/255 per channel vs f547 backdrop samples",
+      "use": "MCU shots (hot spot left of head, near-black top-right)"
+    },
+    "labCorridorPlate": {
+      "type": "ai-plate",
+      "blurPx": 2,
+      "prompt": "Vertical 9:16 cinematic photo of a futuristic chemistry laboratory corridor in one-point perspective, dark lab benches with glassware receding on both sides, tall white steam columns rising at left and right, warm orange-red glow on the far back wall, near-black ceiling, faint peach holographic HUD dashboard panels floating at mid height on both sides, empty centre aisle for a standing presenter, warm haze, shallow depth of field, no people, no text, orange and dark brown palette (#823C31 back wall, #1C0C07 ceiling)",
+      "motion": "animated steam (AI video or particles), whole composite handheld wobble +-10 px"
+    },
+    "labWallPlate": {
+      "type": "ai-plate",
+      "blurPx": 0,
+      "prompt": "Vertical 9:16 bright warm laboratory wall with an orange-to-amber gradient (#BE551B top-left to #E8A55A glow right of centre), chalk-style chemical formulas handwritten on the wall at the right, a lab bench at the right with beakers and flasks of glowing teal liquid (#01DDD6) and a retort stand, small teal beakers at far left, low teal fog rolling across the floor, empty centre for a standing presenter, soft studio light, no people, no text overlays",
+      "motion": "fog drift, formula shimmer; no vignette"
+    },
+    "bwInterruptBackdrop": {"type": "derived", "from": "current frame", "note": "grayscale + blur of the live composite, see transitions"}
+  },
+  "worldLockSpec": {
+    "what": "Captions and glass UI are screen-locked: punch-out-settle / mcu-* scale only #plateWrap and #talentWrap (captions are not scaled). Exceptions that move the whole composite incl. captions: plate-wobble (AI world plates) and the 1-frame precut-pullback.",
+    "default": false
+  },
+  "textPresets": [
+    {
+      "id": "ember-type",
+      "use": "hook title line 1 over a busy world plate; the only gold text in the piece",
+      "unit": "letter",
+      "dir": "rtl",
+      "reflow": true,
+      "in": {
+        "from": {"opacity": 0, "blur": 12, "letterSpacing": "-0.45em"},
+        "to": {"opacity": 1, "blur": 0, "letterSpacing": "0.03em"},
+        "durationMs": 133,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 25
+      },
+      "start": {"anchor": "cut", "offsetMs": 133},
+      "hold": {"target": "units", "from": {"letterSpacing": "0.03em"}, "to": {"letterSpacing": "0em"}, "easing": "expo.out"},
+      "settle": {
+        "property": "letterSpacing",
+        "fromEm": 0.03,
+        "toEm": 0,
+        "durationMs": 433,
+        "easing": "cubic-bezier(0.2,0.7,0.3,1)",
+        "measured": "L1 width 403 -> 376 px(720) f21-33"
+      },
+      "holdMs": 2200,
+      "out": null,
+      "style": {"fontRole": "hook", "glow": {"color": "rgba(255,176,0,0.30)", "radiusPx": 45, "strength": 1}, "shadow": null},
+      "position": {"anchor": "center", "xPct": 52.0, "yPct": 17.2, "align": "center"},
+      "layer": "front"
+    },
+    {
+      "id": "ember-words",
+      "use": "hook title line 2 (same gradient band as line 1), right-anchored, no drift",
+      "unit": "word",
+      "dir": "rtl",
+      "reflow": false,
+      "in": {
+        "from": {"opacity": 0, "blur": 9},
+        "to": {"opacity": 1, "blur": 0},
+        "durationMs": 333,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 100
+      },
+      "start": {"anchor": "prevLine", "offsetMs": 67},
+      "holdMs": 1700,
+      "out": null,
+      "style": {"fontRole": "hook", "glow": {"color": "rgba(255,176,0,0.30)", "radiusPx": 45, "strength": 1}},
+      "position": {"anchor": "right", "xPct": 79.0, "yPct": 22.4, "align": "right"},
+      "layer": "front"
+    },
+    {
+      "id": "blur-type",
+      "use": "default bold hero line (MCU chest band or wide top band); typed with live reflow",
+      "unit": "letter",
+      "dir": "rtl",
+      "reflow": true,
+      "in": {
+        "from": {"opacity": 0, "blur": 12, "letterSpacing": "-0.5em"},
+        "to": {"opacity": 1, "blur": 0, "letterSpacing": "0.03em"},
+        "durationMs": 167,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 50,
+        "staggerRangeMs": [24, 67]
+      },
+      "start": {"anchor": "cut", "offsetMs": [33, 200]},
+      "hold": {"target": "units", "from": {"letterSpacing": "0.03em"}, "to": {"letterSpacing": "0em"}, "easing": "expo.out"},
+      "settle": {
+        "property": "letterSpacing",
+        "fromEm": 0.03,
+        "toEm": 0,
+        "durationMs": 400,
+        "easing": "cubic-bezier(0.2,0.7,0.3,1)",
+        "measured": "كل فكرة 268->249 px(720) f325-337; حتى تشوف 505->487 f432-447"
+      },
+      "optionalRise": {
+        "from": {"y": 66},
+        "to": {"y": 0},
+        "durationMs": 400,
+        "easing": "cubic-bezier(0.2,0.7,0.3,1)",
+        "note": "seen once (كل فكرة f318-330, 44 px at 720)"
+      },
+      "holdMs": 1750,
+      "out": null,
+      "style": {"fontRole": "hero", "color": "#FFFFFF", "glow": null, "shadow": null},
+      "position": {"anchor": "center", "xPct": 52.4, "yPct": 50.4, "align": "center"},
+      "variants": {
+        "mcuChestLine1": {"xPct": 52.4, "yPct": 50.4, "fontRole": "hero"},
+        "wideTopLine1": {"xPct": 52.2, "yPct": 15.3, "fontRole": "heroWide"}
+      },
+      "layer": "front"
+    },
+    {
+      "id": "blur-type-thin",
+      "use": "hairline support line under/beside the hero; carries the kashida",
+      "unit": "letter",
+      "dir": "rtl",
+      "reflow": true,
+      "in": {
+        "from": {"opacity": 0, "blur": 9, "letterSpacing": "-0.5em"},
+        "to": {"opacity": 1, "blur": 0, "letterSpacing": "0.03em"},
+        "durationMs": 100,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 50,
+        "staggerRangeMs": [40, 67]
+      },
+      "start": {"anchor": "heroDone", "offsetMs": [100, 300]},
+      "hold": {"target": "units", "from": {"letterSpacing": "0.03em"}, "to": {"letterSpacing": "0em"}, "easing": "expo.out"},
+      "kashida": {
+        "typedAs": "repeated U+0640, one unit per tatweel",
+        "dashedWhileTyping": true,
+        "closesWithSettle": true,
+        "measured": "كدامـــك dashed ~10 px segments f444-448, solid by f460"
+      },
+      "holdMs": 1500,
+      "out": null,
+      "style": {"fontRole": "support", "color": "#FFFFFF", "opacity": 1, "glow": null},
+      "position": {"anchor": "center", "xPct": 50.3, "yPct": 55.3, "align": "center"},
+      "variants": {
+        "mcuChestLine2": {"xPct": 50.3, "yPct": 55.3, "fontRole": "support"},
+        "wideTopLine2": {"xPct": 51.9, "yPct": 23.7, "fontRole": "supportWide"}
+      },
+      "layer": "front"
+    },
+    {
+      "id": "glyph-pop",
+      "use": "single giant word in a lockup (لأن); glyphs pop from baseline-right while the plate settles",
+      "unit": "letter",
+      "dir": "rtl",
+      "reflow": false,
+      "in": {
+        "from": {"scale": 0.19, "y": -33, "transformOrigin": "100% 85%"},
+        "to": {"scale": 1, "y": 0, "transformOrigin": "100% 85%"},
+        "durationMs": 300,
+        "easing": "cubic-bezier(0.16,1,0.3,1)",
+        "staggerMs": 233
+      },
+      "start": {"anchor": "cut", "offsetMs": 33},
+      "hold": {"target": "el", "from": {"y": 0}, "to": {"y": 33}, "easing": "expo.out"},
+      "drift": {
+        "y": 33,
+        "durationMs": 433,
+        "easing": "cubic-bezier(0.2,0.7,0.3,1)",
+        "appliesTo": "whole lockup group",
+        "measured": "22 px(720) f208-221"
+      },
+      "holdMs": 3100,
+      "out": {"note": "1-frame pre-cut pull-back with the whole composite, then hard cut"},
+      "style": {
+        "fontRole": "giant",
+        "color": "#FFFFFF",
+        "glow": {"color": "rgba(255,255,255,0.10)", "radiusPx": 22, "strength": 1}
+      },
+      "position": {"anchor": "right", "xPct": 76.5, "yPct": 14.8, "align": "right"},
+      "layer": "front"
+    },
+    {
+      "id": "lockup-thin",
+      "use": "two stacked hairline words left of the giant word (top aligned to its cap, bottom to its baseline); kashida sets both to equal width",
+      "unit": "letter",
+      "dir": "rtl",
+      "reflow": false,
+      "in": {
+        "from": {"opacity": 0, "blur": 6},
+        "to": {"opacity": 1, "blur": 0},
+        "durationMs": 100,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 50
+      },
+      "start": {"anchor": "cut", "offsetMs": 300},
+      "hold": {"target": "el", "from": {"y": 0}, "to": {"y": 33}, "easing": "expo.out"},
+      "holdMs": 2800,
+      "out": null,
+      "style": {"fontRole": "lockupThin", "color": "#FFFFFF"},
+      "position": {"anchor": "right", "xPct": 50.4, "yPct": 11.7, "align": "right"},
+      "variants": {"upper": {"xPct": 50.4, "yPct": 11.7}, "lower": {"xPct": 50.1, "yPct": 17.8}},
+      "layer": "front"
+    },
+    {
+      "id": "kashida-rule-word",
+      "use": "thin word whose long kashida (up to 44% W) becomes a horizontal rule running into an illustration",
+      "unit": "none",
+      "dir": "rtl",
+      "reflow": false,
+      "in": {
+        "from": {"opacity": 0.25, "blur": 9},
+        "to": {"opacity": 1, "blur": 0},
+        "durationMs": 233,
+        "easing": "cubic-bezier(0.2,0.7,0.3,1)",
+        "staggerMs": 0
+      },
+      "start": {"anchor": "cut", "offsetMs": 433},
+      "holdMs": 2800,
+      "out": null,
+      "style": {"fontRole": "lockupThin", "color": "#FFFFFF"},
+      "position": {"anchor": "right", "xPct": 78.1, "yPct": 23.7, "align": "right"},
+      "layer": "front",
+      "kashida": {"count": 45, "ruleLengthPx": 473, "ruleThicknessPx": 6}
+    },
+    {
+      "id": "glow-sweep",
+      "use": "the turn word (بـــس / 'but'); each glyph lands hot-yellow with a halo and cools to white",
+      "unit": "letter",
+      "dir": "rtl",
+      "reflow": false,
+      "in": {
+        "from": {
+          "opacity": 0,
+          "blur": 12,
+          "color": "#FAD01E",
+          "textShadow": "0 0 6px rgba(255,245,92,1), 0 0 24px rgba(250,208,30,0.9)"
+        },
+        "to": {
+          "opacity": 1,
+          "blur": 0,
+          "color": "#FFFFFF",
+          "textShadow": "0 0 6px rgba(255,245,92,0), 0 0 24px rgba(250,208,30,0)"
+        },
+        "durationMs": 333,
+        "easing": "cubic-bezier(0.25,0.6,0.4,1)",
+        "staggerMs": 67
+      },
+      "start": {"anchor": "cut", "offsetMs": 333},
+      "holdMs": 2600,
+      "out": null,
+      "style": {"fontRole": "hero", "sizePx": 123, "color": "#FFFFFF"},
+      "position": {"anchor": "center", "xPct": 52.4, "yPct": 50.6, "align": "center"},
+      "layer": "front",
+      "kashida": {"count": 6}
+    },
+    {
+      "id": "latin-letter-fade",
+      "use": "Latin brand wordmark (MAX); letters fade in place L->R, no motion",
+      "unit": "letter",
+      "dir": "ltr",
+      "reflow": false,
+      "in": {
+        "from": {"opacity": 0},
+        "to": {"opacity": 1},
+        "durationMs": 283,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 267
+      },
+      "holdMs": 1500,
+      "out": null,
+      "style": {"fontRole": "latinWordmark"},
+      "position": {"anchor": "center", "xPct": 51.8, "yPct": 57.5, "align": "center"},
+      "layer": "front"
+    },
+    {
+      "id": "latin-letter-fade-fast",
+      "use": "Latin tagline under the wordmark (ACADEMY); starts 400 ms after the wordmark",
+      "unit": "letter",
+      "dir": "ltr",
+      "reflow": false,
+      "in": {
+        "from": {"opacity": 0},
+        "to": {"opacity": 1},
+        "durationMs": 117,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 117
+      },
+      "holdMs": 1000,
+      "out": null,
+      "style": {"fontRole": "latinTagline"},
+      "position": {"anchor": "center", "xPct": 51.9, "yPct": 61.7, "align": "center"},
+      "layer": "front"
+    },
+    {
+      "id": "micro-tracked-reverse",
+      "use": "tiny tracked Latin subtitle under a name (Chemistry); revealed from the END of the word",
+      "unit": "letter",
+      "dir": "ltr",
+      "reflow": false,
+      "in": {
+        "from": {"opacity": 0},
+        "to": {"opacity": 1},
+        "durationMs": 133,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 133,
+        "staggerFrom": "end"
+      },
+      "holdMs": 1000,
+      "out": null,
+      "style": {"fontRole": "latinMicro"},
+      "position": {"anchor": "center", "xPct": 40.9, "yPct": 74.9, "align": "center"},
+      "layer": "front"
+    },
+    {
+      "id": "wipe-reveal-reverse",
+      "use": "name inside the name-tag capsule; soft wipe AGAINST reading direction (Arabic revealed from the left = string end)",
+      "unit": "none",
+      "dir": "rtl",
+      "reflow": false,
+      "in": {
+        "from": {"clip": "inset(-20% 100% -20% 0)"},
+        "to": {"clip": "inset(-20% 0% -20% 0)"},
+        "durationMs": 800,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 0,
+        "featherPx": 15
+      },
+      "holdMs": 1700,
+      "out": null,
+      "style": {"fontRole": "pillBold"},
+      "position": {"anchor": "center", "xPct": 41.9, "yPct": 72.0, "align": "center"},
+      "layer": "front"
+    },
+    {
+      "id": "pill-type",
+      "use": "bold line inside a glass/smoked pill; starts 67 ms after its pill lands",
+      "unit": "letter",
+      "dir": "rtl",
+      "reflow": true,
+      "in": {
+        "from": {"opacity": 0, "blur": 9, "letterSpacing": "-0.5em"},
+        "to": {"opacity": 1, "blur": 0, "letterSpacing": "0.03em"},
+        "durationMs": 133,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 40
+      },
+      "hold": {"target": "units", "from": {"letterSpacing": "0.03em"}, "to": {"letterSpacing": "0em"}, "easing": "expo.out"},
+      "holdMs": 1500,
+      "out": null,
+      "style": {"fontRole": "pillBold", "color": "#FFFFFF"},
+      "position": {"anchor": "center", "xPct": 51.0, "yPct": 61.6, "align": "center"},
+      "layer": "front"
+    },
+    {
+      "id": "pill-type-thin",
+      "use": "thin second line inside/over the lower edge of a pill",
+      "unit": "letter",
+      "dir": "rtl",
+      "reflow": true,
+      "in": {
+        "from": {"opacity": 0, "blur": 9, "letterSpacing": "-0.5em"},
+        "to": {"opacity": 1, "blur": 0, "letterSpacing": "0em"},
+        "durationMs": 133,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 67
+      },
+      "holdMs": 1300,
+      "out": null,
+      "style": {"fontRole": "pillThin", "color": "#FFFFFF"},
+      "position": {"anchor": "center", "xPct": 50.3, "yPct": 65.5, "align": "center"},
+      "layer": "front"
+    },
+    {
+      "id": "pill-sweep",
+      "use": "two small lines inside the final CTA pill; fast soft R->L opacity sweep, no blur",
+      "unit": "letter",
+      "dir": "rtl",
+      "reflow": false,
+      "in": {
+        "from": {"opacity": 0},
+        "to": {"opacity": 1},
+        "durationMs": 367,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 12
+      },
+      "holdMs": 2500,
+      "out": null,
+      "style": {"fontRole": "pillSmall", "color": "#FFFFFF"},
+      "position": {"anchor": "center", "xPct": 50.6, "yPct": 53.9, "align": "center"},
+      "variants": {
+        "line1": {"xPct": 50.6, "yPct": 53.9, "fontRole": "pillSmall"},
+        "line2": {"xPct": 50.7, "yPct": 56.4, "fontRole": "pillSubDark", "delayMs": 333}
+      },
+      "layer": "front"
+    },
+    {
+      "id": "ink-up",
+      "use": "right-anchored bold title in a static closing shot; no drift; swapped out with a reverse type-off",
+      "unit": "letter",
+      "dir": "rtl",
+      "reflow": false,
+      "in": {
+        "from": {"opacity": 0, "blur": 9, "brightness": 0.4},
+        "to": {"opacity": 1, "blur": 0, "brightness": 1},
+        "durationMs": 267,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 33
+      },
+      "start": {"anchor": "cut", "offsetMs": 33},
+      "holdMs": 1000,
+      "out": {
+        "to": {"opacity": 0, "blur": 9},
+        "durationMs": 100,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 67,
+        "staggerFrom": "end",
+        "note": "reverse type-off: last glyph first, stacked lines erase together, ~667 ms for 10 glyphs"
+      },
+      "style": {"fontRole": "heroMid", "color": "#FFFFFF"},
+      "position": {"anchor": "right", "xPct": 70.0, "yPct": 18.8, "align": "right"},
+      "layer": "front"
+    },
+    {
+      "id": "ink-up-thin",
+      "use": "thin sub-line under ink-up (name + praise word)",
+      "unit": "letter",
+      "dir": "rtl",
+      "reflow": false,
+      "in": {
+        "from": {"opacity": 0, "blur": 6},
+        "to": {"opacity": 1, "blur": 0},
+        "durationMs": 133,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 50
+      },
+      "start": {"anchor": "prevLine", "offsetMs": 133},
+      "holdMs": 300,
+      "out": {
+        "to": {"opacity": 0, "blur": 9},
+        "durationMs": 100,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 67,
+        "staggerFrom": "end"
+      },
+      "style": {"fontRole": "supportSmall", "color": "#FFFFFF"},
+      "position": {"anchor": "right", "xPct": 68.6, "yPct": 23.9, "align": "right"},
+      "layer": "front"
+    },
+    {
+      "id": "orange-3d-type",
+      "use": "single orange extruded word on the B&W interrupt (the only colour in frame); emerges from under the smoked pill",
+      "unit": "letter",
+      "dir": "rtl",
+      "reflow": true,
+      "in": {
+        "from": {"opacity": 0, "blur": 12, "letterSpacing": "-0.5em"},
+        "to": {"opacity": 1, "blur": 0, "letterSpacing": "0em"},
+        "durationMs": 167,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 80
+      },
+      "start": {"anchor": "pill", "offsetMs": 333},
+      "holdMs": 100,
+      "out": {"note": "hard cut releases the interrupt 3 frames after the word completes"},
+      "style": {"fontRole": "payoff3d"},
+      "position": {"anchor": "center", "xPct": 50.6, "yPct": 60.2, "align": "center"},
+      "layer": "front",
+      "zOrder": "below the smoked pill (its ascenders tuck under the pill's bottom edge), above the B&W adjustment"
+    },
+    {
+      "id": "hero-glow-reveal",
+      "use": "final payoff word; ice-chrome fill with cyan rim and bloom, revealed R->L then held to the end",
+      "unit": "letter",
+      "dir": "rtl",
+      "reflow": false,
+      "in": {
+        "from": {"opacity": 0},
+        "to": {"opacity": 1},
+        "durationMs": 367,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 50
+      },
+      "start": {"anchor": "phrase", "offsetMs": -267},
+      "glowBloom": {"fromAlpha": 0, "toAlpha": 1, "delayMs": 233, "durationMs": 333, "easing": "cubic-bezier(0.2,0.7,0.3,1)"},
+      "holdMs": 1267,
+      "out": null,
+      "style": {"fontRole": "payoffChrome"},
+      "position": {"anchor": "center", "xPct": 49.9, "yPct": 20.5, "align": "center"},
+      "layer": "front",
+      "zOrder": "above lens rings (not refracted)"
+    }
+  ],
+  "graphicComponents": [
+    {
+      "id": "glass-ring-pop",
+      "use": "turn/brand beat opener: two glass torus rings pop on a damped spring, then morph into capsules",
+      "build": {
+        "outerDiameterPx": 155,
+        "bandWidthPx": 30,
+        "fill": "rgba(255,255,255,0.18)",
+        "backdropBlurPx": 4.5,
+        "rimInner": "1.5px rgba(255,255,255,0.60)",
+        "rimOuter": "1.5px rgba(255,255,255,0.60)",
+        "rimHighlight": "top-left arc +25% brighter",
+        "instances": [
+          {"cxPct": 17.9, "cyPct": 15.4, "diameterPx": 155},
+          {"cxPct": 72.2, "cyPct": 72.3, "diameterPx": 195, "delayMs": 67}
+        ]
+      },
+      "in": {
+        "type": "keyframes",
+        "prop": "scale",
+        "keyframes": [
+          {"tMs": 0, "scale": 0.117},
+          {"tMs": 67, "scale": 0.476},
+          {"tMs": 133, "scale": 0.903},
+          {"tMs": 200, "scale": 1.058},
+          {"tMs": 267, "scale": 1.087},
+          {"tMs": 433, "scale": 0.903},
+          {"tMs": 600, "scale": 0.99},
+          {"tMs": 733, "scale": 1.0}
+        ],
+        "durationMs": 733,
+        "gsapApprox": "elastic.out(1,0.5)"
+      },
+      "start": {"anchor": "cut", "offsetMs": 67},
+      "loop": null,
+      "out": {"type": "morph", "to": "nametag-capsule / echo-capsule"},
+      "layer": "front"
+    },
+    {
+      "id": "nametag-capsule",
+      "use": "name + discipline tag with CTA button; grows out of a glass ring",
+      "build": {
+        "outer": {
+          "widthPx": 852,
+          "heightPx": 177,
+          "radiusPx": 88.5,
+          "fill": "rgba(255,255,255,0.08)",
+          "backdropBlurPx": 6,
+          "rim": "1.5px rgba(255,255,255,0.40)",
+          "rimTopBoost": "rgba(255,255,255,0.65)"
+        },
+        "innerField": {
+          "leftInsetPx": 27,
+          "widthPx": 561,
+          "heightPx": 130,
+          "radiusPx": 65,
+          "fill": "rgba(0,0,0,0.30)",
+          "rim": "1.5px rgba(255,255,255,0.30)"
+        },
+        "button": {"component": "cta-button", "arrow": "↖", "centreFromRightEdgePx": 92},
+        "centrePct": [51.9, 72.3]
+      },
+      "in": {
+        "type": "ringStretch",
+        "leftEdgeTravelPx": 549,
+        "durationMs": 533,
+        "easing": "cubic-bezier(0.4,0,0.2,1)",
+        "buttonPopDelayMs": 167,
+        "textDelayMs": 533
+      },
+      "start": {"anchor": "ring", "offsetMs": 600},
+      "loop": null,
+      "out": {"type": "hardCut"},
+      "layer": "front",
+      "note": "hands must stay visible (frosted) through the glass; inner field edge draws over fingers"
+    },
+    {
+      "id": "echo-capsule",
+      "use": "decorative blurred duplicate of the name tag, cropped by the frame edge, top-left",
+      "build": {
+        "scale": 0.95,
+        "blurPx": 4.5,
+        "heightPx": 160,
+        "cropLeft": true,
+        "centreYPct": 15.4,
+        "truncatedText": "اسـ",
+        "button": {"component": "cta-button", "arrow": "↖", "ringDiameterPx": 82}
+      },
+      "in": {
+        "type": "ringStretchOffscreen",
+        "durationMs": 200,
+        "easing": "cubic-bezier(0.4,0,0.2,1)",
+        "buttonPop": {"durationMs": 233, "easing": "cubic-bezier(0.34,1.56,0.64,1)"}
+      },
+      "loop": {"buttonDriftXPx": 84, "durationMs": 2400, "easing": "cubic-bezier(0.2,0.7,0.3,1)"},
+      "out": {"type": "hardCut"},
+      "layer": "front"
+    },
+    {
+      "id": "cta-button",
+      "use": "round arrow button in every capsule",
+      "build": {
+        "discDiameterPx": 123,
+        "discFill": "#1B1D21",
+        "discOpacity": 0.85,
+        "discRim": "1.5px rgba(255,255,255,0.50)",
+        "glassRingDiameterPx": 135,
+        "glassRingStroke": "1.5px rgba(255,255,255,0.35)",
+        "ringDiameterPx": 84,
+        "ringStrokePx": 4.5,
+        "ringColor": "#DAD530",
+        "arrowLengthPx": 39,
+        "arrowStrokePx": 5,
+        "arrowCaps": "round",
+        "arrowColor": "#DAD530",
+        "variants": {
+          "nametag": {"arrow": "↖", "discFill": "#1B1D21", "ringColor": "#DAD530"},
+          "finalCta": {
+            "arrow": "↗",
+            "discFill": "#511B02",
+            "discDiameterPx": 75,
+            "ringDiameterPx": 57,
+            "ringColor": "#FAD635",
+            "glassRingColor": "#A97354"
+          }
+        }
+      },
+      "in": {
+        "from": {"scale": 0, "opacity": 1},
+        "to": {"scale": 1},
+        "durationMs": 233,
+        "easing": "cubic-bezier(0.34,1.56,0.64,1)"
+      },
+      "loop": null,
+      "out": {"type": "withParent"},
+      "layer": "front"
+    },
+    {
+      "id": "glass-pill-clear",
+      "use": "clear frosted stadium behind a key line (brand lockup, 3rd/4th line of a chest stack)",
+      "build": {
+        "variants": {
+          "brand": {"widthPx": 729, "heightPx": 240, "radiusPx": 120, "centrePct": [51.7, 59.1]},
+          "chest": {"widthPx": 591, "heightPx": 189, "radiusPx": 94.5, "centrePct": [50.0, 63.3]}
+        },
+        "fill": "rgba(255,255,255,0.03)",
+        "backdropBlurPx": 7.5,
+        "rim": "1.5px rgba(255,255,255,0.35)",
+        "rimTop": "rgba(255,255,255,0.55)",
+        "shadow": null
+      },
+      "in": {
+        "from": {"scaleX": 0.6, "opacity": 0},
+        "to": {"scaleX": 1, "opacity": 1},
+        "durationMs": 150,
+        "easing": "cubic-bezier(0.2,0.8,0.2,1)",
+        "textStartsAfterMs": 67
+      },
+      "loop": null,
+      "out": {"type": "hardCut"},
+      "layer": "front"
+    },
+    {
+      "id": "smoked-pill-autosize",
+      "use": "dark capsule holding the contrast line on the B&W interrupt; width tracks the typed text",
+      "build": {
+        "heightPx": 183,
+        "radiusPx": 91.5,
+        "paddingXPx": 82,
+        "finalWidthPx": 575,
+        "fill": "rgba(0,0,0,0.30)",
+        "rim": "1.5px rgba(255,255,255,0.15)",
+        "rimHighlight": "top-left",
+        "backdropBlurPx": 0,
+        "centrePct": [49.9, 50.1]
+      },
+      "in": {
+        "from": {"opacity": 0, "widthPx": 375},
+        "to": {"opacity": 1},
+        "durationMs": 100,
+        "widthFollowsTextMs": 500,
+        "growth": "symmetric about centre",
+        "easing": "cubic-bezier(0,0,1,1)"
+      },
+      "start": {"anchor": "interrupt", "offsetMs": 233},
+      "loop": null,
+      "out": {"type": "hardCut"},
+      "layer": "front"
+    },
+    {
+      "id": "lens-disc-slide",
+      "use": "huge refractive glass disc rising from the bottom-right corner in front of the talent (detail beat)",
+      "build": {
+        "radiusPx": 486,
+        "radiusEndPx": 507,
+        "rim": "2.5px rgba(255,255,255,0.75)",
+        "interior": {"magnify": 1.2, "blurPx": 7.5, "tint": null},
+        "centreStartPct": [104, 108],
+        "centreLandPct": [87.9, 98.4],
+        "centreEndPct": [83.7, 98.0]
+      },
+      "in": {
+        "travelPx": 300,
+        "direction": "up-left diagonal from off-screen",
+        "durationMs": 367,
+        "easing": "cubic-bezier(0.16,1,0.3,1)"
+      },
+      "start": {"anchor": "heroLine", "offsetMs": 333},
+      "loop": {"dxPerFramePx": -0.62, "dRadiusPerFramePx": 0.29, "easing": "linear", "until": "cut"},
+      "out": {"type": "hardCut"},
+      "layer": "front"
+    },
+    {
+      "id": "lens-ring-pair",
+      "use": "two thin refractive circles anchored off-frame at opposite corners in the closing shot; they bend the earlier caption",
+      "build": {
+        "radiusPx": 428.5,
+        "strokePx": 3.5,
+        "stroke": "rgba(255,255,255,0.37)",
+        "interior": {"displacePx": [-38, -98], "blurPx": 4.5, "tint": "warm, dims text ~30%"},
+        "centresPx": {"topLeft": [28, 409], "bottomRight": [1087, 1539]},
+        "centresPct": {"topLeft": [2.6, 21.3], "bottomRight": [100.6, 80.2]}
+      },
+      "in": {
+        "from": {"cxOffsetPx": -207, "scale": 0.77},
+        "to": {"cxOffsetPx": -37, "scale": 0.96},
+        "durationMs": 400,
+        "easing": "cubic-bezier(0.16,1,0.3,1)",
+        "mirroredForBottomRight": true
+      },
+      "start": {"anchor": "cut", "offsetMs": 567},
+      "loop": {"durationMs": 1067, "dxPerFramePx": 1.0, "dRadiusPerFramePx": 0.47, "easing": "linear", "thenStatic": true},
+      "out": {"type": "holdToEnd", "note": "none (held to end)"},
+      "layer": "front",
+      "zOrder": "above earlier captions (refracts them), below the payoff word"
+    },
+    {
+      "id": "glass-bead-capsule",
+      "use": "final CTA: a glass bead pops on the talent's waist, stretches into an orange-frosted capsule, button + two lines arrive",
+      "build": {
+        "bead": {
+          "diameterPx": 119,
+          "rim": "2px rgba(255,255,255,0.70)",
+          "interior": {"magnify": 1.25},
+          "startCentrePct": [38.6, 54.9]
+        },
+        "capsule": {
+          "widthPx": 491,
+          "heightPx": 110,
+          "radiusPx": 55,
+          "fill": "#854219",
+          "tint": "rgba(126,62,30,0.55)",
+          "backdropBlurPx": 6,
+          "topHighlight": "#985936",
+          "bottomRimGlow": "#AE6D4C",
+          "overLightWardrobe": "#CBBEB9",
+          "rim": "1.5px rgba(255,255,255,0.40)",
+          "centrePct": [48.5, 55.0]
+        },
+        "button": {"component": "cta-button", "variant": "finalCta", "side": "left", "centrePct": [30.8, 54.8]}
+      },
+      "in": {
+        "steps": [
+          {
+            "what": "bead pop",
+            "from": {"diameterPx": 12},
+            "to": {"diameterPx": 119},
+            "durationMs": 133,
+            "easing": "cubic-bezier(0.34,1.56,0.64,1)"
+          },
+          {"what": "bead hold/drift", "durationMs": 200},
+          {
+            "what": "stretch right (left cap fixed)",
+            "from": {"widthPx": 119},
+            "to": {"widthPx": 491},
+            "durationMs": 733,
+            "easing": "cubic-bezier(0.4,0,0.2,1)"
+          },
+          {"what": "orange tint fill", "atMsFromStretch": 333, "durationMs": 200},
+          {
+            "what": "button pop",
+            "atMsFromStretch": 400,
+            "durationMs": 333,
+            "easing": "cubic-bezier(0.34,1.56,0.64,1)"
+          },
+          {"what": "line 1 pill-sweep", "atMsFromStretch": 1100},
+          {"what": "line 2 pill-sweep", "atMsFromStretch": 1433}
+        ]
+      },
+      "start": {"anchor": "cut", "offsetMs": 567},
+      "loop": null,
+      "out": {"type": "holdToEnd", "note": "none (held to end)"},
+      "layer": "front"
+    },
+    {
+      "id": "badge-ribbon",
+      "use": "hook world shot: curved 3D band of capsule badges wrapping around the talent (depth sandwich)",
+      "build": {
+        "asset": "PNG pair: ribbon_back.png (behind talent) + ribbon_front.png (in front of legs)",
+        "bandHeightPx": 345,
+        "badgeBackPx": [165, 255],
+        "badgeFrontPx": [300, 495],
+        "bandFill": "#2B1610",
+        "frontFill": "#49231F",
+        "badgeRim": "linear-gradient(180deg,#9A5532,#B66F43) 3-4.5px",
+        "icon": "#B3A4A1 line art 3-4.5px",
+        "blurBackPx": 3,
+        "blurFrontPx": 13.5,
+        "backArcRegionPct": {"x": [0, 35], "y": [36, 55]},
+        "frontArcRegionPct": {"x": [0, 100], "y": [70, 100]}
+      },
+      "in": {
+        "steps": [
+          {
+            "what": "back slab swings open from edge-on at x 26.3% W",
+            "durationMs": 467,
+            "easing": "cubic-bezier(0.2,0.7,0.3,1)",
+            "atMs": 200
+          },
+          {
+            "what": "front band rises from bottom",
+            "durationMs": 400,
+            "easing": "cubic-bezier(0.2,0.7,0.3,1)",
+            "atMs": 267
+          },
+          {"what": "card outlines fade to 40%", "durationMs": 133, "atMs": 800},
+          {"what": "icons fade, nearest first", "durationMs": 200, "staggerMs": 83, "atMs": 1000}
+        ]
+      },
+      "loop": {"type": "plate wobble with the composite"},
+      "out": {"type": "hardCut"},
+      "layer": "behind+front"
+    },
+    {
+      "id": "glass-molecule",
+      "use": "floating cyan glass molecule in the method world shot; receives the kashida rule",
+      "build": {
+        "asset": "PNG/sequence with alpha",
+        "boxPx": [315, 330],
+        "regionPct": {"x": [2.8, 32], "y": [14.8, 30.5]},
+        "glass": "#6DB1B7",
+        "highlight": "#83C5CF",
+        "specular": "#FFF6E6",
+        "glowPx": 12
+      },
+      "in": {"type": "cut-in with plate"},
+      "loop": {"rotateDegPerSec": 6.9, "direction": "clockwise", "floatPx": 6},
+      "out": {"type": "hardCut"},
+      "layer": "front",
+      "note": "does not overlap the talent"
+    },
+    {
+      "id": "foreground-flask-fog",
+      "use": "giant translucent flask of glowing teal liquid + teal fog in front of the talent (depth sandwich)",
+      "build": {
+        "asset": "flask PNG with alpha (glass mostly transparent, legs read through it)",
+        "flaskBoxPx": {"x": [0, 555], "y": [885, 1920]},
+        "liquidSurfaceYPx": 1418,
+        "liquid": ["#73ECF1", "#009898", "#01DDD6"],
+        "glassRim": "#FAE6D9 3-6px",
+        "fog": {"regionPx": {"x": [645, 1080], "y": [1230, 1920]}, "color": ["#61C2C7", "#73E8EB"], "opacity": [0.4, 0.7]}
+      },
+      "in": {"type": "cut-in with plate"},
+      "loop": {"fogDrift": "slow, <0.5 Hz", "liquidBubbles": true},
+      "out": {"type": "hardCut"},
+      "layer": "front"
+    },
+    {
+      "id": "clay-ui-card",
+      "use": "tone-on-tone orange 3D UI card floating behind the talent in an MCU (topic label)",
+      "build": {
+        "asset": "PNG/3D render",
+        "regionPx": {"x": [758, 1080], "y": [225, 675]},
+        "yawDeg": 32,
+        "cornerRadiusPx": 33,
+        "extrusionPx": 20,
+        "face": "#652601",
+        "side": "#5B2100",
+        "label": {"color": "#3A1500", "sizePx": 36, "treatment": "debossed"},
+        "buttons": {"color": "#090200", "sizePx": [210, 68]},
+        "blurPx": 3
+      },
+      "in": {
+        "from": {"rotateY": 80},
+        "to": {"rotateY": 0},
+        "durationMs": 800,
+        "easing": "cubic-bezier(0.2,0.7,0.3,1)",
+        "atMs": 33
+      },
+      "loop": {
+        "labelTypeOnMs": 833,
+        "chipsInAtMs": 1400,
+        "chipsOutAtMs": 2900,
+        "finalSwingToCamera": {"scale": 1.4, "durationMs": 467, "easing": "ease-in-out", "endsAtCut": true}
+      },
+      "out": {"type": "hardCut"},
+      "layer": "behind"
+    },
+    {
+      "id": "hud-panels",
+      "use": "faint holographic dashboards baked into the corridor plate",
+      "build": {
+        "sizePx": [[225, 150], [285, 195]],
+        "radiusPx": 9,
+        "stroke": "1.5-2px #D7A67A at 55%",
+        "blurPx": 3,
+        "regionPct": {"left": [6, 28], "right": [74, 99], "y": [35, 59]}
+      },
+      "in": {"type": "part of plate"},
+      "loop": null,
+      "out": {"type": "hardCut"},
+      "layer": "bg"
+    }
+  ],
+  "cameraMoves": [
+    {
+      "id": "punch-out-settle",
+      "type": "scale",
+      "scaleFrom": 1.38,
+      "scaleTo": 1.0,
+      "durationMs": 567,
+      "durationF": 17,
+      "delayMs": 67,
+      "easing": "cubic-bezier(0.25,0,0.1,1)",
+      "focus": "face",
+      "appliesTo": ["plate", "talent"],
+      "appliesToNote": "plate+talent only (captions are not scaled)",
+      "motionBlur": "directional on the 2-3 fastest frames (frames 3-5 of the move)",
+      "trigger": "first frame of each new beat shot (ref shots 1,3,4,5); not on the brand MCU, the breather or the closing wide",
+      "measured": "S1 138.2%, S3 138.0%, S4 137.4%, S5 139.1%; 17 f; peak per-frame step 0.939 at f4->5"
+    },
+    {
+      "id": "mcu-digital-punch",
+      "type": "static",
+      "scaleFrom": 2.35,
+      "scaleTo": 2.35,
+      "durationMs": 0,
+      "durationF": 0,
+      "easing": "linear",
+      "focus": "face",
+      "framing": "eye line at 30-31% H, head top 17-20% H, shoulders fill width",
+      "trigger": "MCU shots cut from a single wide take (measured 2.27-2.47x)"
+    },
+    {
+      "id": "mcu-punch-settle",
+      "type": "scale",
+      "scaleFrom": 3.23,
+      "scaleTo": 2.35,
+      "durationMs": 567,
+      "durationF": 17,
+      "delayMs": 67,
+      "easing": "cubic-bezier(0.25,0,0.1,1)",
+      "focus": "face",
+      "trigger": "MCU beat shot made from a wide take; only with >=4K source"
+    },
+    {
+      "id": "reset-wide",
+      "type": "static",
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "durationMs": 0,
+      "durationF": 0,
+      "easing": "linear",
+      "focus": "face",
+      "trigger": "plain hard cut back to a locked-off wide"
+    },
+    {
+      "id": "precut-pullback",
+      "type": "scale",
+      "scaleFrom": 1.0,
+      "scaleTo": 0.961,
+      "durationMs": 33,
+      "durationF": 1,
+      "easing": "steps(1)",
+      "y": 26,
+      "focus": [0.5, 0.5],
+      "appliesTo": ["plate", "talent", "captions", "graphics"],
+      "appliesToNote": "whole composite incl. captions",
+      "trigger": "last frame before a zoom-through cut (used once)"
+    },
+    {
+      "id": "plate-wobble",
+      "type": "handheld",
+      "scaleFrom": 1.0,
+      "scaleTo": 1.0,
+      "durationMs": 1500,
+      "durationF": 45,
+      "easing": "sine.inOut",
+      "amplitudePx": 10,
+      "amplitudePx720": 7,
+      "appliesTo": ["plate", "talent", "captions", "graphics"],
+      "appliesToNote": "whole composite incl. captions",
+      "trigger": "AI world-plate shots only; studio shots are locked off"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "hard-cut",
+      "type": "cut",
+      "durationMs": 0,
+      "params": {
+        "placement": "inside a VO pause, 0-300 ms (0-9 f) before the next phrase onset",
+        "sfx": "none",
+        "overlays": "all captions of the outgoing shot drop on the cut"
+      }
+    },
+    {
+      "id": "cut-punch-settle",
+      "type": "cut+camera",
+      "durationMs": 633,
+      "params": {"camera": "punch-out-settle", "firstOverlayAfterCutMs": [33, 200]}
+    },
+    {
+      "id": "zoom-through",
+      "type": "cut+camera",
+      "durationMs": 667,
+      "params": {
+        "outgoing": "precut-pullback (1 frame at 96.1%)",
+        "incoming": "punch-out-settle from 137.4%",
+        "effectiveScaleJump": 1.43
+      }
+    },
+    {
+      "id": "bw-focus-interrupt",
+      "type": "in-shot adjustment",
+      "durationMs": 267,
+      "params": {
+        "blurPx": 13.5,
+        "blurPx720": 9,
+        "blurRamp": {"durationMs": 267, "easing": "cubic-bezier(0,0,1,1)"},
+        "saturateTo": 0.1,
+        "desatDelayMs": 67,
+        "desatDurationMs": 200,
+        "desatEasing": "cubic-bezier(0,0,1,1)",
+        "brightness": 1.0,
+        "appliesTo": "plate + talent + every earlier caption (they become grey ghosts)",
+        "holdMs": 1000,
+        "release": "hard cut to a sharp full-colour shot, no ramp back",
+        "leadsPhraseMs": 167
+      }
+    },
+    {
+      "id": "not-used",
+      "type": "none",
+      "durationMs": 0,
+      "params": {"list": ["whip pan", "flash frame", "dissolve", "light leak", "glitch", "speed ramp", "match cut"]}
+    }
+  ],
+  "pacing": {
+    "avgShotSec": 3.42,
+    "shotLengthsF": [88, 112, 107, 104, 91, 79, 137],
+    "shotLengthsSec": [2.93, 3.73, 3.57, 3.47, 3.03, 2.63, 4.57],
+    "shotsPer10s": 2.93,
+    "textEventsPer10s": 10.4,
+    "graphicEventsPer10s": 9,
+    "captionHoldMs": 1750,
+    "captionHoldMedianMs": 1670,
+    "captionHoldRangeMs": [100, 3133],
+    "captionBuildMs": [333, 667],
+    "stackCompleteAfterCutMs": [500, 1200],
+    "firstOverlayAfterCutMs": {"range": [33, 200]},
+    "maxWordsOnScreen": 7,
+    "maxWordsPerLine": 3,
+    "linesPerCard": [2, 4],
+    "textCoveragePct": 86,
+    "breathersMs": [2667],
+    "endHoldMs": 1267,
+    "shotPattern": ["wide-world", "mcu-studio", "wide-world", "mcu-studio", "wide-studio", "mcu-studio-clean", "wide-studio"]
+  },
+  "music": {
+    "present": true,
+    "bpm": 112.3,
+    "gainDbUnderVoice": -17,
+    "duck": false,
+    "character": "light stepping bass/pluck ostinato, no hits, drops or swells",
+    "beatLock": false
+  },
+  "sfxPolicy": "No whooshes, risers, impacts or pops on cuts or graphics. Speech drives timing. Only optional sparkle: paired ~8.36 kHz pings 300 ms apart on three reveals.",
+  "soundSpecs": {
+    "ping8k": {
+      "type": "sine ping",
+      "freqHz": 8360,
+      "durationMs": 60,
+      "envelope": "2 ms attack, exponential decay",
+      "pairSpacingMs": 300,
+      "confidence": "medium (spectrogram only; needs a listening check)"
+    }
+  },
+  "sfx": [
+    {
+      "event": "component_in",
+      "preset": "lens-disc-slide",
+      "sound": "tick",
+      "idealSound": "ping8k",
+      "offsetMs": -267,
+      "gainDb": -24
+    },
+    {
+      "event": "component_in",
+      "preset": "lens-disc-slide",
+      "sound": "tick",
+      "idealSound": "ping8k",
+      "offsetMs": 67,
+      "gainDb": -24
+    },
+    {
+      "event": "text_in",
+      "preset": "orange-3d-type",
+      "sound": "tick",
+      "idealSound": "ping8k",
+      "offsetMs": 217,
+      "gainDb": -24
+    },
+    {
+      "event": "text_in",
+      "preset": "orange-3d-type",
+      "sound": "tick",
+      "idealSound": "ping8k",
+      "offsetMs": 517,
+      "gainDb": -24
+    },
+    {
+      "event": "text_in",
+      "preset": "hero-glow-reveal",
+      "sound": "tick",
+      "idealSound": "ping8k",
+      "offsetMs": -173,
+      "gainDb": -24
+    },
+    {
+      "event": "text_in",
+      "preset": "hero-glow-reveal",
+      "sound": "tick",
+      "idealSound": "ping8k",
+      "offsetMs": 127,
+      "gainDb": -24
+    }
+  ],
+  "layout": {
+    "safe": {
+      "marginPct": {"top": 9.2, "bottom": 23.0, "left": 15.3, "right": 11.5},
+      "marginPx": {"top": 177, "bottom": 442, "left": 165, "right": 124},
+      "boxPx": {"x0": 165, "y0": 177, "x1": 956, "y1": 1478},
+      "note": "marginPct/marginPx = distance from each edge; boxPx = safe rectangle corners on the 1080x1920 canvas"
+    },
+    "zones": {
+      "wideTopBand": {
+        "yPct": [9.2, 26.5],
+        "xPct": [15.3, 88.5],
+        "blockCentreXPct": 52.0,
+        "slots": {
+          "line1": [52.2, 15.3],
+          "line2": [51.9, 23.7],
+          "hookL1": [52.0, 17.2],
+          "hookL2": [52.3, 22.4],
+          "payoff": [49.9, 20.5]
+        }
+      },
+      "wideFace": {"yPct": [27, 38], "rule": "no text"},
+      "giantLockup": {
+        "giantRightXPct": 76.5,
+        "giantCentreYPct": 14.8,
+        "thinUpper": [50.4, 11.7],
+        "thinLower": [50.1, 17.8],
+        "ruleBaselineYPct": 24.8,
+        "ruleXPct": [26.8, 78.1]
+      },
+      "mcuFace": {"yPct": [17, 40], "rule": "no text"},
+      "mcuChestBand": {
+        "yPct": [46, 77],
+        "xPct": [12.5, 91.4],
+        "slots": {
+          "line1": [52.4, 50.4],
+          "line2": [50.3, 55.3],
+          "pill": [50.0, 63.3],
+          "pillLine1": [51.0, 61.6],
+          "pillLine2": [50.3, 65.5],
+          "brandPill": [51.7, 59.1],
+          "nameTag": [51.9, 72.3],
+          "turnWord": [52.4, 50.6]
+        }
+      },
+      "waistCta": {"yPct": [52.1, 57.8], "xPct": [25.8, 71.3], "centre": [48.5, 55.0]},
+      "bwInterrupt": {"smokedPill": [49.9, 50.1], "accentWord": [50.6, 60.2]},
+      "cornerLenses": {"topLeftCentre": [2.6, 21.3], "bottomRightCentre": [100.6, 80.2], "radiusPctW": 39.7},
+      "talentWide": {"headTopYPct": [27, 28], "feetYPct": [93, 96], "bodyAxisXPct": [48.6, 52.1], "heightPctH": 68},
+      "talentMcu": {"headTopYPct": [17, 20], "eyeLineYPct": [30, 31], "chinYPct": 39}
+    },
+    "layerOrder": [
+      {"layer": "plateWrap", "contents": "studio backdrop or AI world plate (bg-replace)"},
+      {"layer": "behind", "contents": "behind-talent graphics: badge-ribbon back arc, clay-ui-card"},
+      {"layer": "talentWrap", "contents": "talent"},
+      {"layer": "front", "contents": "foreground props: badge-ribbon front arc (blur 13.5 px), flask, fog"},
+      {
+        "layer": "front",
+        "contents": "captions and glass UI (lens rings above old captions, payoff word above lens rings)"
+      },
+      {"layer": "fx", "contents": "mild vignette + top-right corner shade (disabled on bright AI plates)"}
+    ]
+  },
+  "director": {
+    "captionPreset": "blur-type",
+    "keywordPreset": "blur-type",
+    "subPreset": "blur-type-thin",
+    "maxWordsPerCaption": 3,
+    "punchInEveryNCaptions": 2,
+    "punchInPreset": "punch-out-settle"
+  },
+  "persistent": [],
+  "rules": {
+    "do": [
+      "Use IBM Plex Sans Arabic only, in two weights: 700 for heroes and pill lines, 200 for support lines (300 only for the tiny dark CTA subtitle).",
+      "Keep the hero 1.5-1.9x the support line; the payoff word is 156-163 px at 720 (234-245 px at 1080).",
+      "Type every caption glyph by glyph (blur 12->0 px, opacity 0->1, 100-167 ms per glyph, 25-67 ms stagger) with live reflow and a 400 ms tracking settle.",
+      "Default fill is flat #FFFFFF with no stroke or shadow; give exactly one word per section a special material (gold gradient, hot-yellow flash, orange 3D, ice chrome).",
+      "Stretch thin words with repeated tatweel so stacked thin words match widths; let one long kashida (up to 44% W) become a rule into an illustration.",
+      "Max 3 words per line, 2-4 lines per card, lines broken by meaning (hero / complement / pill line 1 / pill line 2).",
+      "Wide shots: text in the top band (9-26.5% H) above the head. MCU shots: text on the chest band (46-77% H) over the dark shirt.",
+      "Glass UI in front of the talent: stadium radius = height/2, 1.5 px white rim at 35-60% brightest on top, 4.5-9 px backdrop blur, clear / smoked 30% / orange-frosted fills.",
+      "Every capsule carries a round button: dark disc + thin glass ring + 4.5 px lime/yellow ring + arrow.",
+      "Open each new beat shot with the 138%->100% punch-out settle (567 ms, cubic-bezier(0.25,0,0.1,1)); start captions 1-6 frames after the cut.",
+      "Alternate wide and MCU strictly; alternate AI world plates (with props in front of and behind the talent) and the plain orange studio.",
+      "Cut only in VO pauses, 0-300 ms before the next phrase.",
+      "Use the B&W focus-pull interrupt once, for the 'not just X' contrast, then a 2.7 s clean MCU breather before the payoff.",
+      "End on a static 1.27 s hold of the payoff word with the CTA capsule and lens rings still on screen.",
+      "Grade: crushed blacks (p0.5 luma <=10), saturated red-orange backdrop (hue 16-24 deg), natural skin, teal wardrobe; teal/cyan reserved for props and the payoff glow."
+    ],
+    "dont": [
+      "Don't use Arabic weights 400-600, strokes, drop shadows on studio captions, or more than one accent colour per section.",
+      "Don't put text over the face (MCU 17-40% H, wide 27-38% H) or below 77% H.",
+      "Don't animate captions out except the reverse type-off inside a static closing shot; everything else leaves on a hard cut.",
+      "Don't add whooshes, risers, impacts, pops, flashes, light leaks, glitches, dissolves, whip pans or speed ramps.",
+      "Don't beat-sync cuts or reveals to the music; sync to speech.",
+      "Don't apply the vignette to bright AI-plate shots or to captions.",
+      "Don't loop anything faster than ~0.5 Hz; ambient motion is slow (molecule 6.9 deg/s, fog drift, wobble ~1.5 s period).",
+      "Don't add a logo end card or fade to black.",
+      "Don't scale captions with the camera settle; only the plate and talent move.",
+      "Don't use blue/purple accents; the only cold colour is teal/cyan."
+    ]
+  },
+  "residualUncertainty": [
+    "Hook size: width fit gives 42-43 px (720); alef-height estimate gives ~47 px. Use 43 (64 at 1080); +-8%.",
+    "supportWide (75 px at 720) sits between Plex 200 and 300 in stroke ratio; 200 chosen.",
+    "latinMicro colour #E8DE5C is an estimate (2 px strokes dominated by anti-aliasing).",
+    "supportSmall size (الاستاذ منجد جبار) estimated at 44 px (720) because the lens ring hides half of it.",
+    "ping8k SFX identified from the spectrogram only.",
+    "Lens disc off-screen start position and the badge-ribbon geometry are approximate (partly off-frame / defocused).",
+    "Pill backdrop blur (4-6 px at 720) is hard to separate from compression softness.",
+    "Chromium may suppress letter-spacing on cursive Arabic; if so, animate margin-inline-end on the letter spans for the reflow/settle effect."
   ]
- },
-
- "residualUncertainty": [
-  "Hook size: width fit gives 42-43 px (720); alef-height estimate gives ~47 px. Use 43 (64 at 1080); +-8%.",
-  "supportWide (75 px at 720) sits between Plex 200 and 300 in stroke ratio; 200 chosen.",
-  "latinMicro colour #E8DE5C is an estimate (2 px strokes dominated by anti-aliasing).",
-  "supportSmall size (الاستاذ منجد جبار) estimated at 44 px (720) because the lens ring hides half of it.",
-  "ping8k SFX identified from the spectrogram only.",
-  "Lens disc off-screen start position and the badge-ribbon geometry are approximate (partly off-frame / defocused).",
-  "Pill backdrop blur (4-6 px at 720) is hard to separate from compression softness.",
-  "Chromium may suppress letter-spacing on cursive Arabic; if so, animate margin-inline-end on the letter spans for the reflow/settle effect."
- ]
 }

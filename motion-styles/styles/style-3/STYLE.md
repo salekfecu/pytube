@@ -294,10 +294,10 @@ vignette=angle=PI/3.2:x0=w/2:y0=h*0.42
 
 | Set | Reference | How it was made | How to fake it for new footage |
 |---|---|---|---|
-| **Red studio, wide** | 5.36-8.64, 10.36-11.72, 18-21.08, 23.96-27.36 s | real red seamless wall and floor; real contact shadows (24.10 s); black chair | Keep a real red set if you have one. Otherwise use `bg-replace` with `backgrounds.redStudioWide.gradient`, fitted to the f604 40th-percentile grid: rows 5-95% H = R 32/56/72/83/86/78/66/63/60/42, left side 10-25 levels darker in the top half, hot spot at (64%, 40%). Add `contact-shadow`. Alternatively use the AI plate from `backgrounds.redStudioPlatePrompt`. |
+| **Red studio, wide** | 5.36-8.64, 10.36-11.72, 18-21.08, 23.96-27.36 s | real red seamless wall and floor; real contact shadows (24.10 s); black chair | Keep a real red set if you have one. Otherwise use `bg-replace` with `backgrounds.redStudioWide.gradient`, fitted to the f604 40th-percentile grid: rows 5-95% H = R 32/56/72/83/86/78/66/63/60/42, left side 10-25 levels darker in the top half, hot spot at (64%, 40%). Add `contact-shadow`. Alternatively use the AI plate from `backgrounds.redStudioPlate.prompt`. |
 | **Red studio, MCU** | 2.72-5.36, 8.64-10.36, 11.72-14.48, 21.08-23.96 s | 2-2.6× crop or a second camera | `backgrounds.redStudioMcu.gradient`: R 68-90 everywhere, brightest top-right #5a0008, bottom-left #2e0007 |
 | **Sunburst halo** | every shot | plate-locked: hair occludes it and it scales with the zoom | `sunburst-halo` component on the `behind` layer, camera-locked, centred on the face-track head top. Inner r = 1.18× head width, outer r = 3.8× head width. |
-| **Extreme-wide void** | 1.9-2.68 s | real plate shrunk ×0.27 into an outpainted smoky dark environment (likely AI) | `backgrounds.voidExtension` gradient or its `aiPlatePrompt`, plus `void-pullback`: the studio rectangle is camera-locked with an 18% radial feather |
+| **Extreme-wide void** | 1.9-2.68 s | real plate shrunk ×0.27 into an outpainted smoky dark environment (likely AI) | `backgrounds.voidExtension` gradient or its `prompt`, plus `void-pullback`: the studio rectangle is camera-locked with an 18% radial feather |
 | **Rose depth** | 14.48-18.0 s | CG roses, defocused (σ 10-15 px @720) | `fg-rose-parallax`: 2 PNG roses (prompt in style.json), blur 20 px @1080, scale 1 → 2.2 against the ×0.58 pull-back |
 
 Haze and particles: none in the studio. The only haze is the painterly smoke of the void, with blotches in the upper half and a lighter horizon band at 59-70% H.
@@ -397,7 +397,7 @@ Rules:
 
 About 31% of the runtime is moving camera. The footage itself has no speed ramps.
 
-**World lock.** Elements marked `cameraLocked` follow `x = 540 + (x_final − 540)·S`, `y = 960 + (y_final − 960)·S` at 1080, with S the camera scale relative to its end value. The reference tracks this within ±5-13 px. A type element parked outside the final frame is therefore *flown in* by the pull-back, and it shrinks as it arrives.
+**World lock.** Elements marked `worldLock` follow `x = 540 + (x_final − 540)·S`, `y = 960 + (y_final − 960)·S` at 1080, with S the camera scale relative to its end value. The reference tracks this within ±5-13 px. A type element parked outside the final frame is therefore *flown in* by the pull-back, and it shrinks as it arrives.
 
 ### 8.4 Transitions
 | id | Duration | Parameters |
@@ -557,12 +557,12 @@ Rules:
    - otherwise `bg-replace` with `redStudioWide`/`redStudioMcu`, plus the persistent `sunburst-halo` and `plate-vignette` (camera-locked), plus `contact-shadow`;
    - reveal beat: `voidExtension` plus `void-pullback`.
 5. Grade the talent only (§5.2) and check against `grade.targets`: crushed p0.5, plate p99.5 ≤ 170, mean S at least 190.
-6. Camera cues from §8.3. Implement `cameraLocked` (world lock) in `components.js` with an `onFrame` hook that mirrors `#plateWrap`'s scale. Park hook and brand type off-frame in world coordinates.
+6. Camera cues from §8.3. Implement `worldLock` (see `worldLockSpec`) in `components.js` with an `onFrame` hook that mirrors `#plateWrap`'s scale. Park hook and brand type off-frame in world coordinates.
 7. Text cues from §8.1 with the zone slots in §11:
    - write tatweels into the text explicitly;
    - Difference words in wide shots only;
    - kashida and display words on the `behind` layer when they cross the head.
-8. Build `styles/style-3/components.js` for: `sunburst-halo`, `glass-arch-rise`, `glass-pill-smoked`, `glass-pill-outline`, `glass-corner-panels`, `bell-ring`, `brand-lockup`, `fg-rose-parallax`, `void-pullback`, `contact-shadow`, `plate-vignette`, and the cameraLocked wrapper.
+8. Build `styles/style-3/components.js` for: `sunburst-halo`, `glass-arch-rise`, `glass-pill-smoked`, `glass-pill-outline`, `glass-corner-panels`, `bell-ring`, `brand-lockup`, `fg-rose-parallax`, `void-pullback`, `contact-shadow`, `plate-vignette`, and the worldLock wrapper.
 9. Assets:
    - 2 rose PNGs with alpha (prompt in style.json);
    - the void plate;
@@ -676,7 +676,7 @@ Rules:
   - `cameraMoves[]`, `grade.css`;
   - `sfx[]` with `event/preset/sound/offsetMs/gainDb`;
   - `director`, `persistent`.
-- Descriptive extras are ignored by the current runtime: `cameraLocked`, `keyframes`, `maskAnim`, `graphicComponents`, `worldLock`, `backgrounds`, `soundSpecs`, `idealSound` and `onlyFirstInReel`.
+- Descriptive extras are ignored by the current runtime: `worldLock` (per element), `worldLockSpec`, `keyframes`, `maskAnim`, `graphicComponents`, `backgrounds`, `soundSpecs`, `idealSound` and `onlyFirstInReel`.
 - `director.punchInEveryNCaptions` is 0, because this style never pushes in. Add the pull-backs by hand.
 - With `autoSfx: true` the engine adds the typing rattle to **every** `typewriter-sub` cue, because it ignores `onlyFirstInReel`. Set `"sfx": false` on every typed subtitle after the first.
 - **Smoke test** on `renders/test_plate` with `scratch_style/smoke_scene.json` (stills at f28, 58, 85 and 118 → `scratch_style/smoke*/`, sheet `smoke_sheet.jpg`):

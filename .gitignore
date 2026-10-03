@@ -138,3 +138,10 @@ test/**/*.xml
 # Common virtual environments
 venv/
 env/
+
+# motion-styles working files (reference footage, frames, renders)
+motion-styles/_work/
+motion-styles/**/node_modules/
+motion-styles/renders/
+motion-styles/engine/models/*.tflite
+motion-styles/engine/models/*.task

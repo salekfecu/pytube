@@ -1,0 +1,9 @@
+{
+  "note": "QA: background replacement on a warm foreign plate (ref1_breather, orange studio) with the procedural MCU clinic wash + cyan rim relight + one hero.",
+  "autoSfx": false,
+  "cues": [
+    {"t": 0, "end": 2.5, "type": "component", "component": "teal-clinic-backdrop", "variant": "mcu"},
+    {"t": 0, "end": 2.5, "type": "component", "component": "cyan-rim-relight"},
+    {"t": 0.07, "end": 2.5, "type": "text", "preset": "hero-cyan-glass-rise", "text": "شفاف", "fit": 80}
+  ]
+}

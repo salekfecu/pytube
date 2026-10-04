@@ -1,0 +1,54 @@
+{
+  "_about": "Ember Glass transfer test on the doctor plate (teal clinic, two MCU takes, jump cut at f138 = 4.600 s). The teal set is replaced by the style's procedural lab world plate (shot 1) and the orange MCU cyc (shots 2-3); ember-talent despills the teal fringe and lifts the crushed toe. 10 s = compressed narrative template: HOOK + BRAND on a world plate (badge-ribbon depth sandwich, twin glass rings -> echo capsule + name tag) -> TURN / METHOD + B&W CONTRAST interrupt as an MCU chest-band card -> chrome PAYOFF with a static end hold. Iraqi copy for a clear-aligner clinic, timed to the voiced phrases [0.01-4.34] [4.60-5.51] [5.82-8.16] [8.54-9.49]. Cuts: 4.600 (the plate's jump cut, in the 4.34-4.60 pause) and 8.240 (300 ms before the 8.54 phrase).",
+  "_copy": {
+    "shot1": "تستحي تضحك / بسبب سنونك؟ = Shy to smile / because of your teeth?  |  nametag: عيادة الابتسامة = The Smile Clinic, ALIGNERS; echo capsule «عيـ»",
+    "shot2": "هسه = Now (turn word)  /  تقويم ما ينشـاف = braces nobody can see  |  B&W: مو بس سنون مرتبة = not just straight teeth -> ثقة = confidence  |  card: Aligners",
+    "shot3": "ضحكتك = your smile (payoff, answers the hook)"
+  },
+  "_framing": "shot 2 = take B at 1.16 (y -174, x -60 around the face) so the chin sits at ~44% H and the 46-77% chest band carries the card stack (ref k_008-k_012 / k_022-k_025); punch 1.60 -> 1.16 keeps the 1.38 ratio. Shot 3 = take B at 1.0, y +40 (head top 23% H, payoff ink from 9.7% H). Backdrops cancel the settled framing (ember-backdrop cancelCam) so the fitted cyc gradient lands where it was fitted.",
+  "autoSfx": true,
+  "voiceGainDb": 0,
+  "music": {"src": "bed_ember_112bpm.wav", "gainDb": -16, "duckDb": 0},
+  "overlays": {"vignette": {"shape": "80% 65%", "centerYPct": 38, "centerXPct": 42, "innerPct": 55, "color": "rgba(8,1,0,0.55)", "strength": 0.35}},
+  "cues": [
+    {"t": 0, "end": 9.97, "type": "component", "component": "ember-talent", "props": {"despill": 1, "choke": 0.35, "wrap": 0.6, "warm": 0.06, "toe": 0.045, "solidBottom": [84, 93]}},
+
+    {"t": 0, "end": 4.6, "type": "component", "component": "ember-backdrop", "props": {"variant": "labCorridor", "blurPx": 2, "cancelCam": {"scale": 1.0, "x": 0, "y": 150, "focusPx": [505, 845]}}},
+    {"t": 0, "type": "camera", "focusPx": [505, 845], "keyframes": [
+      {"tMs": 0, "scale": 1.38, "x": 0, "y": 150},
+      {"tMs": 67, "scale": 1.38, "x": 0, "y": 150},
+      {"tMs": 634, "scale": 1.0, "x": 0, "y": 150, "easing": "cubic-bezier(0.25,0,0.1,1)"},
+      {"tMs": 1384, "scale": 1.0, "x": 5, "y": 146, "easing": "sine.inOut"},
+      {"tMs": 2134, "scale": 1.0, "x": -6, "y": 153, "easing": "sine.inOut"},
+      {"tMs": 2884, "scale": 1.0, "x": 4, "y": 156, "easing": "sine.inOut"},
+      {"tMs": 3634, "scale": 1.0, "x": -5, "y": 147, "easing": "sine.inOut"},
+      {"tMs": 4384, "scale": 1.0, "x": 3, "y": 152, "easing": "sine.inOut"}
+    ]},
+    {"t": 0, "end": 4.6, "type": "component", "component": "ember-composite", "props": {"mode": "translate", "base": [0, 150]}},
+    {"t": 0, "end": 4.6, "type": "component", "component": "badge-ribbon", "props": {"icons": ["tooth", "aligner", "sparkle"], "backArcRegionPct": {"x": [0, 35], "y": [40, 60]}, "frontArcRegionPct": {"x": [0, 100], "y": [81, 100]}, "frontBadgeScale": 0.7}},
+    {"t": 0.13, "end": 4.6, "type": "text", "preset": "ember-type", "text": "تستحي تضحك", "position": {"xPct": 52.0, "yPct": 12.6}, "gradientBand": [34.0, 70.8]},
+    {"t": 0.77, "end": 4.6, "type": "text", "preset": "ember-words", "text": "بسبب سنونك؟", "position": {"xPct": 70.8, "yPct": 17.1, "anchor": "right", "align": "right"}, "gradientBand": [34.0, 70.8]},
+    {"t": 2.1, "end": 4.6, "type": "component", "component": "glass-ring-pop", "props": {"morphAtMs": 600}},
+    {"t": 2.7, "end": 4.6, "type": "component", "component": "echo-capsule", "props": {"label": "عيـ"}},
+    {"t": 2.767, "end": 4.6, "type": "component", "component": "nametag-capsule", "props": {"label": "عيادة الابتسامة", "micro": "ALIGNERS", "microDelayMs": 167}},
+
+    {"t": 4.6, "end": 8.24, "type": "component", "component": "ember-backdrop", "props": {"variant": "studioMcu", "cancelCam": {"scale": 1.16, "x": -60, "y": -174, "focusPx": [650, 800]}}},
+    {"t": 4.6, "type": "camera", "focusPx": [650, 800], "keyframes": [
+      {"tMs": 0, "scale": 1.6008, "x": -60, "y": -174},
+      {"tMs": 67, "scale": 1.6008, "x": -60, "y": -174},
+      {"tMs": 634, "scale": 1.16, "x": -60, "y": -174, "easing": "cubic-bezier(0.25,0,0.1,1)"}
+    ]},
+    {"t": 4.63, "end": 8.24, "type": "component", "component": "clay-ui-card", "props": {"label": "Aligners", "regionPx": {"x": [815, 1135], "y": [215, 665]}}, "loop": {"finalSwingToCamera": null, "chipsOutAtMs": 2250}},
+    {"t": 4.67, "end": 8.24, "type": "text", "preset": "glow-sweep", "text": "هسه"},
+    {"t": 5.1, "end": 8.24, "type": "text", "preset": "blur-type-thin", "text": "تقويم ما ينشــــــاف"},
+    {"t": 5.3, "end": 8.24, "type": "component", "component": "lens-disc-slide", "props": {"centreStartPct": [94.1, 99.6], "centreLandPct": [78.0, 90.0], "centreEndPct": [73.8, 89.6], "interior": {"blurPx": 5}}},
+    {"t": 6.97, "end": 8.24, "type": "component", "component": "bw-focus-interrupt"},
+    {"t": 7.2, "end": 8.24, "type": "component", "component": "smoked-pill-autosize", "props": {"text": "مو بس سنون مرتبة", "centrePct": [50.0, 63.3]}},
+    {"t": 7.54, "end": 8.24, "type": "text", "preset": "orange-3d-type", "text": "ثقة", "position": {"xPct": 50.6, "yPct": 70.5}},
+
+    {"t": 8.24, "end": 9.97, "type": "component", "component": "ember-backdrop", "props": {"variant": "studioMcu", "cancelCam": {"scale": 1.0, "x": 0, "y": 40}}},
+    {"t": 8.24, "type": "camera", "keyframes": [{"tMs": 0, "scale": 1.0, "x": 0, "y": 40}]},
+    {"t": 8.27, "end": 9.97, "type": "component", "component": "lens-ring-pair"},
+    {"t": 8.27, "end": 9.97, "type": "text", "preset": "hero-glow-reveal", "text": "ضحكتك", "position": {"xPct": 50.0, "yPct": 15.0}}
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "_about": "Ember Glass on its own footage (ref1_breather plate: MCU, dark teal shirt, real orange studio, 2.5 s). Rebuilds the reference's 'detail' beat (ref f307-410, keyframes k_021-k_027) on the native set: punch-out settle, bold/hairline chest stack with optional rise, refractive lens disc from the bottom-right (with its ping pair), clear chest pill with two typed lines, clay topic card behind the talent swinging toward camera before the cut. No background replacement.",
+  "autoSfx": true,
+  "voiceGainDb": -2.5,
+  "music": {"src": "bed_ember_112bpm.wav", "gainDb": -15, "duckDb": 0},
+  "cues": [
+    {"t": 0, "type": "camera", "preset": "punch-out-settle"},
+    {"t": 0.03, "end": 2.5, "type": "component", "component": "clay-ui-card", "props": {"label": "Chemistry"}},
+    {"t": 0.2, "end": 2.5, "type": "text", "preset": "blur-type", "text": "كل فكرة", "rise": true},
+    {"t": 0.53, "end": 2.5, "type": "component", "component": "lens-disc-slide"},
+    {"t": 0.77, "end": 2.5, "type": "text", "preset": "blur-type-thin", "text": "يقربها للطالب"},
+    {"t": 1.17, "end": 2.5, "type": "component", "component": "glass-pill-clear", "props": {"variant": "chest", "text": "باقوى التجارب", "subText": "التفاعلية", "subDelayMs": 560}}
+  ]
+}

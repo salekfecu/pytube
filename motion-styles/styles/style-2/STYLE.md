@@ -98,7 +98,7 @@ Sizes were calibrated by rendering the real words and solving for the measured i
 | **Hero A** `hero-difference` | هواي | 600 | 190 → **285**, + `scaleX 1.3` | 571×215 → 79 × 16.8 | `#FCC29E`, **mix-blend: difference** | None. Reads `#DB8861` salmon on the teal plate, `#1F5533` green over pink gum, navy over cyan lights. |
 | **Hero B** `hero-bold` | وبسبب | 700 | 123 → **185** | 395×88 → 55 × 6.9 | `#FAFCFF` flat | None (verified: halo equals the background). |
 | Hero B (behind head) | فكـ(12)ـرته | 700 | 110 → **165** | 396×126 → 55 × 9.8 | `#FAFCFF` | None; behind the talent. |
-| **Hero C** `hero-cyan-glass` | هـ(6)ـو | 700 + 4 px stroke | 370 → **555** | 618×307 → 86 × 24 | Horizontal gradient `#D7F1F2 → #86D9E0 → #01B6C4 (centre) → #86D9E0 → #C1E9EC`, lighter at the bottom | 6 px neon rim `#05F3F8` on lower-left extrusion edges and counters; glow `rgba(127,230,238,.55)` r 60; extrusion `#2E6E78` offset (−8, +10). |
+| **Hero C** `hero-cyan-glass` | هـ(6)ـو | 700 + 4 px stroke | 370 → **555** | 618×307 → 86 × 24 | Horizontal gradient `#D7F1F2 → #86D9E0 → #01B6C4 (centre) → #86D9E0 → #C1E9EC`, lighter at the bottom | 6 px neon rim `#05F3F8` on the top/left outer contours and the lower inner edges of the counters; glow: wide grey-white `rgba(170,225,230,.35)` r 70 plus a thin `rgba(5,243,248,.25)` r 10 (re-measured on k_020); extrusion `#2E6E78` offset (−8, +10). |
 | **Hero D** `hero-gold-panel` | اذا | 700 | 400 → **600** | 382×317 → 53 × 24.8 | Gold `#D5AD6A`, hot `#FDD99B`, **per-glyph static alpha gradients**: right alef transparent at top → opaque at bottom; ذ hottest in the lower bowl; left alef opaque at top → transparent at bottom | Glow `rgba(224,168,90,.6)` r 75, strength 1.5; 3 px rim `#FDD99B`; lights the pill below (`#EDC179`). |
 | Gold line `gold-spotlight` | راح تشوف | 600 | 92 → **138** | 435×120 → 60 × 9.4 | Centre-hot gradient `#886F4A → #C9AC6F → #EDE2AA (centre) → #D9C17E → #877453` | Glow `rgba(217,181,110,.5)` r 42. |
 | Neon `neon-thin` | اشخاص | 200 | 72 → **108** | 220×82 → 31 × 6.4 | `#FFFBF9` | Tight halo 4 px white 90% plus soft halo r 45 white 55%. |
@@ -174,9 +174,10 @@ Sizes were calibrated by rendering the real words and solving for the measured i
 - **Gradient-filled text plus glow:** `text-shadow` shows through the transparent `background-clip:text` fill. Put the glow on a wrapper with `filter: drop-shadow(...)` stacks, or on a duplicate text layer underneath.
 - **Gold panel:** render each glyph as its own span with its own vertical alpha gradient (see `style.json` `fonts[hero-gold-panel].fill.glyphGradients`).
 - **Cyan glass:** build it from 3 layers:
-  1. an extrusion copy (`#2E6E78`, offset −8/+10 px, 14 px deep)
-  2. a neon rim stroke 6 px `#05F3F8` with a 9 px glow, visible on the lower-left
-  3. the front face with the horizontal gradient, plus a light bottom overlay
+  1. a wide grey-white glow layer
+  2. an extrusion copy (`#2E6E78`, offset −8/+10 px, 14 px deep)
+  3. a neon rim: a filled `#05F3F8` copy shifted ≥ 6 px up-left with a 9 px glow, drawn **above** the extrusion and under the face, so it shows on the top/left outer contours and the lower inner edges of the counters (k_020)
+  4. the front face with the horizontal gradient, plus a light bottom overlay
 
   Add a slight perspective of rotateX 6°, rotateY −4°.
 
@@ -200,7 +201,7 @@ Sizes were calibrated by rendering the real words and solving for the measured i
 | `#44A2A1` / `#39A0B4` / `#BE8F6C` | Ghost English: teal / cyan / tan centre |
 | `#E6B08C` → `#DB8A5D` | Peach → orange accent ("idea") |
 | `#2EFFFF` | Script Difference base (shows `#0DD2C5`) |
-| `#695552` / `#3B2C29` / `#392A21` | Glass capsule band / dark inner capsule / button fill (over brown scrubs) |
+| `#695552` / `#261D1E` / `#221B20` | Glass capsule band / dark inner capsule / button fill (over brown scrubs, re-measured at 9.9 s; tokens `rgba(0,0,0,.45)` and `#241B1A`) |
 | `#897161` / `#E3DCDA` | Pill sub text / search label |
 | `#EDC179` | Warm light spill from gold into the glass pill |
 | `#13494D` | Teal floor-stage gradient (bottom) |
@@ -289,7 +290,7 @@ Layer order, back to front: plate → `teal-grid-stage` → **behind** layer (cy
 | `teal-grid-stage` | Product stage under a 3D prop (hook) | Region y 70.3-100% H, full width.<br>Gradient transparent → `#13494D` at the bottom.<br>Flat orthographic grid, 1.5 px lines `rgba(130,225,232,.13)` (+8-12 luma), pitch X 60 px (40), pitch Y 93 px (62), first vertical line at x = 48 (32).<br>In: grid from F55 over 15 F; gradient from F60 over 30 F. | front, below props and hero |
 | `prop-3d-enter-spin` | Photoreal 3D domain object | Transparent PNG turntable (360° in 180 F), soft top-front key, **no cast shadow**, saturated ungraded colours, about 6 px motion blur when moving.<br>Hero size 46.5% W × 33% H. Variants:<br>- `corner-dof`: off the top-left corner, 12 px depth-of-field blur, sits under the hero's ي, enters in 9 F then grows 1.45x over 51 F<br>- `flyby-behind-head`: 76% W tray across the top third, behind the talent | front; flyby = behind |
 | `glass-pill-gold` | Label capsule under the gold hero | 570×186 (380×124), radius 93.<br>Fill: `rgba(255,255,255,.06)` + backdrop blur 24, warm top spill `radial-gradient(60% 70% at 50% 0%, rgba(237,193,121,.55), rgba(200,153,80,.25) 45%, transparent)`, teal tint on the right edge `rgba(61,66,61,.35)`.<br>Rim: 2 px top highlight `rgba(255,255,255,.35)`.<br>Centre (50%, 78.2%); 80.9% when a long neon kashida wraps above it (S3 sits 33 px lower than S9). | front |
-| `glass-search-morph` | Ring → search pill with a typed label and a gold arrow button | **Ring:** outer Ø 230 (153), band 40 (26-28), fill 20-25% white + blur 18, 1.5 px rims inside and out, centre (65%, 70.2%).<br>**Pill:** 848×233 (565×155), radius 116, fill 13% white (`#695552` over brown) + blur 24, 3 px top specular.<br>**Inner dark capsule:** 456×166 (304×111), radius 83, `rgba(0,0,0,.28)`, inset 38, on the left.<br>**Button:** Ø 165 (110), `#392A21`, gold ring Ø 118 with 7.5 px stroke `#C19359`, ↖ arrow with 7.5 px stroke and round caps. | front, over the chest |
+| `glass-search-morph` | Ring → search pill with a typed label and a gold arrow button | **Ring:** outer Ø 230 (153), band 40 (26-28), milky fill 22% white + blur 18 (band ≈ +45-55 luma over the scrubs), bright 1.75 px rims inside and out (70% white, with a soft edge glow) and a top-left specular crescent, centre (65%, 70.2%).<br>**Pill:** 848×233 (565×155), radius 116, fill 13% white (`#695552` over brown) + blur 24, crisp 1.75 px rim at 45% white all round, 3 px top specular.<br>**Inner dark capsule:** 456×166 (304×111), radius 83, `rgba(0,0,0,.45)` (reads `#261D1E`), inset 38, on the left.<br>**Button:** Ø 165 (110), flat `#241B1A` (measured `#221B20`, no outer glow), gold ring Ø 118 with 7.5 px stroke `#C19359`, ↖ arrow with 7.5 px stroke and round caps. | front, over the chest |
 | `visionos-glass-ui` | Spatial-app UI for "how it works" | **Tab bar:** 360×75 (240×50), radius 38, centre (58.3%, 52.3%); labels Photos / **Album** / Favorite at 20 px; back-chevron circle Ø 48 at (35.1%, 52.2%); selected segment `rgba(255,255,255,.22)`.<br>**Window:** 648×520 (432×347), radius 36, centre (52.8%, 66.9%), `perspective(1400px) rotateY(−14°) rotateX(8°)` (rotation estimated), neutral grey glass 16% + blur 26, 1.5 px specular diagonal bottom edge, looping carousel of 3-4 translucent trays.<br>**Dock:** 89×308 (59×205), radius 44, centre (14.9%, 70.1%), icons home / photos / plus at 33 px `#E5E8E8`.<br>**Grabber:** 90×9 white, 24 px under the window. | front, world-locked |
 | `phone-glide-in` | Device demo of the result or app | iPhone 15 Pro: body 315×705 (210×470), radius 44, frame `#686767` with lit edge `#F2F1F4`, bezel 9, Dynamic Island.<br>Screen `#F2F1F4` with a looping 3D or app clip, an animated step counter (10 → 18) and a `#21A4F0` progress bar.<br>Final centre (41.7%, 75.8%), rotate **−11.1°** (top leans left). | front, bottom-left quadrant |
 
@@ -325,13 +326,13 @@ All in-animations follow. Out = *none (hard cut)* for every preset. "Hold" is th
 | `hero-white-rise` | word, screen-locked | y +63 px → 0 (42 @720 = 3.3% H); brightness 0.73 → 1; opacity 0 → 1 in 4 F | 16 F / 533 ms | `cubic-bezier(0.0,0.1,0.17,0.94)` (fit) | First visible 11 F after the cut | ≈1170 ms |
 | `hero-white-world-behind` | word, world-locked, behind talent | opacity 0 → 1 | 3 F / 100 ms | linear | F1 after the cut | ≈4530 ms |
 | `hero-cyan-glass-rise` | word, behind talent | y +234 px → 0 (156 @720 = 12.2% H); opacity in 4 F; saturate 0.35 → 1 (12 F); neon rim 0.2 → 1 (7 F) | 18 F / 600 ms | `cubic-bezier(0.04,0.23,0.21,0.97)` (fit RMSE 0.001) | F2 after the cut; offsets 156 / 119 / 65 / 35 / 10 / 0 px at F0 / 1 / 4 / 7 / 12 / 18 | ≈2530 ms |
-| `gold-light-panel-grow` | letter, anchored at the baseline (`transformOrigin 50% 100%`) | scale 0 → **1.12** (10 F / 333 ms) → 1.0 (12 F / 400 ms); blur 6 → 0 (30 F); brightness 0.75 → 1 (31 F / 1033 ms); glow 0.3 → 1.5 (13 F) | 22 F / 733 ms per glyph | Grow `cubic-bezier(0.2,0.6,0.35,1)`, settle `cubic-bezier(0.45,0,0.55,1)`; single-curve fallback `cubic-bezier(0,0.40,0.35,1.40)` | **Centre glyph first**: ذ body at 0, ذ dot +7 F (233 ms), outer glyphs +9-10 F (300-333 ms). The first alef pre-glows at 15% from −3 F. Starts 6 F after the cut. In a pull-back it grows *and* is world-locked. | ≈2600 ms |
+| `gold-light-panel-grow` | letter, anchored at the baseline (`transformOrigin 50% 100%`) | scale (both axes) 0.3 → **1.12** (10 F / 333 ms) → 1.0 (12 F / 400 ms); blur 6 → 0 (30 F); brightness **1.25** → 1 (31 F / 1033 ms); glow 1.0 → 1.5 (13 F). The glyph ignites small and hot (re-measured F152-F177; the earlier scaleY-from-0 / brightness-0.75 token rendered as a dark squash). | 22 F / 733 ms per glyph | Grow `cubic-bezier(0.2,0.6,0.35,1)`, settle `cubic-bezier(0.45,0,0.55,1)`; single-curve fallback `cubic-bezier(0,0.40,0.35,1.40)` | **Centre glyph first**: ذ body at 0, ذ dot +7 F (233 ms), outer glyphs +9-10 F (300-333 ms). The first alef pre-glows (a thin faint bar at 15%) from −3 F; the cue time is the pre-glow (cut + 3 F), the body grows from cut + 6 F. In a pull-back it grows *and* is world-locked. | ≈2600 ms |
 | `gold-spotlight-letters` | letter, RTL | opacity 0 → 1, blur 9 → 0 | 3-4 F / 117 ms per letter | ease-out | 2 F (67 ms) per letter, a 3 F gap between words; glow keeps rising for 20 F (667 ms) | ≈2200 ms |
 | `neon-thin-blurfade` | word | opacity 0 → 1, blur 12 → 0 | 4 F / 133 ms | `cubic-bezier(0.2,0.6,0.35,1)` | 12-19 F (400-633 ms) after the hero; optional 6 F (200 ms) glint running along the kashida | ≈2600 ms |
 | `neon-thin-typeon` | letter, RTL | opacity 0 → 1, blur 6 → 0, brightness 1.6 → 1 (the newest glyph flashes) | 2-3 F / 83 ms per glyph | ease-out | 1.15 F (38 ms) per glyph; kashida drawn as a stroke; starts 11 F after the cut | ≈1000 ms |
 | `neon-word-cascade-float` | word, RTL | opacity 0 → 1, blur 4 → 0; whole line y +33 px → 0 (22 @720) over 26 F / 867 ms | 4-5 F / 150 ms per word | ease-out; line `cubic-bezier(0.2,0.6,0.35,1)` | 6 F (200 ms); range 4-8 F | ≈1500 ms |
 | `pill-label-typeon` | letter, RTL | opacity 0 → 1, blur 6 → 0 | 2-3 F / 83 ms | ease-out | 0.7-0.85 F (27 ms) per character; starts 1 F after the pill finishes | ≈1400 ms |
-| `search-typewriter` | letter, RTL | opacity 0 → 1; the kashida after ح grows to 3 as letters arrive | 2 F / 67 ms | linear | 3.7 F (123 ms) per letter; starts 16 F (533 ms) after the morph begins | ≈1870 ms |
+| `search-typewriter` | letter, RTL | opacity 0 → 1; the kashida after ح grows as one stroke from 3 F after ح over 8-10 F, and the next letter appears only when the stroke reaches it (never a gap) | 2 F / 67 ms | linear | 3.7 F (123 ms) per letter; starts 16 F (533 ms) after the morph begins | ≈1870 ms |
 | `pill-subline-wipe` | line | clip-path wipe | 40 F / 1333 ms | linear | Starts 21 F (700 ms) after the morph. The reference wipes L → R on RTL text (it shows the end first, a template quirk); use R → L for new work. | ≈1100 ms |
 | `english-ghost-centre-out` | line | clip `inset(0 50% 0 50%)` → `inset(0)` with a 90 px soft edge; rests on the centre-hot gradient | 19 F / 633 ms ("You will see.": 13 F / 433 ms) | `cubic-bezier(0.2,0.6,0.35,1)` | 9 F after the cut / hero; the centre letters lead | ≈1200-2200 ms |
 | `english-small-blurfade` | word | opacity 0 → 0.75, blur 12 → 0 | 4 F / 133 ms | ease-out | 24 F after the hero | ≈2400 ms |
@@ -532,3 +533,69 @@ Times are at 30 fps.
 - **3D props:** yaw speeds are visual estimates. The cyan-glass extrusion depth and offset are construction choices that reproduce the measured rim, gradient and glow.
 - **SFX levels:** derived from narrow-band energy; audition them. Whether a very quiet pad sits under the room tone cannot be settled without listening.
 - **Judder:** the 2-2-1 cadence (likely a 50 → 30 fps master) is optional. Native 30 fps renders will look smoother than the reference.
+
+---
+
+## Engine implementation
+
+`components.js` (this folder) is loaded by `engine/render.mjs` after `components-shared.js` and before the runtime. It needs no assets: the props, UI and backdrops are procedural (CSS glass, SVG, canvas 2D). It is deterministic: GSAP tweens on `ctx.tl`, or pure functions of time in `ctx.onFrame`.
+
+### Text: every preset goes through `s2-text`
+
+At load, each scene cue `{"type": "text"}` that uses one of this style's presets is routed to the `s2-text` component. It still builds through the runtime's `makeText`, so `t`, `end`, `in`, `override`, `style` and `position` mean the same thing. It then adds what the generic interpreter cannot do:
+
+| Need | What `s2-text` does |
+|---|---|
+| World-lock **plus** a blend mode (`hero-difference-world`, `english-script-accent` His-difference) | The runtime's world layers are transformed, so they are isolated groups and Difference would only blend with the layer. The text sits instead in a camera-following wrapper inside a screen layer, and the wrapper carries the blend. |
+| `gold-light-panel-grow` | Per-glyph spans with the `glyphGradients` mapped onto each glyph's ink box. The **same alpha profile** (parsed from the gradient's stops) masks that glyph's emissive glow, 3 px `#FDD99B` rim and pre-glow, so the transparent ends of the outer alefs stay transparent (measured: right-alef top third within +0..+18 luma of the plate). Ignition: scale 0.3 → 1.12 → 1 in both axes from the baseline, brightness 1.25 → 1, blur 6 → 0, glow already on. Timing inside the component: the cue time is the first-alef pre-glow (a thin faint bar), the centre body starts `preGlow.leadMs` (3 F) later, its dot `dotDelayMs` (7 F) after the body (ذ/ز/ظ/ض/خ/غ are split into the undotted skeleton plus a masked dot), outer glyphs at +9 / +10 F. The ink bottom sits on `yPct`. |
+| `hero-cyan-glass-rise` | Layers back to front: wide grey-white glow (`effects.glowLayers`); 14-step `#2E6E78` extrusion to (−8, +10) with a 4 px faux-bold stroke; neon rim (a filled `#05F3F8` copy shifted ≥ 6 px up-left along `neonRim.offsetDir`, 9 px glow, never thinner than 6 px whatever the fitted size); inner wall light; gradient face with the bottom overlay. The rim therefore shows on the top/left outer contours and the lower inner edges of the counters, as in k_020. Perspective rotateX 6° / rotateY −4°. Rise +234 px, opacity 4 F, saturate 0.35 → 1, rim 0.2 → 1. The ink centre sits on `yPct`. |
+| Gradient fill + glow (`gold-spotlight-letters`) | The glow moves to a transparent-text underlay that mirrors the face units every frame, so the shadow cannot wash over the `background-clip:text` fill. |
+| Neon (`neon-thin`) | Adds the 4 px white tight halo (`tightHalo`). `neon-thin-blurfade` runs a travelling flare along the kashida (`optionalGlint`; turn it off with `"glint": false`). |
+| Letter type-ons (`neon-thin-typeon`, `search-typewriter`, `pill-label-typeon`, `gold-spotlight-letters`) | Every tatweel run is merged into **one** span (per-tatweel inline-blocks left comb-like antialiasing seams) and grows as one stroke (scaleX from its joining side). Other type-ons draw it inside the letter's slot. On `search-typewriter` the stroke starts `kashidaLeadMs` (3 F) after its letter, grows over `kashidaGrowMs` (300 ms), and the next letter waits until it is fully drawn, so joined letters never show a gap. `gold-spotlight-letters` gets its 3 F word gap and per-letter glow ramp. |
+| `neon-word-cascade-float` | Adds the line float (`lineTrack`: y +33 → 0 over 867 ms). |
+| `english-ghost-centre-out` | Centre-out reveal with a 90 px soft edge: an animated mask instead of a hard `clip-path`. |
+| `english-tracking-in` | Recomputes the split gradient at rest letter-spacing. |
+
+Extra cue fields:
+- **`"fit": true | widthPct`**: auto-kashida to a target ink width, using the order in §3.5 (size, then scaleX ≤ 1.3, then kashida). Words that overflow the target shrink instead. It is on by default for `hero-difference-world`.
+- **`"kashidaAt": n`**: inserts the kashida after letter `n` (for example `1` for بعـدك).
+- **`"variant": "<name>"`**: applies a preset's `variants` block, such as `His-difference`, `A-lot-under-hero`, `under-gold` or `under-pill`.
+- **`"raw": true`**: bypasses `s2-text` and uses the runtime's plain interpreter.
+
+### Components (`"type": "component"`)
+
+| id | Main cue fields | Notes |
+|---|---|---|
+| `teal-grid-stage` | `in.gridOpacity` / `in.gradientOpacity` (`startMs` relative to the cue), `props.region` | Inserted as the first child of its layer, so it sits under the props and the hero. |
+| `prop-3d-enter-spin` | `variant`: `hero` \| `corner-dof` \| `flyby-behind-head`; `model`: `typodont` \| `aligner` \| `teeth`; `widthPct`; `position` (final centre); `yaw0`; `yawDegPerSec`; `pitchDeg` (> 0 looks down onto the object); `rollDeg`; `shellAlpha`; `gain`; `softenPx`; `detail`; `worldLock` | Canvas-2D painter's renderer: superellipsoid teeth on an elliptic arch, swept horseshoe gums. Smooth shading: position-keyed vertex normals, each quad filled with a gradient between its shaded edges, plus a 0.8 px soften on the tray. The aligner is a **hollow** shell (crown shells fused by thin buccal and lingual margin walls) in a neutral milky grey (R ≥ B), composited at `shellAlpha`. Aligner defaults: pitch 14°, yaw0 −62°. Motion blur: 180° shutter, at most 4 sub-copies plus a light directional soften (more copies smeared the translucent tray into smoke). 12 px depth of field on `corner-dof`. `flyby` defaults to the `behind` layer. **Flyby behind a CU/MCU head:** keep the elevation low (pitch 9-14°) and tilt it (roll ≈ 11°, rising to the right, as in k_013) at ≥ 100% W through the forehead/hairline, with yaw ≤ 22°/s so the opening never faces the camera; a steep pitch closes the U around the head and reads as a halo or horns. |
+| `glass-pill-gold` | `label` (types with `pill-label-typeon`); `variant: "world"` (opacity in 117 ms at full size, used in pull-backs); `position` | Blur 24, warm spill, cool side, rim. The label follows the pill's position. |
+| `glass-search-morph` | `position` (pill centre); optional `label` / `sub` (otherwise write `search-typewriter` + `pill-subline-wipe` cues at +533 / +700 ms) | Milky ring (22% white, blur 18) carried by bright 1.75 px inner/outer rims with edge glow and a top-left specular crescent; the hole is untouched → pill. Width 230 → 905 → 848 px with the left edge overshooting and the right edge drifting. Crisp rim all round, `rgba(0,0,0,.45)` capsule; flat `#241B1A` button with a `#C19359` ring and ↖ arrow that pops at +6 F. |
+| `visionos-glass-ui` | `offsetPct: [dx, dy]`, `items` (carousel trays) | World-locked by default. Tab bar with the selection slide, back chevron, perspective window with a 4 s tray carousel (procedural trays), grabber, dock. |
+| `phone-glide-in` | `position` (final centre), `in.durationMs`, `counter` | iPhone frame, bezel and Dynamic Island. Right edge 6 → 678 px, yaw 90 → 0, tilt keys to −12.65° then −11.1°. Live screen: rotating typodont, step counter 10 → 18, `#21A4F0` bars. |
+| `teal-clinic-backdrop` | `variant`: `mcu` \| `ws`; `blurPx`; `seed` | Background replacement on warm or busy plates (needs mattes). Drawn already in the graded look: teal walls, LED glow, ceiling tubes + `tubeHaze` on the WS, lamp blob and bokeh on the MCU. |
+| `cyan-rim-relight` | `opacity` (default 0.32) | Soft-light `#045A79` on the talent's right edge, built from the person matte and the camera transform. |
+
+**Camera.** Use `pullback-two-step` for real wide shots. `pullback-two-step-mcu` (added to `cameraMoves`) keeps the same timing and fitted curves, with the scale keys at S^0.5 (1.578 → 1.139 → 1.136 → 1.0). Use it for CU/MCU-only footage, where 2.49x would push the face past the frame. A static crop is `{"type":"camera","scaleFrom":1.25,"scaleTo":1.25,"durationMs":0,"focus":[0.5,0.36]}`. Put a cut-time crop 0.75 F **before** the cut frame, so the runtime's motion blur does not average across the cut.
+
+**Grade.** Footage already shot or graded in this look must set `"grade": false, "overlays": false` in the scene. On the doctor plate, which is the reference's own S6/S8, the CSS grade dropped mean luma from 53-59 to 23-26 (target 50-62). Ungraded foreign footage keeps the style grade, plus `teal-clinic-backdrop`.
+
+**SFX.** `"autoSfx": true` maps `shimmer`, `tick`, `chime` and `sparkle` to the engine's procedural sounds. Those only approximate `soundSpecs`: the engine shimmer sits at 2.5-7.5 kHz, in the same band and level as speech sibilance, so it reads as hiss. For the real tones, render them with a script and attach the result as the scene's bed: `demo/make_sfx_doctor.py` synthesizes `shimmerTwoTone` (on the gold centre glyph, 8.5-10 kHz band ≈ −34 dBFS) and `tick8k1Series` + the 4 kHz blip (pill + 200 ms, barely audible) into `demo/sfx_doctor.wav`, the scene adds `"music": {"src": "sfx_doctor.wav", "gainDb": 0, "duckDb": 0}`, and the gold and pill cues set `"sfx": false`. The bed has exactly the voice's length so `audio.py` never tiles it. No sound fires on a bare `pullback-two-step(-mcu)` cue; the step-2 sparkle rule needs the split `pullback-step2` cue.
+
+### Demo and QA scenes (`demo/`)
+
+- **`scene_doctor.json`** is the 10 s demo on `renders/plates/doctor`. Iraqi-dialect clear-aligner copy, with the voice-over transcript in `script`. Output: `renders/demos/style-2/style-2_doctor.mp4`, `sheet.jpg` and `stills/`.
+  - **S1 (0-4.6 s, CU, `pullback-two-step-mcu`)** shows the turn word اذا as a world-locked gold light panel (580 px, ink 52% W × 24% H, ink bottom 79.3% H) with the measured shimmer, a neon kashida wrap تـــريد laced through the gold's lower body (kashida ≈ 40 px above the gold bottom, ≈ 22 px above the pill top), a world-locked glass pill landing with the alefs and typing التقويم الشفاف (ticks), and a tilted 3D aligner tray flying in behind the head through the hairline. No script echo here: over the gold it was illegible and the reference turn shot has none.
+  - **S2 (4.6-8.4 s, MCU)** shows the cyan glass hero شفاف behind the head (fit 84% W, ink centre 16.5% H: the crown hides only the stroke bottoms, the word stays legible), the ring → search-pill morph, the typed مـــا ينشاف whose kashida grows as one stroke before ا arrives, and the sub-line wiped right to left.
+  - **S3 (8.4-9.97 s, tight 1.25x crop)** is the spoken CTA: clean, with a hard-cut end.
+- **`scene_test.json`** exercises every text preset and component in six timed groups (stills 40, 75, 110, 150, 195, 240, 285 → `renders/demos/style-2/test_stills/`).
+- **`scene_test_backdrop_mcu.json`** (on `ref1_breather`) and **`scene_test_backdrop_ws.json`** (on `ref3_breather`) test background replacement and the rim relight on warm sets.
+
+```bash
+cd engine
+python3 ../styles/style-2/demo/make_sfx_doctor.py          # only after changing the gold / pill cue times
+node render.mjs --plate ../renders/plates/doctor --style ../styles/style-2/style.json --scene ../styles/style-2/demo/scene_doctor.json --out /tmp/s2_video.mp4 --workers 2 --no-audio
+python3 audio.py --plate ../renders/plates/doctor --scene ../styles/style-2/demo/scene_doctor.json --style ../styles/style-2/style.json --out /tmp/s2_mix.wav
+ffmpeg -y -i /tmp/s2_video.mp4 -i /tmp/s2_mix.wav -map 0:v -map 1:a -c:v copy -af apad -c:a aac -b:a 192k -shortest -movflags +faststart ../renders/demos/style-2/style-2_doctor.mp4
+```
+
+The plain `render.mjs --out` run works too, but its `-shortest` mux drops the last 2 frames (the plate audio is a few ms shorter than 299 frames); the padded mux above keeps all 299.

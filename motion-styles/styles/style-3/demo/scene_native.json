@@ -1,0 +1,19 @@
+{
+  "note": "Crimson Halo Glass on its own footage: renders/plates/ref3_breather = reference 21.12-23.88 s (the text-free tight-MCU proof shot, real red seamless set with the practical sunburst, reference grade and vignette already baked in). So: grade off, no persistent halo/vignette (the set has them), no background replacement. The shot carries the one device the doctor demo leaves out, the agitation-A turn beat (template row 5): glyph-scale-pop turn word with 2 tatweels (tick 1 f before, pop, 4.19 kHz-style ding via autoSfx), smoked pill2 growing from the centre under the word's foot, red Inter UI line typed LTR with a left alpha ramp, red outline bell drawn on and swaying, Light support line revealed word by word. Layout = the reference MCU chest-band slots. No camera move (the proof shot is locked).",
+  "script": {
+    "dialect": "Iraqi Arabic",
+    "onScreen": "بــس / your ads / محد يشوفها",
+    "en": "But... your ads: nobody sees them"
+  },
+  "autoSfx": true,
+  "grade": false,
+  "overlays": false,
+  "persistent": false,
+  "cues": [
+    {"t": 0.10, "end": 2.767, "type": "text", "preset": "glyph-scale-pop", "text": "بــس"},
+    {"t": 0.22, "end": 2.767, "type": "component", "component": "glass-pill-smoked", "props": {"variant": "pill2"}},
+    {"t": 0.54, "end": 2.767, "type": "text", "preset": "ui-latin-type", "text": "your ads"},
+    {"t": 0.70, "end": 2.767, "type": "component", "component": "bell-ring", "props": {"position": {"centrePct": [64.0, 62.1]}}},
+    {"t": 1.00, "end": 2.767, "type": "text", "preset": "word-step-reveal", "text": "محد يشوفها"}
+  ]
+}

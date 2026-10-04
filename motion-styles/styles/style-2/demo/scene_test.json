@@ -1,0 +1,43 @@
+{
+  "note": "Scratch QA scene: every style-2 text preset and component, in 6 timed groups on the doctor plate (positions are the WS defaults, so some overlap the MCU face on purpose). Stills: 40,75,110,150,195,240,285.",
+  "autoSfx": true,
+  "grade": false,
+  "overlays": false,
+  "cues": [
+    {"t": 0.0, "type": "camera", "preset": "pullback-two-step"},
+    {"t": 0.0, "end": 2.6, "type": "component", "component": "teal-grid-stage", "in": {"gridOpacity": {"startMs": 300, "durationMs": 500}, "gradientOpacity": {"startMs": 400, "durationMs": 1000}}},
+    {"t": 0.1, "end": 2.6, "type": "text", "preset": "hero-difference-world", "text": "هواي"},
+    {"t": 0.17, "end": 2.6, "type": "text", "preset": "english-script-accent", "variant": "A-lot-under-hero", "text": "A lot"},
+    {"t": 0.6, "end": 2.6, "type": "text", "preset": "neon-thin-blurfade", "text": "اشخاص"},
+    {"t": 0.9, "end": 2.6, "type": "text", "preset": "english-small-blurfade", "text": "people"},
+    {"t": 0.2, "end": 2.6, "type": "component", "component": "prop-3d-enter-spin", "variant": "hero", "model": "typodont"},
+    {"t": 0.3, "end": 2.6, "type": "component", "component": "prop-3d-enter-spin", "variant": "corner-dof", "model": "typodont"},
+
+    {"t": 2.6, "type": "camera", "scaleFrom": 1.0, "scaleTo": 1.0, "durationMs": 0},
+    {"t": 2.97, "end": 4.0, "type": "text", "preset": "hero-white-rise", "text": "وبسبب"},
+    {"t": 2.9, "end": 4.0, "type": "text", "preset": "english-ghost-centre-out", "text": "because"},
+    {"t": 2.97, "end": 4.0, "type": "text", "preset": "neon-thin-typeon", "text": "طول المدة مالته"},
+
+    {"t": 4.2, "end": 5.5, "type": "text", "preset": "gold-light-panel-grow", "text": "اذا"},
+    {"t": 4.6, "end": 5.5, "type": "text", "preset": "neon-thin-blurfade", "variant": "wrap", "text": "بعدك", "fit": 81, "style": {"sizePx": 177}, "position": {"xPct": 47.8, "yPct": 71.7}},
+    {"t": 4.3, "end": 5.5, "type": "component", "component": "prop-3d-enter-spin", "variant": "flyby-behind-head", "model": "aligner"},
+    {"t": 4.6, "end": 5.5, "type": "component", "component": "glass-pill-gold", "label": "التقويم الشفاف", "position": {"xPct": 50, "yPct": 80.9}},
+
+    {"t": 5.5, "end": 7.0, "type": "text", "preset": "hero-cyan-glass-rise", "text": "هو"},
+    {"t": 5.5, "end": 7.0, "type": "component", "component": "glass-search-morph"},
+    {"t": 6.03, "end": 7.0, "type": "text", "preset": "search-typewriter", "text": "حـــل عملي"},
+    {"t": 6.2, "end": 7.0, "type": "text", "preset": "pill-subline-wipe", "text": "اقل ملاحظة أثناء الكلام او الابتسام", "override": {"in": {"from": {"clip": "inset(0 0 0 100%)"}, "to": {"clip": "inset(0 0 0 0%)"}}}},
+
+    {"t": 7.0, "type": "camera", "preset": "pullback-two-step"},
+    {"t": 7.03, "end": 8.45, "type": "text", "preset": "hero-white-world-behind", "text": "فكرته"},
+    {"t": 7.3, "end": 8.45, "type": "text", "preset": "english-script-accent", "variant": "His-difference", "text": "His"},
+    {"t": 7.43, "end": 8.45, "type": "text", "preset": "english-tracking-in", "text": "idea"},
+    {"t": 7.0, "end": 8.45, "type": "component", "component": "visionos-glass-ui"},
+    {"t": 7.6, "end": 8.45, "type": "text", "preset": "neon-word-cascade-float", "text": "مصممة خصيصا لأسنانك"},
+
+    {"t": 8.45, "type": "camera", "scaleFrom": 1.0, "scaleTo": 1.0, "durationMs": 0},
+    {"t": 8.48, "end": 9.97, "type": "text", "preset": "gold-spotlight-letters", "text": "راح تشوف"},
+    {"t": 8.75, "end": 9.97, "type": "text", "preset": "english-ghost-centre-out", "variant": "under-gold", "text": "You will see."},
+    {"t": 8.55, "end": 9.97, "type": "component", "component": "phone-glide-in", "in": {"durationMs": 1100}}
+  ]
+}

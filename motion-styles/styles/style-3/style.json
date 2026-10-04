@@ -127,16 +127,18 @@
       "color": "transparent",
       "fill": {
         "type": "linear",
-        "gradient": "linear-gradient(180deg, rgba(140,0,0,0) 0%, rgba(140,0,0,0.25) 45%, rgba(140,0,0,0.60) 100%)",
-        "space": "element box; inner fill rises from the wall colour (#4F0400) at the top to #8C0000 at the bottom (M stem column, f20)"
+        "gradient": "linear-gradient(180deg, rgba(140,0,0,0) 0%, rgba(140,0,0,0.18) 45%, rgba(140,0,0,0.45) 100%)",
+        "space": "element box; inner fill rises from the wall colour (#4F0400) at the top to #8C0000 at the bottom (M stem column, f20)",
+        "renderCheck": "max alpha 0.60 -> 0.45 and rim/glow below: with 0.60, an opaque #B00003 rim and the 0.22 glow the doctor-demo echo read as a red title (glyph R p50 79-127 / p95 134-163 vs 'Mr' 62-79 / 73-120 at ref f31)"
       },
       "effects": {
-        "stroke": {"widthPx": 3, "color": "#B00003"},
-        "glow": {"color": "rgba(208,0,5,0.22)", "radiusPx": 18, "strength": 1},
+        "stroke": {"widthPx": 3, "color": "rgba(176,0,3,0.6)"},
+        "glow": {"color": "rgba(208,0,5,0.15)", "radiusPx": 18, "strength": 1},
         "shadow": null,
         "renderHint": "gradient fill + stroke: put the glow on an under-layer copy (text-shadow paints over background-clip:text)"
       },
-      "use": "translucent red Latin/Arabic echo word behind the hero ('Mr' 280 px @720 wide ~ 39% W); rim #A30002-#D00005"
+      "use": "translucent red Latin/Arabic echo word behind the hero ('Mr' 280 px @720 wide ~ 39% W); rim #A30002-#D00005, lit on the lower letter parts while the letter tops dissolve into the wall (ghost-echo-word carries the vertical mask)",
+      "sizeRule": "keep the echo short (2-3 letters, ~39% W); for a longer word set sizePx to ~0.75x (240) so it stays under ~55% W"
     },
     {
       "role": "ghostMegaArch",
@@ -180,8 +182,9 @@
       "family": "Pinyon Script",
       "fontsource": "@fontsource/pinyon-script",
       "weight": 400,
-      "sizePx": 172,
+      "sizePx": 200,
       "sizePx720": 115,
+      "sizeNote": "115 @720 = 172 was fitted to 'Studio' in an unknown copperplate; Pinyon at 172 rendered 357x120 vs the measured 437x168 bbox (doctor demo f280), so 200",
       "lineHeight": 1.0,
       "letterSpacing": 0,
       "color": "#EC0206",
@@ -456,16 +459,18 @@
     "redStudioWide": {
       "type": "gradient",
       "use": "full-body wide shots (head top 34% H)",
-      "gradient": "radial-gradient(ellipse 55% 35% at 64% 40%, rgba(110,0,12,0.30) 0%, rgba(110,0,12,0) 100%), linear-gradient(90deg, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0) 40%), linear-gradient(180deg, #200002 0%, #380003 13%, #480004 24%, #530006 35%, #560007 45%, #4E0007 55%, #420005 65%, #3F0004 76%, #3C0408 86%, #2A080E 95%, #18060C 100%)",
+      "gradient": "radial-gradient(ellipse 55% 35% at 64% 40%, rgba(110,0,12,0.30) 0%, rgba(110,0,12,0) 100%), radial-gradient(ellipse 48% 34% at 0% 18%, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0) 100%), linear-gradient(180deg, #200002 0%, #380003 13%, #480004 24%, #530006 35%, #560007 45%, #4E0007 55%, #420005 65%, #3F0004 76%, #3C0408 86%, #2A080E 95%, #18060C 100%)",
       "fittedTo": "f604 wall/floor 40th-percentile grid (scratch_style notes): rows 5%..95% H = R 32,56,72,83,86,78,66,63,60,42; left column 10-25 levels darker in the top half",
+      "renderCheck": "the left falloff was a full-height linear band; k_048 shows it only in rows 5-45% (left vs right col R 19/40, 34/63, 47/79, 63/90, 70/87, then 75/78, 72/60, 56/57). Doctor demo f150 had the left col at R 58/48/44 in rows 55-75% vs 75/72/56, which also whitened the Difference cyan; now a top-left radial",
       "floorStartsYPct": 86,
       "contactShadow": "required, see graphicComponents.contact-shadow"
     },
     "redStudioMcu": {
       "type": "gradient",
       "use": "MCU / MS shots (head top 14-24% H)",
-      "gradient": "radial-gradient(ellipse 50% 30% at 0% 86%, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0) 100%), radial-gradient(ellipse 85% 65% at 70% 32%, #5A0008 0%, #520007 45%, #4A0005 75%, #3A0005 100%)",
-      "fittedTo": "f560 wall grid: R 68-90 everywhere, brightest top-right (#5A0007), bottom-left #2E0007-#350007"
+      "gradient": "radial-gradient(ellipse 50% 30% at 0% 86%, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0) 100%), radial-gradient(ellipse 85% 65% at 70% 32%, #5A0008 0%, #540007 45%, #500006 75%, #440005 100%)",
+      "fittedTo": "f560 wall grid: R 68-90 everywhere, brightest top-right (#5A0007), bottom-left #2E0007-#350007",
+      "renderCheck": "outer stops #4A0005 75% / #3A0005 100% -> #500006 / #440005: with the halo + plate-vignette on top, the doctor MCU top rows (5-35% H) read R 55-75 vs 62-93 at k_008"
     },
     "voidExtension": {
       "type": "gradient",
@@ -537,7 +542,11 @@
         "durationMs": 80,
         "easing": "cubic-bezier(0.7,0,0.84,0)"
       },
-      "style": {"fontRole": "ghostMega"},
+      "style": {
+        "fontRole": "ghostMega",
+        "css": {"webkitMaskImage": "linear-gradient(180deg, transparent 0%, #000 70%)", "maskImage": "linear-gradient(180deg, transparent 0%, #000 70%)"},
+        "cssNote": "one vertical mask over fill, rim and (via the glow wrapper) glow: the letter tops dissolve into the wall and the rim reads lit only on the lower parts (ref f31 'Mr'); without it the rim was opaque all round"
+      },
       "position": {"anchor": "center", "xPct": 53.5, "yPct": 16.8, "align": "center"},
       "layer": "behind"
     },
@@ -744,7 +753,8 @@
         "transformOrigin": "50% 60%",
         "keyframes": [
           {
-            "unit": "first (and tatweel units)",
+            "unit": "all",
+            "unitNote": "measured on the first glyph and the tatweel units; applied to ALL units (staggered) because the runtime only sets a group's start state at that group's own start time, so with 'first' the tatweels and the last glyph were drawn at full size for the first 360 ms (render check); the 'last' group below is inserted later and overrides the final glyph",
             "steps": [{"scale": 0, "tMs": 0}, {"scale": 1, "tMs": 320, "easing": "cubic-bezier(0.25,0.48,0.5,0.99)"}],
             "measured": "'بـ' 5x12 -> 85x122 px @720, f216-224, height progress .10/.31/.51/.67/.80/.89/.95/.99/1"
           },
@@ -763,7 +773,7 @@
       "holdMs": 1100,
       "out": null,
       "style": {"fontRole": "displayPop"},
-      "position": {"anchor": "center", "xPct": 49.2, "yPct": 55.5, "align": "center"},
+      "position": {"anchor": "center", "xPct": 49.2, "yPct": 51.1, "align": "center", "positionNote": "55.5% is the measured INK centre; the engine centres the 1.1 line box and this glyph pair sits low in it, so the ink landed 84 px (4.4% H) below k_018 on the reference's own plate. 51.1% puts the ink top at the measured 955 px @1080"},
       "layer": "front",
       "layerNote": "the lower ~40 px @720 of the word sits UNDER the glass pill that follows (blurred by it)",
       "kashida": {"count": 2}
@@ -787,16 +797,24 @@
       },
       "hold": {
         "from": {"backgroundPosition": "30% 0%"},
-        "to": {"backgroundPosition": "70% 0%"},
+        "to": {"backgroundPosition": "73% 0%"},
         "easing": "cubic-bezier(0,0,1,1)",
-        "note": "background-size 400%: band centre x = (2 - 3p) * lineWidth, so 30% -> just right of the line, 70% -> just left of it. FWHM = 0.16 x line width (~92 px on a 576 px line = measured 55-75 px @720)"
+        "note": "background-size 400%: band centre x = (2 - 3p) * lineWidth, so 30% -> just right of the line, 73% -> fully off its left end on a 576 px line (at 70% the band tail parked on the last letter until the cut: demo f136). Time the cue end ~100 ms before the cut so the letters are white again.",
+        "renderCheck": "the old stops (0 at 44/56%, 0.85-1 core) gave FWHM = 0.32 x line width, not 0.16: 225-307 px on the demo's 820 px line vs 55-110 px measured, peak redness 0.77 vs 0.52-0.66. The gradient below is the reference line (576 px) case; components.js builds the band in px from bandPx for any line width"
+      },
+      "bandPx": {
+        "fwhmPx": 92,
+        "startPx": 50,
+        "endPx": -105,
+        "stops": [[0, "rgba(240,48,57,0.85)"], [22, "rgba(232,34,44,0.74)"], [46, "rgba(222,96,96,0.43)"], [70, "rgba(208,137,123,0.14)"], [95, "rgba(208,137,123,0)"]],
+        "note": "band profile in px from its centre (core #F03039 at 85% over the white hero = pink-red, redness ~0.64; #D0897B partial edge outside); startPx / endPx = band-centre offset from the line's right end at the start / from its left end at the end"
       },
       "holdMs": 1920,
       "out": null,
       "style": {
         "fontRole": "hero",
         "fill": {
-          "gradient": "linear-gradient(90deg, rgba(240,48,57,0) 0%, rgba(240,48,57,0) 44%, rgba(232,34,44,0.85) 48%, #F03039 50%, rgba(232,34,44,0.85) 52%, rgba(240,48,57,0) 56%, rgba(240,48,57,0) 100%)"
+          "gradient": "linear-gradient(90deg, rgba(208,137,123,0) 0%, rgba(208,137,123,0) 45.88%, rgba(208,137,123,0.14) 46.96%, rgba(222,96,96,0.43) 48%, rgba(232,34,44,0.74) 49.05%, rgba(240,48,57,0.85) 50%, rgba(232,34,44,0.74) 50.95%, rgba(222,96,96,0.43) 52%, rgba(208,137,123,0.14) 53.04%, rgba(208,137,123,0) 54.12%, rgba(208,137,123,0) 100%)"
         },
         "css": {"backgroundSize": "400% 100%", "backgroundRepeat": "no-repeat"}
       },
@@ -846,11 +864,10 @@
       "unit": "none",
       "dir": "rtl",
       "in": {
-        "from": {"clip": "inset(0% 0% 0% 100%)"},
-        "to": {"clip": "inset(0% 0% 0% 0%)"},
         "durationMs": 560,
         "easing": "cubic-bezier(0,0,1,1)",
         "staggerMs": 0,
+        "keyframesNote": "no from/to here: the runtime adds a from/to tween AFTER the keyframes and that linear 100%->0 clip overrode the measured head/kashida/tail shape (render check)",
         "keyframes": [
           {"tMs": 0, "clipLeftPct": 100},
           {"tMs": 120, "clipLeftPct": 65.6},
@@ -992,7 +1009,8 @@
       "holdMs": 2760,
       "out": null,
       "style": {"fontRole": "scriptAccent"},
-      "position": {"anchor": "center", "xPct": 68.8, "yPct": 14.0, "align": "center"},
+      "position": {"anchor": "center", "xPct": 66.0, "yPct": 16.7, "align": "center"},
+      "positionNote": "the measured ink centre (68.8%, 14.0%) put the script's baseline ~60 px above the wordmark baseline in the doctor demo (the engine centres the line box and Pinyon's ink sits high in it): 16.7% / 66% at 200 px lands the baseline on the wordmark baseline with the swash over the right half",
       "layer": "front",
       "note": "baseline sits on the wordmark baseline; capital swash rises above the M; bbox 291x112 @720 (x350-641, y119-231 at f500)"
     },
@@ -1040,7 +1058,8 @@
         "dashes": {"probability": 0.5, "segments": [2, 3], "gapPx": [15, 30]},
         "fill": {"normal": "#6B0505", "alt": "#230303 with mix-blend-mode plus-lighter (adds +34 R everywhere)"},
         "contrast": "rays only +30-35 R levels over the wall (#6B0505 on #4A0004)",
-        "scaleWithShot": "radius ~105 px @720 in the extreme wide, ~343 in the wide, overflowing the frame in MCU (use perHeadWidth with the face track)"
+        "scaleWithShot": "radius ~105 px @720 in the extreme wide, ~343 in the wide, overflowing the frame in MCU (use perHeadWidth with the face track)",
+        "sizingRenderCheck": "per-head-width sizing (perHeadWidth with the face track) only works when the wide head is ~135 px. On a foreign plate with a big head (doctor: face box ~490 px, wide at x0.62) it made the halo ~2x the reference (rays r 225-750 px, into the floor and through the feathered body). Size it in screen space at the shot's wide rest scale instead (components.js props.restScale: plate radius = reference px / restScale) and occlude it with the presenter's matte"
       },
       "in": null,
       "loop": {
@@ -1307,7 +1326,8 @@
       "build": {
         "behindLayer": "radial-gradient(ellipse 70% 55% at 50% 42%, rgba(12,0,0,0) 45%, rgba(12,0,0,0.80) 100%) + linear-gradient(180deg, rgba(6,0,0,0.6) 0%, rgba(6,0,0,0) 14%)",
         "talentMask": "#talentWrap mask-image: linear-gradient(180deg, #000 0%, #000 86%, rgba(0,0,0,0.55) 100%) (bottom falls to Y~12 in MCUs)",
-        "targets": "corners ~2.1 stops under centre"
+        "targets": "corners ~2.1 stops under centre",
+        "overStudioRenderCheck": "over a crimson-studio backdrop (gradients fitted with the vignette baked in) run it at ~25%: at 40% the doctor MCU wall read R 56-78 vs 77-89 (k_008) and the wide lower wall R 38-55 vs 56-63"
       },
       "in": null,
       "loop": null,
@@ -1679,7 +1699,29 @@
     "maxWordsPerCaption": 3,
     "punchInEveryNCaptions": 0,
     "punchInPreset": "pullback-brand",
-    "note": "srt2scene's punch logic is disabled: this style never pushes in. Add the 4 pull-backs by hand (hook x2, breather, brand)."
+    "note": "srt2scene's punch logic is disabled: this style never pushes in. Add the 4 pull-backs by hand (hook x2, breather, brand). Drafted starred captions become the validation-beat grammar (fade-rise hero at 68.8% + typed Light line at 75.6%); autoSfx ignores onlyFirstInReel, so set \"sfx\": false on every typewriter-sub after the first. fade-rise-word starts later words at 45% opacity: components.js keeps each word hidden until its own stagger start (without components.js the later words pre-show as grey ghosts). End every karaoke-sweep cue ~100 ms before the cut so the band has left the line.",
+    "componentHints": {
+      "note": "not read by srt2scene.py; defaults proven by demo/scene_doctor.json (foreign plate) and demo/scene_native.json (reference plate), see STYLE.md 'Engine implementation'",
+      "foreignSet": {
+        "backdrop": {"component": "crimson-studio", "wide": {"variant": "wide"}, "tight": {"variant": "mcu"}},
+        "talent": {"component": "crimson-talent", "props": {"despill": 0.9, "wrap": 0.5, "choke": 0.4, "edgeDarken": 0.5, "feather": {"side": 220, "bottom": 260}, "filter": "brightness(1.25) saturate(0.9) contrast(1.05)"},
+          "filterNote": "per-plate exposure trim after grade.css: tune until skin peaks land at Y 165-175 and plate p99.5 <= 170 (doctor plate: 1.25 gave p99 165 vs reference tight shot 178); contrast(1.05) crushes the lifted blacks (Y p5 7-9 -> ~4)",
+          "edgeNote": "the matte's opaque rim can still carry the original wall (teal light wrap on ears / neck): crimson-talent decontaminates every non-interior pixel to the nearby interior colour, erodes ~1 px, then darkens and pulls the edge toward the red wrap"},
+        "persistent": "keep style persistent (sunburst-halo + plate-vignette) and size them per scene with scene.persistentProps: {\"sunburst-halo\": {\"restScale\": <wide rest scale>}, \"plate-vignette\": {\"overStudio\": {\"wide\": 0.25, \"mcu\": 0.25}}}. restScale gives the halo the reference wide's SCREEN size (inner 159 / outer 515 px) at that camera scale, so it does not balloon with a big head; the halo is occluded by the presenter's matte. The vignette runs at 25% over crimson-studio (the fitted gradients already carry the falloff; 40% made the MCU wall R 56-78 vs 77-89)"
+      },
+      "referenceSet": {"grade": false, "overlays": false, "persistent": false, "note": "reference plates already carry the grade, vignette and practical sunburst"},
+      "framing": {
+        "wide": "camera scale that puts the head top at 34-35% H with the head ~2x smaller than in the tight shot (x1.9-2.6 flip). An MCU-only 1080x1920 source (the doctor plate: no full-body take) rests its wides at ~0.53 (head ~250 px; 0.62 gave a x1.6 flip and a 300 px head); x offset to centre the face; crimson-talent feathers the plate edges; hide the plate's lower edge under the arch in the hook. The lower third stays dark wall/floor: never fill it with rays or type",
+        "mcuOnlySource": "renders/plates/doctor is an MCU-only source: no seated full-body wide exists, so the reference's small figure in a big room cannot be rebuilt; the 0.53 'wide' is a feathered bust",
+        "tight": "scale 1.0 (or mcu-crop 2.3 on a 4K wide)",
+        "pullbacks": "multiply the preset scaleFrom/scaleTo by the shot's rest scale (e.g. pullback-expo-open 1.69x0.62 -> 0.62) and add a world-rest cue (props.restAt or props.rest) so world-locked type lands on its slot"
+      },
+      "cuts": "put every cut at k/30 - 0.02 s with camera durationMs >= 1 (a zero-duration camera cue on a frame boundary blends both framings through the motion-blur sampler); never let a camera move run past the next camera cue",
+      "difference": "place the Difference question / slam just below the chin so the stroke tops cross the neck / V-neck skin (white -> teal over skin, red -> green) and the rest crosses the wall (cyan #ACFAF6 needs a wall of R ~80 under it); never on the beard or face. Rise on the cut frame, swap-out with one empty frame, slam on its spoken onset",
+      "bed": {"script": "demo/make_bed.py", "music": {"gainDb": "set so the band below 70 Hz sits ~3 dB under the 100 Hz-4 kHz voice band", "duckDb": 0},
+        "sfx": "the engine's SFX stand-ins are tonal 2-7 kHz blips; bake the reference's >11 kHz click / typing rattle into the bed (make_bed.py --sfx click@T,typing@T) and set \"sfx\": false on those cues"},
+      "mux": "render.mjs --out muxes with -shortest and drops the last frame when the plate audio is a few ms short: render --no-audio, run audio.py, then ffmpeg -af apad -shortest (STYLE.md Engine implementation)"
+    }
   },
   "persistent": [
     {"component": "sunburst-halo", "t": 0, "layer": "behind", "worldLock": true},

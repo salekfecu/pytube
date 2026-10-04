@@ -69,8 +69,15 @@
         "verticalOverlay": "linear-gradient(180deg, rgba(255,255,255,0) 55%, rgba(173,227,233,0.55) 100%)"
       },
       "effects": {
-        "glow": {"color": "rgba(127,230,238,0.55)", "radiusPx": 60, "strength": 1.2},
-        "neonRim": {"color": "#05F3F8", "widthPx": 6, "sides": "lower-left extrusion edges + inside counters", "glowPx": 9},
+        "glow": {"color": "rgba(170,225,230,0.35)", "radiusPx": 70, "strength": 1.2},
+        "glowLayers": [
+          {"color": "rgba(5,243,248,0.25)", "radiusPx": 10},
+          {"color": "rgba(170,225,230,0.28)", "radiusPx": 32},
+          {"color": "rgba(170,225,230,0.35)", "radiusPx": 70},
+          {"color": "rgba(170,225,230,0.20)", "radiusPx": 120}
+        ],
+        "glowNote": "Revised after a render vs k_020: the halo is wide and grey-white (row y=200@720: #1C3941 -> #51656C), with only a thin saturated cyan edge. The earlier rgba(127,230,238,.55) r60 x1.2 rendered as a saturated neon-sign glow.",
+        "neonRim": {"color": "#05F3F8", "widthPx": 6, "minWidthPx": 6, "glowPx": 9, "offsetDir": [0.55, 0.85], "sides": "top/left outer contours + the lower inner edges of the counters (k_020 zoom); built as a filled copy shifted up-left under the face, above the extrusion"},
         "extrusion": {"color": "#2E6E78", "offsetX": -8, "offsetY": 10, "depthPx": 14},
         "perspectiveTiltDeg": {"rotateX": 6, "rotateY": -4},
         "fauxBold": {"strokePx": 4, "note": "Readex Pro stops at 700; the reference is 800-900. Add a same-tone 4 px stroke."}
@@ -527,7 +534,7 @@
       "hold": {"static": true},
       "out": null,
       "outNote": "hard-cut",
-      "style": {"fontRole": "hero-cyan-glass", "glow": {"color": "rgba(127,230,238,0.55)", "radiusPx": 60, "strength": 1.2}},
+      "style": {"fontRole": "hero-cyan-glass", "glow": {"color": "rgba(170,225,230,0.35)", "radiusPx": 70, "strength": 1.2}},
       "position": {"anchor": "center", "xPct": 49.2, "yPct": 19.2, "inkBox720": [45, 92, 663, 399]},
       "layer": "behind"
     },
@@ -538,26 +545,28 @@
       "dir": "rtl",
       "staggerOrder": ["centre glyph (ذ) body", "ذ dot +233ms (7F)", "outer glyphs +300ms (9F) and +333ms (10F)"],
       "in": {
-        "from": {"opacity": 0, "scaleX": 0.88, "scaleY": 0, "blur": 6, "brightness": 0.75, "transformOrigin": "50% 100%"},
+        "from": {"opacity": 0, "scaleX": 0.3, "scaleY": 0.3, "blur": 6, "brightness": 1.25, "transformOrigin": "50% 100%"},
         "to": {"opacity": 1, "scaleX": 1, "scaleY": 1, "blur": 0, "brightness": 1, "transformOrigin": "50% 100%"},
+        "fromNote": "Revised after a render vs reference F152-F177 (scratch b_ref_gold): each glyph ignites SMALL and HOT in both axes from the baseline (about 0.3x at its first visible frame, heavy bloom, brighter than at rest). The earlier scaleX 0.88 / scaleY 0 / brightness 0.75 rendered as a flattened dark smudge.",
         "staggerFrom": "center",
         "durationMs": 733,
         "durationF": 22,
         "easing": "cubic-bezier(0,0.40,0.35,1.40)",
         "staggerMs": 300,
         "keyframes": [
-          {"tF": 0, "tMs": 0, "scale": 0},
+          {"tF": 0, "tMs": 0, "scale": 0.3},
           {"tF": 10, "tMs": 333, "scale": 1.12, "easing": "cubic-bezier(0.2,0.6,0.35,1)"},
           {"tF": 22, "tMs": 733, "scale": 1.0, "easing": "cubic-bezier(0.45,0,0.55,1)"}
         ],
         "tracks": [
-          {"prop": "brightness", "from": 0.75, "to": 1, "durationMs": 1033, "durationF": 31, "easing": "ease-out"},
+          {"prop": "brightness", "from": 1.25, "to": 1, "durationMs": 1033, "durationF": 31, "easing": "ease-out"},
           {"prop": "blur", "from": 6, "to": 0, "durationMs": 1000, "durationF": 30, "easing": "ease-out"},
-          {"prop": "glowStrength", "from": 0.3, "to": 1.5, "durationMs": 433, "durationF": 13, "easing": "ease-out"}
+          {"prop": "glowStrength", "from": 1.0, "to": 1.5, "durationMs": 433, "durationF": 13, "easing": "ease-out"}
         ],
-        "preGlow": {"glyph": "first alef", "opacity": 0.15, "leadMs": 100, "leadF": 3}
+        "dotDelayMs": 233,
+        "preGlow": {"glyph": "first alef", "opacity": 0.15, "leadMs": 100, "leadF": 3, "note": "the word's cue time is the pre-glow; the centre body starts leadMs later"}
       },
-      "start": {"anchor": "cut", "offsetMs": 200, "offsetF": 6},
+      "start": {"anchor": "cut", "offsetMs": 100, "offsetF": 3, "note": "cue = first-alef pre-glow at F3; the centre glyph body grows from F6 (cut + 200 ms) as measured"},
       "holdMs": 2600,
       "hold": {"static": true},
       "out": null,
@@ -723,7 +732,10 @@
         "easing": "linear",
         "staggerMs": 123,
         "staggerF": 3.7,
-        "kashidaGrowTo": 3
+        "kashidaGrowTo": 3,
+        "kashidaLeadMs": 100,
+        "kashidaGrowMs": 300,
+        "kashidaNote": "the tatweel run grows as one stroke from its letter, starting 3 F after it, over 8-10 F; the next letter waits until the stroke reaches it (reference F264-F276)"
       },
       "start": {"anchor": "component", "component": "glass-search-morph", "offsetMs": 533},
       "holdMs": 1870,
@@ -997,7 +1009,9 @@
           "centrePct": [65.0, 70.2],
           "fill": "rgba(255,255,255,0.22)",
           "backdropBlurPx": 18,
-          "rim": "1.5px rgba(255,255,255,0.45) inner and outer"
+          "rim": "1.75px rgba(255,255,255,0.7) inner and outer, each with a soft 6-8 px edge glow, + a top-left specular crescent",
+          "rimAlpha": 0.7,
+          "renderNote": "Measured at 8.27 s: band ~72-87 luma over scrubs ~30-35 (about 22% white, so the fill stays), inner/outer edges 107-184. The earlier render read as a flat washer because its 1.5 px rims at 45% had no edge light; the edges now carry the glass."
         },
         "pill": {
           "widthPx": 848,
@@ -1006,7 +1020,8 @@
           "centrePct": [49.7, 70.1],
           "fill": "rgba(255,255,255,0.13)",
           "backdropBlurPx": 24,
-          "rim": "inset 0 3px 0 rgba(255,255,255,0.30), 0 0 0 1.5px rgba(255,255,255,0.18)"
+          "rim": "inset 0 0 0 1.75px rgba(255,255,255,0.45), inset 0 3px 0 rgba(255,255,255,0.30)",
+          "rimAlpha": 0.45
         },
         "textCapsule": {
           "widthPx": 456,
@@ -1014,13 +1029,15 @@
           "radiusPx": 83,
           "insetPx": 38,
           "side": "left",
-          "fill": "rgba(0,0,0,0.28)",
-          "rim": "1.5px rgba(255,255,255,0.18)"
+          "fill": "rgba(0,0,0,0.45)",
+          "fillNote": "0.28 rendered #433531 over the scrubs vs the reference #261D1E (sbs_pill2, 9.9 s); 0.45 matches and restores label contrast",
+          "rim": "1.5px rgba(255,255,255,0.14)"
         },
         "button": {
           "diameterPx": 165,
           "side": "right",
-          "fill": "#392A21",
+          "fill": "#241B1A",
+          "fillNote": "measured #221B20 at 9.9 s (the earlier #392A21 sample was mixed with the glass); flat, no outer glow",
           "ring": {"diameterPx": 118, "strokePx": 7.5, "color": "#C19359"},
           "arrow": {"glyph": "up-left arrow", "strokePx": 7.5, "lineCap": "round", "color": "#C19359", "sizePx": 54}
         }
@@ -1199,6 +1216,28 @@
       "sourceResolution": "Needs a 4K source (vertical crop >= 1215x2160). At 2.49x a 1080p source upscales to soft mush. The reference hides softness with motion blur."
     },
     {
+      "id": "pullback-two-step-mcu",
+      "type": "keyframes",
+      "trigger": "Engine variant for footage that has no wide shot (CU/MCU plates such as renders/plates/doctor). Same timing, near-hold and fitted curves as pullback-two-step, with the scale keys compressed in log space (S_mcu = S_ref^0.5), so the punched-in face is ~1.6x the rest framing instead of ~2.5x. Rendered on the doctor plate: S_ref 2.49 would put the CU face at ~115% W on a 720p-sourced plate.",
+      "scaleFrom": 1.578,
+      "scaleTo": 1.0,
+      "durationMs": 2400,
+      "durationF": 72,
+      "easing": "cubic-bezier(0.33,0.08,0.02,0.91)",
+      "keyframes": [
+        {"tF": 0, "tMs": 0, "scale": 1.578},
+        {"tF": 1, "tMs": 33, "scale": 1.578},
+        {"tF": 31, "tMs": 1033, "scale": 1.139, "easing": "cubic-bezier(0.33,0.08,0.02,0.91)"},
+        {"tF": 36, "tMs": 1200, "scale": 1.136, "easing": "linear"},
+        {"tF": 72, "tMs": 2400, "scale": 1.0, "easing": "cubic-bezier(0.31,0.08,0.0,0.97)"}
+      ],
+      "focus": [0.5, 0.41],
+      "focusPx": [540, 787],
+      "motionBlur": {"shutterDeg": 180, "visibleFrames": [5, 15]},
+      "appliesTo": ["plate", "talent", "worldLockedText", "worldLockedComponents"],
+      "derivedFrom": "pullback-two-step"
+    },
+    {
       "id": "pullback-step1",
       "type": "scale",
       "trigger": "engine split of pullback-two-step: cue at shot start",
@@ -1338,7 +1377,8 @@
       "preset": "gold-light-panel-grow",
       "sound": "shimmer",
       "idealSound": "shimmerTwoTone",
-      "offsetMs": 0,
+      "offsetMs": 100,
+      "offsetNote": "the gold cue starts at the 3 F pre-glow, so +100 ms lands the shimmer on the centre glyph body",
       "gainDb": -22,
       "measured": "9252 Hz 5.17-5.27 s, 5597 Hz 5.27-5.33 s; reused at 29.55 s. Band level -32..-41 dBFS vs speech about -12 dBFS. Lands on the first glyph (S3) or on the outer glyphs (S9, +200 ms)."
     },
@@ -1424,13 +1464,13 @@
     ]
   },
   "director": {
-    "captionPreset": "neon-thin-blurfade",
+    "captionPreset": "neon-thin-typeon",
     "keywordPreset": "hero-white-rise",
-    "subPreset": "neon-word-cascade-float",
-    "maxWordsPerCaption": 4,
+    "subPreset": "neon-thin-typeon",
+    "maxWordsPerCaption": 3,
     "punchInEveryNCaptions": 0,
     "punchInPreset": null,
-    "note": "srt2scene only drafts. Assign per-shot hero materials, components and the pull-back by hand using the narrative template in STYLE.md."
+    "note": "srt2scene only drafts. Assign per-shot hero materials, components and the pull-back by hand using the narrative template in STYLE.md. Defaults changed after the engine renders: neon-thin-blurfade's default position (63.2%, 22%) is the hook's WS slot and landed on the forehead on MCU footage (demo/scene_test.json still 75), so drafted captions now use neon-thin-typeon on the chest band (49.6%, 76%), which is also the reference's problem-beat pairing (hero-white-rise top + typed neon line on the chest). Its 3 x 8 kashida joints make 4-word lines overflow the 938 px safe width, hence 3 words. No punch-ins: the style is locked off except for hand-placed pull-backs (pullback-two-step, or pullback-two-step-mcu on CU/MCU-only footage)."
   },
   "persistent": [],
   "rules": {

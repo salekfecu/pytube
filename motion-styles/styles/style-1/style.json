@@ -470,9 +470,10 @@
     },
     "studioMcu": {
       "type": "gradient",
-      "gradient": "radial-gradient(ellipse 95% 62% at 28% 42%, #893B00 0%, #7C3100 28%, #652602 52%, #451700 74%, #1A0400 100%)",
-      "fitError": "mean abs 5.7/255 per channel vs f547 backdrop samples",
-      "use": "MCU shots (hot spot left of head, near-black top-right)"
+      "gradient": "radial-gradient(ellipse 40% 30% at 106% 54%, rgba(120,42,6,0.7) 0%, rgba(120,42,6,0) 100%), radial-gradient(ellipse 95% 62% at 28% 42%, #893B00 0%, #7C3100 28%, #652602 52%, #451700 74%, #1A0400 100%)",
+      "fitError": "mean abs 5.7/255 per channel vs f547 backdrop samples (radial only)",
+      "refit": "demo render check vs k_008/k_010/k_012 backdrop-only points (left column, right column, top band): radial alone 10.4/255 mean abs error (top-centre #4D1E00 vs ref #2A0C04, right-mid #3E1501 vs #5E2105). Adding the right-side spill (first layer) and drawing the style's overlays.tint corner shade on the cyc (ember-backdrop shade, default on) brings it to 6.6",
+      "use": "MCU shots (hot spot left of head, near-black top-right, warm spill on the right edge at mid height)"
     },
     "labCorridorPlate": {
       "type": "ai-plate",
@@ -699,19 +700,32 @@
       "in": {
         "from": {
           "opacity": 0,
-          "blur": 12,
-          "color": "#FAD01E",
-          "textShadow": "0 0 6px rgba(255,245,92,1), 0 0 24px rgba(250,208,30,0.9)"
+          "blur": 12
         },
         "to": {
           "opacity": 1,
-          "blur": 0,
-          "color": "#FFFFFF",
-          "textShadow": "0 0 6px rgba(255,245,92,0), 0 0 24px rgba(250,208,30,0)"
+          "blur": 0
         },
+        "durationMs": 133,
+        "easing": "cubic-bezier(0,0,1,1)",
+        "staggerMs": 67,
+        "measured": "ref ب blob f96 -> crisp f99-100 (4 f). Was one 333 ms tween that also cooled the colour, so glyphs were already white when opaque (demo f143 core #BD9961 vs ref f102 #FFEB04): split into IN + cool"
+      },
+      "cool": {
+        "from": {
+          "color": "#FAD01E",
+          "textShadow": "0 0 6px rgba(255,245,92,1), 0 0 24px rgba(250,208,30,0.9), 0 0 48px rgba(250,208,30,0.45)"
+        },
+        "to": {
+          "color": "#FFFFFF",
+          "textShadow": "0 0 6px rgba(255,245,92,0), 0 0 24px rgba(250,208,30,0), 0 0 48px rgba(250,208,30,0)"
+        },
+        "delayMs": 133,
         "durationMs": 333,
-        "easing": "cubic-bezier(0.25,0.6,0.4,1)",
-        "staggerMs": 67
+        "staggerMs": 67,
+        "easing": "cubic-bezier(0.55,0,0.8,0.45)",
+        "appliesTo": "every unit incl. tatweels: the hot band sweeps R->L through the word",
+        "measured": "filmstrips/sec_03 f98-124: each unit lands #FAD01E (core #FFEB04) with the halo, holds hot ~8 f, white by ~11 f; ب yellow f100-108, tatweel run yellow f106-110, س f112-122, all white by f124. Implemented by components.js ember-text-fx (the runtime ignores 'cool')"
       },
       "start": {"anchor": "cut", "offsetMs": 333},
       "holdMs": 2600,
@@ -1488,7 +1502,11 @@
         "blurPx": 13.5,
         "blurPx720": 9,
         "blurRamp": {"durationMs": 267, "easing": "cubic-bezier(0,0,1,1)"},
-        "saturateTo": 0.1,
+        "saturateTo": 0.02,
+        "saturateNote": "was 0.1 (the HSV S ratio 211 -> 22). As a CSS/colour-matrix saturation 0.1 leaves HSV S ~46-55 on the saturated cyc (demo render: S median 55, warm #483F39 vs ref S 18, #3E3C3F); 0.02 lands at the measured S ~18",
+        "lumaWeights": [0.299, 0.587, 0.114],
+        "greyGains": [1.0, 0.965, 1.03],
+        "greyNote": "ref greys are cool-neutral with G lowest and B >= R (#3E3C3F, #2A282C at f490/f500): per-channel gains on the grey; Rec.601 weights keep the frame luma (no luma change)",
         "desatDelayMs": 67,
         "desatDurationMs": 200,
         "desatEasing": "cubic-bezier(0,0,1,1)",
@@ -1664,9 +1682,22 @@
     "subPreset": "blur-type-thin",
     "maxWordsPerCaption": 3,
     "punchInEveryNCaptions": 2,
-    "punchInPreset": "punch-out-settle"
+    "punchInPreset": "punch-out-settle",
+    "componentHints": {
+      "note": "not read by srt2scene.py; defaults proven by demo/scene_doctor.json (see STYLE.md 'Engine implementation')",
+      "backdrop": {"component": "ember-backdrop", "mcu": "studioMcu", "wide": "studioWide", "worldPlates": ["labCorridor", "labWall"], "cancelCam": "pass the shot's SETTLED camera {scale, x, y, focusPx} so the fitted cyc / plate lands where it was fitted while punch-outs and wobble still move it"},
+      "talentOnCoolSet": {"component": "ember-talent", "props": {"despill": 1, "choke": 0.35, "wrap": 0.6, "warm": 0.06, "toe": 0.045, "solidBottom": [84, 93]}},
+      "cropOrReframe": "camera cue with inline keyframes (static presets such as mcu-digital-punch are ignored by the runtime); add focusPx when the face track is smoothed across a jump cut",
+      "mcuFromCloseFootage": "reframe so the chin sits at 44-46 % H (scale >= the value that still covers the bottom edge) and use the chest-band slots: hero (52.4, 50.6), thin (50.3, 55.3), pill (50, 63.3), 3D accent ~7 % below the pill centre; leave the top band to the clay card",
+      "darkWardrobeLens": "lens-disc-slide over dark wardrobe: land it where light content (hands) sits, e.g. centreLandPct [78, 90], and drop interior.blurPx to ~5 so the 1.2x magnification reads",
+      "worldPlateWobble": "write the +-5-10 px wobble into the camera keyframes (sine.inOut, 750 ms steps) and add ember-composite {mode: translate, base: <reframe offset>} so captions shake with the plate",
+      "sceneAudio": {"autoSfx": true, "voiceGainDb": "0 (ref mix: 10 ms RMS p50 -20.9, p95 -11.1 dBFS); audio.py soft-limits the master when it would pass -0.2 dBFS", "music": {"src": "bed_ember_112bpm.wav (demo/make_bed.py)", "gainDb": -16, "duckDb": 0}}
+    }
   },
-  "persistent": [],
+  "persistent": [
+    {"component": "ember-prime", "note": "components.js: engine workaround — nudges frame-aligned cue timelines 0.1 ms earlier so GSAP renders their t=0 sets on the cue's first frame (frame 0 and cuts on exact frame boundaries otherwise flash the previous state)"},
+    {"component": "ember-text-fx", "layer": "front", "note": "components.js: Arabic reflow/settle via letter margins (Chromium ignores letter-spacing on cursive Arabic), shared screen-space gold band for the hook, gradient-safe drop-shadow glows, two-phase glow-sweep (land hot, then cool), chrome inner rim + near halo + delayed bloom, feathered reverse wipe, seam-free unsplit hold once a split Arabic line is static"}
+  ],
   "rules": {
     "do": [
       "Use IBM Plex Sans Arabic only, in two weights: 700 for heroes and pill lines, 200 for support lines (300 only for the tiny dark CTA subtitle).",

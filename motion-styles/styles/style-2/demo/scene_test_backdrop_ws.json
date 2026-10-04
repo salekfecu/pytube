@@ -1,0 +1,9 @@
+{
+  "note": "QA: background replacement on a warm foreign plate (ref3_breather, red studio) with the procedural WS clinic plate (tubes + haze + LED) + cyan rim relight + gold spotlight line.",
+  "autoSfx": false,
+  "cues": [
+    {"t": 0, "end": 2.77, "type": "component", "component": "teal-clinic-backdrop", "variant": "ws"},
+    {"t": 0, "end": 2.77, "type": "component", "component": "cyan-rim-relight"},
+    {"t": 0.03, "end": 2.77, "type": "text", "preset": "gold-spotlight-letters", "text": "راح تشوف"}
+  ]
+}

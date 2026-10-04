@@ -5,7 +5,7 @@
     "shot2": "هسه = Now (turn word)  /  تقويم ما ينشـاف = braces nobody can see  |  B&W: مو بس سنون مرتبة = not just straight teeth -> ثقة = confidence  |  card: Aligners",
     "shot3": "ضحكتك = your smile (payoff, answers the hook)"
   },
-  "_framing": "shot 2 = take B at 1.16 (y -174, x -60 around the face) so the chin sits at ~44% H and the 46-77% chest band carries the card stack (ref k_008-k_012 / k_022-k_025); punch 1.60 -> 1.16 keeps the 1.38 ratio. Shot 3 = take B at 1.0, y +40 (head top 23% H, payoff ink from 9.7% H). Backdrops cancel the settled framing (ember-backdrop cancelCam) so the fitted cyc gradient lands where it was fitted.",
+  "_framing": "shot 2 = take B at 1.16 (y -174, x -60 around the face) so the chin sits at ~44% H and the 46-77% chest band carries the card stack (ref k_008-k_012 / k_022-k_025); punch 1.60 -> 1.16 keeps the 1.38 ratio. Shot 3 = take B at 1.0, y +40 (head top 23% H, payoff ink from 9.7% H). The style's cameraDefaults.worldRest \"final\" moves the world-locked backdrops relative to each shot's settled framing, so the fitted cyc gradient lands where it was fitted; shot 1 pins its rest to the reframe ({x 0, y 150}) because its last keyframe carries a wobble offset.",
   "autoSfx": true,
   "voiceGainDb": 0,
   "music": {"src": "bed_ember_112bpm.wav", "gainDb": -16, "duckDb": 0},
@@ -13,8 +13,8 @@
   "cues": [
     {"t": 0, "end": 9.97, "type": "component", "component": "ember-talent", "props": {"despill": 1, "choke": 0.35, "wrap": 0.6, "warm": 0.06, "toe": 0.045, "solidBottom": [84, 93]}},
 
-    {"t": 0, "end": 4.6, "type": "component", "component": "ember-backdrop", "props": {"variant": "labCorridor", "blurPx": 2, "cancelCam": {"scale": 1.0, "x": 0, "y": 150, "focusPx": [505, 845]}}},
-    {"t": 0, "type": "camera", "focusPx": [505, 845], "keyframes": [
+    {"t": 0, "end": 4.6, "type": "component", "component": "ember-backdrop", "props": {"variant": "labCorridor", "blurPx": 2}},
+    {"t": 0, "type": "camera", "focusPx": [505, 845], "worldRest": {"x": 0, "y": 150}, "keyframes": [
       {"tMs": 0, "scale": 1.38, "x": 0, "y": 150},
       {"tMs": 67, "scale": 1.38, "x": 0, "y": 150},
       {"tMs": 634, "scale": 1.0, "x": 0, "y": 150, "easing": "cubic-bezier(0.25,0,0.1,1)"},
@@ -32,7 +32,7 @@
     {"t": 2.7, "end": 4.6, "type": "component", "component": "echo-capsule", "props": {"label": "عيـ"}},
     {"t": 2.767, "end": 4.6, "type": "component", "component": "nametag-capsule", "props": {"label": "عيادة الابتسامة", "micro": "ALIGNERS", "microDelayMs": 167}},
 
-    {"t": 4.6, "end": 8.24, "type": "component", "component": "ember-backdrop", "props": {"variant": "studioMcu", "cancelCam": {"scale": 1.16, "x": -60, "y": -174, "focusPx": [650, 800]}}},
+    {"t": 4.6, "end": 8.24, "type": "component", "component": "ember-backdrop", "props": {"variant": "studioMcu"}},
     {"t": 4.6, "type": "camera", "focusPx": [650, 800], "keyframes": [
       {"tMs": 0, "scale": 1.6008, "x": -60, "y": -174},
       {"tMs": 67, "scale": 1.6008, "x": -60, "y": -174},
@@ -46,7 +46,7 @@
     {"t": 7.2, "end": 8.24, "type": "component", "component": "smoked-pill-autosize", "props": {"text": "مو بس سنون مرتبة", "centrePct": [50.0, 63.3]}},
     {"t": 7.54, "end": 8.24, "type": "text", "preset": "orange-3d-type", "text": "ثقة", "position": {"xPct": 50.6, "yPct": 70.5}},
 
-    {"t": 8.24, "end": 9.97, "type": "component", "component": "ember-backdrop", "props": {"variant": "studioMcu", "cancelCam": {"scale": 1.0, "x": 0, "y": 40}}},
+    {"t": 8.24, "end": 9.97, "type": "component", "component": "ember-backdrop", "props": {"variant": "studioMcu"}},
     {"t": 8.24, "type": "camera", "keyframes": [{"tMs": 0, "scale": 1.0, "x": 0, "y": 40}]},
     {"t": 8.27, "end": 9.97, "type": "component", "component": "lens-ring-pair"},
     {"t": 8.27, "end": 9.97, "type": "text", "preset": "hero-glow-reveal", "text": "ضحكتك", "position": {"xPct": 50.0, "yPct": 15.0}}

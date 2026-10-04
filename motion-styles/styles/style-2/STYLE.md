@@ -396,17 +396,17 @@ Reference shot lengths (F): 102, 47, 97, 97, 139, 141, 87, 163, 139, 101.
 - **No whooshes, risers, impacts or pops** on cuts or camera moves.
 - The 2.45-2.70 s "click" has the same band level as the surrounding speech (−37.3 vs −36.9 dBFS), so it is speech, not an SFX.
 
-| Visual event | Sound | Offset | Level (measured band) → engine gainDb |
+| Visual event | Sound | Offset | Level (measured band) → render target → engine gainDb |
 |---|---|---|---|
-| `gold-light-panel-grow` (every time; same asset on the reprise) | Two-tone shimmer: **9250 Hz for 100 ms, then 5600 Hz for 60 ms** | 0 ms (on the first glyph). The reprise landed +200 ms (6 F) on the outer glyphs. | −32…−41 dBFS → −22 |
-| Glass UI shot (`visionos-glass-ui`) | Inharmonic bell chime: partials **4090 / 7000 / 10290 Hz**, 480 ms decay. The loudest SFX. | −33 ms (1 F before the cut) | 4.09 kHz partial −25 dBFS → −14 |
-| `english-tracking-in` | Sparkle: 8350 + 11540 Hz, 130 ms | +150 ms | −39 → −24 |
-| `pullback-step2` (only in the glass-UI shot) | Sparkle: 8360 Hz for 350 ms, then 12900 Hz for 60 ms | +167 ms | −34…−39 → −24 |
-| `glass-pill-gold` scale plus label type-on | ≈8.1 kHz ticks at 0 / 240 / 310 / 400 / 670 ms (plus one 4 kHz blip) | +200 ms | ≈−57 dBFS (barely audible) → −36 |
-| `neon-word-cascade-float` (CTA sub-caption) | 7.2 kHz tick per word | +100 ms per word | ≈−48 → −34 |
+| `gold-light-panel-grow` (every time; same asset on the reprise) | Two-tone shimmer: **9250 Hz for 100 ms, then 5600 Hz for 60 ms** | 0 ms (on the first glyph). The reprise landed +200 ms (6 F) on the outer glyphs. | −32…−41 dBFS → −34 (5.6 kHz tail −38) → −23.8 |
+| Glass UI shot (`visionos-glass-ui`) | Inharmonic bell chime: partials **4090 / 7000 / 10290 Hz**, 480 ms decay. The loudest SFX. | −33 ms (1 F before the cut) | 4.09 kHz partial −25 dBFS → −25 → −12.5 |
+| `english-tracking-in` | Sparkle: 8350 + 11540 Hz, 130 ms | +150 ms | −39 → −39 → −25.2 |
+| `pullback-step2` (only in the glass-UI shot) | Sparkle: 8360 Hz for 350 ms, then 12900 Hz for 60 ms | +167 ms | −34…−39 → −36.5 → −29.9 |
+| `glass-pill-gold` scale plus label type-on | ≈8.1 kHz ticks at 0 / 240 / 310 / 400 / 670 ms (plus one 4 kHz blip) | +200 ms | ≈−57 dBFS (barely audible) → −50 (the reference room tone is quieter) → −39.7 |
+| `neon-word-cascade-float` (CTA sub-caption) | 7.2 kHz tick per word | +100 ms per word | ≈−48 → −48 → −37.3 |
 | Search typewriter, ring morph, هو rise, phone glide, gold spotlight | **silence** (no SFX) | — | — |
 
-The engine's procedural `shimmer` (random 2.6-7.2 kHz partials, 800 ms) and `ding` (1320 Hz based) do not match. `style.json` carries a synth spec for each sound in `soundSpecs` (referenced by `sfx[].idealSound`) so a style-specific generator can reproduce the real tones.
+The engine's procedural `shimmer` (random 2.6-7.2 kHz partials, 800 ms) and `ding` (1320 Hz based) do not match. `style.json` carries a synth spec for each sound in `soundSpecs`, referenced by `sfx[].idealSound`; `engine/audio.py` synthesizes them (`shimmerTwoTone` and `tick8k1Series` carry an explicit `recipe`: flat two-tone, and the five ticks plus the 4 kHz blip). Spec sounds are normalised to −3 dBFS peak, so each rule's `gainDb` is calibrated to put the main partial's sine RMS on its `targetDbfs` (the render target column).
 
 ---
 
@@ -538,29 +538,30 @@ Times are at 30 fps.
 
 ## Engine implementation
 
-`components.js` (this folder) is loaded by `engine/render.mjs` after `components-shared.js` and before the runtime. It needs no assets: the props, UI and backdrops are procedural (CSS glass, SVG, canvas 2D). It is deterministic: GSAP tweens on `ctx.tl`, or pure functions of time in `ctx.onFrame`.
+`components.js` (this folder) is loaded by `engine/render.mjs` after `components-shared.js` and before the runtime. It needs no assets: the props, UI and backdrops are procedural (CSS glass, SVG, canvas 2D). It is deterministic: GSAP tweens on `ctx.tl`, or pure functions of time in `ctx.onFrame`. It targets engine v2 (`MG.engineFeatures.version` 2): frame 0 and cue starts on frame boundaries render without priming, camera cues are cuts, and `end` hides a text exactly.
 
-### Text: every preset goes through `s2-text`
+### Text: every preset goes through `s2Text`
 
-At load, each scene cue `{"type": "text"}` that uses one of this style's presets is routed to the `s2-text` component. It still builds through the runtime's `makeText`, so `t`, `end`, `in`, `override`, `style` and `position` mean the same thing. It then adds what the generic interpreter cannot do:
+`s2Text` is registered as the engine's text builder (`MG.textBuilders`) for every `textPresets` id, so a plain `{"type": "text"}` cue of this style builds through it; `"raw": true` bypasses it. The generic part goes through `ctx.makeTextBase`, so `t`, `end` (hard cut), `in`, `override`, `style` and `position` mean the same as for any engine text, and the engine tags the element `data-cue` / `data-preset`. `s2Text` then adds what the generic interpreter cannot do:
 
-| Need | What `s2-text` does |
+| Need | What `s2Text` does |
 |---|---|
-| World-lock **plus** a blend mode (`hero-difference-world`, `english-script-accent` His-difference) | The runtime's world layers are transformed, so they are isolated groups and Difference would only blend with the layer. The text sits instead in a camera-following wrapper inside a screen layer, and the wrapper carries the blend. |
-| `gold-light-panel-grow` | Per-glyph spans with the `glyphGradients` mapped onto each glyph's ink box. The **same alpha profile** (parsed from the gradient's stops) masks that glyph's emissive glow, 3 px `#FDD99B` rim and pre-glow, so the transparent ends of the outer alefs stay transparent (measured: right-alef top third within +0..+18 luma of the plate). Ignition: scale 0.3 → 1.12 → 1 in both axes from the baseline, brightness 1.25 → 1, blur 6 → 0, glow already on. Timing inside the component: the cue time is the first-alef pre-glow (a thin faint bar), the centre body starts `preGlow.leadMs` (3 F) later, its dot `dotDelayMs` (7 F) after the body (ذ/ز/ظ/ض/خ/غ are split into the undotted skeleton plus a masked dot), outer glyphs at +9 / +10 F. The ink bottom sits on `yPct`. |
+| World-lock **plus** a blend mode (`hero-difference-world`, `english-script-accent` His-difference) | The text sits in a camera-following wrapper (`ctx.worldMatrix`) inside the **screen** layer, and the wrapper carries the blend. Engine v2 can blend world-locked text inside its `…W` layers, but a `…W` layer sits above the whole screen layer of its plane: the Difference هواي then also inverted the neon line اشخاص and the corner typodont stacked in front of it (scene_test F10-77). |
+| `gold-light-panel-grow` | Per-glyph spans with the `glyphGradients` mapped onto each glyph's ink box. The **same alpha profile** (parsed from the gradient's stops) masks that glyph's emissive glow, 3 px `#FDD99B` rim and pre-glow, so the transparent ends of the outer alefs stay transparent (measured: right-alef top third within +0..+18 luma of the plate). Ignition: scale 0.3 → 1.12 → 1 in both axes from the baseline, brightness 1.25 → 1, blur 6 → 0, glow already on. Timing inside the builder: the cue time is the first-alef pre-glow (a thin faint bar), the centre body starts `preGlow.leadMs` (3 F) later, its dot `dotDelayMs` (7 F) after the body (ذ/ز/ظ/ض/خ/غ are split into the undotted skeleton plus a masked dot), outer glyphs at +9 / +10 F. The ink bottom sits on `yPct`. |
 | `hero-cyan-glass-rise` | Layers back to front: wide grey-white glow (`effects.glowLayers`); 14-step `#2E6E78` extrusion to (−8, +10) with a 4 px faux-bold stroke; neon rim (a filled `#05F3F8` copy shifted ≥ 6 px up-left along `neonRim.offsetDir`, 9 px glow, never thinner than 6 px whatever the fitted size); inner wall light; gradient face with the bottom overlay. The rim therefore shows on the top/left outer contours and the lower inner edges of the counters, as in k_020. Perspective rotateX 6° / rotateY −4°. Rise +234 px, opacity 4 F, saturate 0.35 → 1, rim 0.2 → 1. The ink centre sits on `yPct`. |
-| Gradient fill + glow (`gold-spotlight-letters`) | The glow moves to a transparent-text underlay that mirrors the face units every frame, so the shadow cannot wash over the `background-clip:text` fill. |
-| Neon (`neon-thin`) | Adds the 4 px white tight halo (`tightHalo`). `neon-thin-blurfade` runs a travelling flare along the kashida (`optionalGlint`; turn it off with `"glint": false`). |
-| Letter type-ons (`neon-thin-typeon`, `search-typewriter`, `pill-label-typeon`, `gold-spotlight-letters`) | Every tatweel run is merged into **one** span (per-tatweel inline-blocks left comb-like antialiasing seams) and grows as one stroke (scaleX from its joining side). Other type-ons draw it inside the letter's slot. On `search-typewriter` the stroke starts `kashidaLeadMs` (3 F) after its letter, grows over `kashidaGrowMs` (300 ms), and the next letter waits until it is fully drawn, so joined letters never show a gap. `gold-spotlight-letters` gets its 3 F word gap and per-letter glow ramp. |
+| Gradient fill + glow (`gold-spotlight-letters`) | The glow moves to a transparent-text underlay that mirrors the face units every frame, each letter with its own `--glow-k` (the `glowStrength` 0.4 → 1 ramp runs per letter). The engine's own fix (a drop-shadow chain on a host) is skipped on purpose: it carries one `--glow-k` for the whole word and renders a different halo (A/B up to 130 levels). |
+| Split gradient spans (`gold-spotlight-letters`, `english-*`) | The engine gives every letter/word span the element's gradient, but a background only paints inside its span's box: the bowl of a final ح (راح) and Latin descenders came out transparent while their glow showed. The spans are padded 0.35 em top/bottom (a negative margin keeps the layout) and the gradient is re-projected onto them after layout; `english-tracking-in` projects it at its rest letter-spacing. |
+| Neon (`neon-thin`) | Adds the 4 px white tight halo (`tightHalo`) as ONE text-shadow layer. The engine's `tightHalo` alias (three layers, 1 / 2.4 / 4 px) is skipped because a component set the shadow first; it read 10-17% bolder on the whisper-thin strokes. `neon-thin-blurfade` runs a travelling flare along the kashida (`optionalGlint`; turn it off with `"glint": false`). |
+| Letter type-ons (`neon-thin-typeon`, `search-typewriter`, `pill-label-typeon`, `gold-spotlight-letters`) | The presets set `in.tatweelUnit: "run"`, so the engine builds every tatweel run as **one** span (`data-tatweel`; per-tatweel inline-blocks left comb-like antialiasing seams). The builder retimes the letters and grows the run as one stroke (scaleX from its joining side). On `search-typewriter` the stroke starts `kashidaLeadMs` (3 F) after its letter, grows over `kashidaGrowMs` (300 ms), and the next letter waits until it is fully drawn, so joined letters never show a gap. Other type-ons draw it inside the letter's slot. `gold-spotlight-letters` gets its 3 F word gap and per-letter glow ramp. The retime nulls the preset's from/to, so the engine's unit gating leaves these units alone. |
 | `neon-word-cascade-float` | Adds the line float (`lineTrack`: y +33 → 0 over 867 ms). |
 | `english-ghost-centre-out` | Centre-out reveal with a 90 px soft edge: an animated mask instead of a hard `clip-path`. |
-| `english-tracking-in` | Recomputes the split gradient at rest letter-spacing. |
 
 Extra cue fields:
 - **`"fit": true | widthPct`**: auto-kashida to a target ink width, using the order in §3.5 (size, then scaleX ≤ 1.3, then kashida). Words that overflow the target shrink instead. It is on by default for `hero-difference-world`.
 - **`"kashidaAt": n`**: inserts the kashida after letter `n` (for example `1` for بعـدك).
 - **`"variant": "<name>"`**: applies a preset's `variants` block, such as `His-difference`, `A-lot-under-hero`, `under-gold` or `under-pill`.
-- **`"raw": true`**: bypasses `s2-text` and uses the runtime's plain interpreter.
+- **`"raw": true`**: bypasses `s2Text` and uses the runtime's plain interpreter.
+- `{"type": "component", "component": "s2-text", "preset": …}` is the same builder in component form.
 
 ### Components (`"type": "component"`)
 
@@ -573,13 +574,15 @@ Extra cue fields:
 | `visionos-glass-ui` | `offsetPct: [dx, dy]`, `items` (carousel trays) | World-locked by default. Tab bar with the selection slide, back chevron, perspective window with a 4 s tray carousel (procedural trays), grabber, dock. |
 | `phone-glide-in` | `position` (final centre), `in.durationMs`, `counter` | iPhone frame, bezel and Dynamic Island. Right edge 6 → 678 px, yaw 90 → 0, tilt keys to −12.65° then −11.1°. Live screen: rotating typodont, step counter 10 → 18, `#21A4F0` bars. |
 | `teal-clinic-backdrop` | `variant`: `mcu` \| `ws`; `blurPx`; `seed` | Background replacement on warm or busy plates (needs mattes). Drawn already in the graded look: teal walls, LED glow, ceiling tubes + `tubeHaze` on the WS, lamp blob and bokeh on the MCU. |
-| `cyan-rim-relight` | `opacity` (default 0.32) | Soft-light `#045A79` on the talent's right edge, built from the person matte and the camera transform. |
+| `cyan-rim-relight` | `opacity` (default 0.32) | Soft-light `#045A79` on the talent's right edge, drawn from the engine's camera-transformed person matte of the frame (`ctx.matteCanvas`, the matte that cuts out the talent). |
 
-**Camera.** Use `pullback-two-step` for real wide shots. `pullback-two-step-mcu` (added to `cameraMoves`) keeps the same timing and fitted curves, with the scale keys at S^0.5 (1.578 → 1.139 → 1.136 → 1.0). Use it for CU/MCU-only footage, where 2.49x would push the face past the frame. A static crop is `{"type":"camera","scaleFrom":1.25,"scaleTo":1.25,"durationMs":0,"focus":[0.5,0.36]}`. Put a cut-time crop 0.75 F **before** the cut frame, so the runtime's motion blur does not average across the cut.
+Every component (and the two bespoke heroes) is hidden exactly at `cue.end` by its own visibility set. The engine's cue lifecycle only takes a cue's DOM out of the render tree outside [t − ½ frame, end + ½ frame], so an `end` placed just before a cut frame (4.598 / 8.398 in the doctor demo) would otherwise still show on that frame (A/B without it: S1 gold + pill on F138, the cyan hero on F252).
 
-**Grade.** Footage already shot or graded in this look must set `"grade": false, "overlays": false` in the scene. On the doctor plate, which is the reference's own S6/S8, the CSS grade dropped mean luma from 53-59 to 23-26 (target 50-62). Ungraded foreign footage keeps the style grade, plus `teal-clinic-backdrop`.
+**Camera.** Use `pullback-two-step` for real wide shots. `pullback-two-step-mcu` (added to `cameraMoves`) keeps the same timing and fitted curves, with the scale keys at S^0.5 (1.578 → 1.139 → 1.136 → 1.0). Use it for CU/MCU-only footage, where 2.49x would push the face past the frame. A static crop is `{"type":"camera","move":"static","scaleTo":1.25,"focus":[0.5,0.36]}`, placed exactly on the cut: camera cues are cuts, and the engine never motion-blurs across a cue start.
 
-**SFX.** `"autoSfx": true` maps `shimmer`, `tick`, `chime` and `sparkle` to the engine's procedural sounds. Those only approximate `soundSpecs`: the engine shimmer sits at 2.5-7.5 kHz, in the same band and level as speech sibilance, so it reads as hiss. For the real tones, render them with a script and attach the result as the scene's bed: `demo/make_sfx_doctor.py` synthesizes `shimmerTwoTone` (on the gold centre glyph, 8.5-10 kHz band ≈ −34 dBFS) and `tick8k1Series` + the 4 kHz blip (pill + 200 ms, barely audible) into `demo/sfx_doctor.wav`, the scene adds `"music": {"src": "sfx_doctor.wav", "gainDb": 0, "duckDb": 0}`, and the gold and pill cues set `"sfx": false`. The bed has exactly the voice's length so `audio.py` never tiles it. No sound fires on a bare `pullback-two-step(-mcu)` cue; the step-2 sparkle rule needs the split `pullback-step2` cue.
+**Grade.** Footage already shot or graded in this look must set `"grade": false, "overlays": false` in the scene (or be prepared with `prepare.py --pre-graded`, which skips the style grade and overlays unless a scene forces them). On the doctor plate, which is the reference's own S6/S8, the CSS grade dropped mean luma from 53-59 to 23-26 (target 50-62). Ungraded foreign footage keeps the style grade, plus `teal-clinic-backdrop`.
+
+**SFX.** `"autoSfx": true` fires the style's `sfx` rules, and the engine plays each rule's `idealSound` from `soundSpecs` (§9): `shimmerTwoTone` on the gold centre glyph (cue + 100 ms, 9.25 kHz at −34 dBFS, 5.6 kHz tail at −38), `tick8k1Series` with the 4 kHz blip from the pill (+ 200 ms, about −50 dBFS), the glass chime, the sparkles and the per-word cascade ticks. They follow the cue times, so nothing has to be re-rendered when a cue moves. `"idealSfx": false` falls back to the engine's procedural stand-ins (`shimmer`, `tick`, `chime`, `sparkle`), which only approximate the specs: the engine shimmer sits at 2.5-7.5 kHz, in the same band and level as speech sibilance, so it reads as hiss. No sound fires on a bare `pullback-two-step(-mcu)` cue; the step-2 sparkle rule needs the split `pullback-step2` cue.
 
 ### Demo and QA scenes (`demo/`)
 
@@ -592,10 +595,32 @@ Extra cue fields:
 
 ```bash
 cd engine
-python3 ../styles/style-2/demo/make_sfx_doctor.py          # only after changing the gold / pill cue times
-node render.mjs --plate ../renders/plates/doctor --style ../styles/style-2/style.json --scene ../styles/style-2/demo/scene_doctor.json --out /tmp/s2_video.mp4 --workers 2 --no-audio
-python3 audio.py --plate ../renders/plates/doctor --scene ../styles/style-2/demo/scene_doctor.json --style ../styles/style-2/style.json --out /tmp/s2_mix.wav
-ffmpeg -y -i /tmp/s2_video.mp4 -i /tmp/s2_mix.wav -map 0:v -map 1:a -c:v copy -af apad -c:a aac -b:a 192k -shortest -movflags +faststart ../renders/demos/style-2/style-2_doctor.mp4
+node render.mjs --plate ../renders/plates/doctor --style ../styles/style-2/style.json --scene ../styles/style-2/demo/scene_doctor.json --out ../renders/demos/style-2/style-2_doctor.mp4 --workers 2
+tools/sheet.sh ../renders/demos/style-2/style-2_doctor.mp4 ../renders/demos/style-2/sheet.jpg
 ```
 
-The plain `render.mjs --out` run works too, but its `-shortest` mux drops the last 2 frames (the plate audio is a few ms shorter than 299 frames); the padded mux above keeps all 299.
+`render.mjs` mixes the audio itself (voice + rule SFX, −1 dBFS limiter), pads it and cuts the output to exactly 299 frames; the old `--no-audio` + external `apad` mux is no longer needed.
+
+### Engine v2: workarounds removed and kept
+
+Checked A/B on PNG stills of all four scenes (125 frames, run-to-run noise 0) and on the demo MP4 against the v1 baseline (`renders/baseline/style-2_doctor.mp4`: PSNR 49.4-∞ dB, frames 252-298 bit-identical, 299 frames both).
+
+Removed (the engine now does it, render unchanged):
+- the `boot()` timeline nudge (time 1e-4 → 0) wrapped around every component: the engine primes both masters and seeks `t + EPS`;
+- rewriting text cues into `s2-text` component cues at load: `MG.textBuilders` routes them, `ctx.makeTextBase` builds the generic part;
+- the style's tatweel-run merge: `in.tatweelUnit: "run"`;
+- the cut-time crop 0.75 F before the cut: camera cues are cuts;
+- the rim relight's own matte PNG loading and camera transform: `ctx.matteCanvas`;
+- the local camera matrix: `ctx.worldMatrix`;
+- `demo/make_sfx_doctor.py` + `demo/sfx_doctor.wav` and the scene's `music` bed, with `"sfx": false` on the gold and pill cues: the engine synthesizes `soundSpecs` (band levels within 0.3 dB of the old bed, onsets within 0.3 ms);
+- the `--no-audio` + manual `apad` mux.
+
+Kept, because the native path renders differently:
+- the screen-layer `worldWrap` for world-locked Difference text (stacking; see the text table);
+- `glowUnderlay` for gradient + glow (per-letter glow ramp);
+- the single-layer 4 px neon `tightHalo` (the engine alias is bolder);
+- `cutVis` hard cuts on components and heroes (the lifecycle has ½ frame of slack).
+
+Fixed on the way (v1 defects, not engine regressions):
+- split-gradient spans are padded so the ح bowl of راح and Latin descenders paint (missing in the baseline test stills at F285);
+- `phone-glide-in` starts loading the canvas font weights it draws (Inter 500 / 600) during the build; the engine preloads only the declared weight, so the first phone frame a page drew used a fallback font and the screen text depended on which frames had been rendered before.

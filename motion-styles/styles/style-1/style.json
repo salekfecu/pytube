@@ -1386,6 +1386,7 @@
       "layer": "bg"
     }
   ],
+  "cameraDefaults": {"worldRest": "final", "note": "engine v2: world-locked backdrops (ember-backdrop on bgW) are fitted in screen space, so every camera cue moves them relative to its own settled framing (S = current / final): punch-outs and wobble still move them, the settled shot shows them where they were fitted"},
   "cameraMoves": [
     {
       "id": "punch-out-settle",
@@ -1685,17 +1686,16 @@
     "punchInPreset": "punch-out-settle",
     "componentHints": {
       "note": "not read by srt2scene.py; defaults proven by demo/scene_doctor.json (see STYLE.md 'Engine implementation')",
-      "backdrop": {"component": "ember-backdrop", "mcu": "studioMcu", "wide": "studioWide", "worldPlates": ["labCorridor", "labWall"], "cancelCam": "pass the shot's SETTLED camera {scale, x, y, focusPx} so the fitted cyc / plate lands where it was fitted while punch-outs and wobble still move it"},
+      "backdrop": {"component": "ember-backdrop", "mcu": "studioMcu", "wide": "studioWide", "worldPlates": ["labCorridor", "labWall"], "settledFraming": "nothing to pass: style cameraDefaults.worldRest \"final\" lands the fitted cyc / plate where it was fitted at each camera cue's settled framing while punch-outs and wobble still move it; override worldRest on a cue whose last keyframe is not its rest (e.g. keyframed wobble: {\"x\": 0, \"y\": <reframe y>})"},
       "talentOnCoolSet": {"component": "ember-talent", "props": {"despill": 1, "choke": 0.35, "wrap": 0.6, "warm": 0.06, "toe": 0.045, "solidBottom": [84, 93]}},
-      "cropOrReframe": "camera cue with inline keyframes (static presets such as mcu-digital-punch are ignored by the runtime); add focusPx when the face track is smoothed across a jump cut",
+      "cropOrReframe": "camera cue with inline keyframes, or {\"move\": \"static\", \"scaleTo\", \"x\", \"y\", \"focus\"} / the mcu-digital-punch preset (static moves work since engine v2); add focusPx when the face track is smoothed across a jump cut",
       "mcuFromCloseFootage": "reframe so the chin sits at 44-46 % H (scale >= the value that still covers the bottom edge) and use the chest-band slots: hero (52.4, 50.6), thin (50.3, 55.3), pill (50, 63.3), 3D accent ~7 % below the pill centre; leave the top band to the clay card",
       "darkWardrobeLens": "lens-disc-slide over dark wardrobe: land it where light content (hands) sits, e.g. centreLandPct [78, 90], and drop interior.blurPx to ~5 so the 1.2x magnification reads",
-      "worldPlateWobble": "write the +-5-10 px wobble into the camera keyframes (sine.inOut, 750 ms steps) and add ember-composite {mode: translate, base: <reframe offset>} so captions shake with the plate",
-      "sceneAudio": {"autoSfx": true, "voiceGainDb": "0 (ref mix: 10 ms RMS p50 -20.9, p95 -11.1 dBFS); audio.py soft-limits the master when it would pass -0.2 dBFS", "music": {"src": "bed_ember_112bpm.wav (demo/make_bed.py)", "gainDb": -16, "duckDb": 0}}
+      "worldPlateWobble": "either a plate-wobble cue (engine v2: additive handheld that rides on the reframe; its return to rest runs 200 ms past end, so end it 0.2 s before the cut) or the +-5-10 px wobble written into the camera keyframes (sine.inOut, 750 ms steps, as in the doctor demo); add ember-composite {mode: translate, base: <reframe offset>} so captions shake with the plate",
+      "sceneAudio": {"autoSfx": true, "voiceGainDb": "0 (ref mix: 10 ms RMS p50 -20.9, p95 -11.1 dBFS); audio.py look-ahead limits the master at -1 dBFS (masterLimiterDb)", "music": {"src": "bed_ember_112bpm.wav (demo/make_bed.py)", "gainDb": -16, "duckDb": 0}}
     }
   },
   "persistent": [
-    {"component": "ember-prime", "note": "components.js: engine workaround — nudges frame-aligned cue timelines 0.1 ms earlier so GSAP renders their t=0 sets on the cue's first frame (frame 0 and cuts on exact frame boundaries otherwise flash the previous state)"},
     {"component": "ember-text-fx", "layer": "front", "note": "components.js: Arabic reflow/settle via letter margins (Chromium ignores letter-spacing on cursive Arabic), shared screen-space gold band for the hook, gradient-safe drop-shadow glows, two-phase glow-sweep (land hot, then cool), chrome inner rim + near halo + delayed bloom, feathered reverse wipe, seam-free unsplit hold once a split Arabic line is static"}
   ],
   "rules": {

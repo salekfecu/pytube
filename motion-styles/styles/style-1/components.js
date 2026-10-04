@@ -19,6 +19,11 @@
  * Glass = backdrop-filter (blur, or an SVG displacement/offset filter for the refractive lenses).
  * Never put opacity/filter on an ANCESTOR of a glass element (it becomes the backdrop root and the glass
  * stops seeing the talent) — wrappers here are shown/hidden with `visibility` only.
+ *
+ * Requires engine v2 (MG.engineFeatures.version 2): frame-exact cue starts (t + EPS seek, primed masters), hard
+ * cut of every text at cue.end, cue lifecycle (display:none outside a cue), MG.onText, camera worldRest (set for
+ * the whole style in style.json cameraDefaults). The v1 workarounds for these (ember-prime, the text hard cut and
+ * wrapper display toggles in ember-text-fx, ember-backdrop cancelCam) were removed after frame-exact A/B renders.
  */
 (() => {
   'use strict';
@@ -458,7 +463,7 @@
       }
       if (endRel == null || ready < endRel - 0.05) {
         const solid = el.cloneNode(false);
-        solid.className = String(el.className).replace(/\bemx-\d+\b/g, '').trim() + ' emb-solid';
+        solid.className = `${el.className} emb-solid`;
         const line = document.createElement('span');
         line.className = 'mg-line';
         line.textContent = el.textContent.replace(/‍/g, '');
@@ -527,22 +532,8 @@
       tl.fromTo(el, { y: dy }, { y: 0, duration: sec(r.durationMs, 0.4), ease: easeOf(ctx, r.easing), immediateRender: true }, t0);
     }
 
-    // 8) hard cut: every caption drops at cue.end, even if its type-on is still running (the runtime keeps
-    //    a text alive until its in-animation completes)
-    if (cue.end != null) tl.set(el, { autoAlpha: 0, immediateRender: false }, t0 + (cue.end - cue.t));
-
-    // 9) filtered full-frame wrappers (glow / chrome / extrusion) cost a software filter pass every frame the
-    //    composite moves the layers, even while their text is hidden (measured: shot-1 frames 6 s vs 1 s). Take
-    //    the outermost text-owned wrapper out of the render tree outside the cue's lifetime.
-    let top = wrapper || el;
-    // the runtime's own filter host (bevel / extrusion chain) wraps the element (and our wrapper) directly
-    if (el.dataset.wrapperFilter && top.parentNode && top.parentNode.style.filter === el.dataset.wrapperFilter) top = top.parentNode;
-    if (top !== el) {
-      const half = 0.5 / ctx.FPS;
-      gsap.set(top, { display: 'none' });
-      tl.set(top, { display: 'block', immediateRender: false }, Math.max(0, t0 - half));
-      if (cue.end != null) tl.set(top, { display: 'none', immediateRender: false }, t0 + (cue.end - cue.t) + half);
-    }
+    // (The hard cut at cue.end and taking the filtered wrappers out of the render tree outside the cue's lifetime
+    //  are engine features since v2: hardCut + cue lifecycle, which hides the outermost wrapper owned by the cue.)
   };
 
   frameFns.push(() => {
@@ -572,50 +563,13 @@
     return res;
   };
 
-  // persistent: frame-boundary priming (engine workaround).
-  // GSAP skips a child timeline's position-0 sets when the paused master is seeked EXACTLY onto the child's
-  // start (local time 0 == initial _tTime), and the master itself does not render at all for t = 0 from its
-  // initial state. Result without this: frame 0 shows the raw plate, and the first frame of every cue that
-  // starts on a frame boundary (e.g. a cut at 4.600 s = f138) shows the previous state (a 1-frame flash).
-  // Fix: after build, move every frame-aligned cue timeline (t > 0) 0.1 ms earlier and prime both masters
-  // off 0 (so t = 0 is reached by a backward seek, which keeps the t = 0 sets applied).
-  R['ember-prime'] = (ctx) => {
-    ctx.postLayout.push(() => {
-      const master = ctx.tl.parent;
-      const eps = 1e-4;
-      for (const T of [master, ctx.camMaster]) {
-        if (!T || !T.getChildren) continue;
-        const isCam = T === ctx.camMaster;
-        for (const ch of T.getChildren(false, true, true)) {
-          const st = ch.startTime();
-          // (t = 0 children are left alone: a negative start makes GSAP shift EVERY child; the master priming
-          // below covers them)
-          if (st <= eps) continue;
-          const f = st * ctx.FPS;
-          if (isCam) {
-            // the runtime's camera motion blur also samples t - 0.5 frame: start camera cues before that sample
-            // of their first frame, or the first frame of a cut is smeared between the two shots
-            const first = Math.ceil(f - 1e-6) / ctx.FPS;
-            const lead = 0.5 / ctx.FPS + eps;
-            if (first - st < lead) ch.startTime(Math.max(eps, first - lead));
-          } else if (Math.abs(f - Math.round(f)) < 1e-6) ch.startTime(st - eps);
-        }
-        T.time(eps / 10, false);
-      }
-    });
-  };
-
-  // persistent: tag every scene text cue so its element can be found after build, then apply the fixes
+  // persistent: the Ember fixes for every text built after it (all scene text cues, which the engine builds after
+  // the persistent components, and component-made lines). The engine's onText hook hands over each element with its
+  // own cue timeline; the fixes run once fonts are loaded and the gradients split (postLayout). E.text registers
+  // the same call for component lines, so they keep the fixes without this persistent (el._emberFx runs it once).
   R['ember-text-fx'] = (ctx) => {
-    const cues = (ctx.scene.cues || []).filter((c) => c.type === 'text');
-    cues.forEach((c, i) => { c.className = `${c.className || ''} emx-${i}`.trim(); });
-    ctx.postLayout.push(() => {
-      cues.forEach((c, i) => {
-        const el = document.querySelector(`.emx-${i}`);
-        if (el) E.textFx(ctx, c, el, ctx.tl, c.t);
-      });
-    });
     hookFrames(ctx);
+    window.MG.onText((info) => ctx.registerPostLayout(() => E.textFx(ctx, info.cue, info.el, info.tl, 0)));
   };
 
   // ------------------------------------------------------------------ backdrop: orange studio / world plates
@@ -657,15 +611,10 @@
     // the fitted cyc gradients are pure-hue (B = 0, HSV S 255); the real cyc measures S 225-232 (k_008/k_024)
     const sat = pr.saturate ?? (variant === 'studioMcu' || variant === 'studioWide' ? 0.93 : null);
     if (sat != null && sat !== 1) E.setFilter(frame, 'cycSat', `saturate(${sat})`);
-    // cancelCam: {scale, x, y, focusPx:[ox, oy]} = the camera's SETTLED framing (a reframe/crop of the footage).
-    // The plate is world-locked so punch-outs and wobble move it like footage, but the gradients/plates were
-    // fitted in screen space; cancelling the settled framing lands them where they were fitted (AD: the MCU
-    // gradient under a 1.1x / y+80 camera put #501B00 at the top-centre instead of #2A0C02-#341302).
-    if (pr.cancelCam) {
-      const c = pr.cancelCam;
-      const s = c.scale ?? 1; const o = c.focusPx || [W / 2, H / 2];
-      E.setTransform(frame, 'cancelCam', `translate(${o[0]}px, ${o[1]}px) scale(${1 / s}) translate(${-o[0] - (c.x || 0)}px, ${-o[1] - (c.y || 0)}px)`);
-    }
+    // The plate is world-locked so punch-outs and wobble move it like footage, but the gradients/plates were fitted
+    // in screen space: the style's cameraDefaults.worldRest "final" makes the engine move world-locked layers
+    // relative to each camera cue's settled framing, so a reframed/cropped shot shows them where they were fitted
+    // (AD: the MCU gradient under a 1.1x / y+80 camera put #501B00 at the top-centre instead of #2A0C02-#341302).
     E.backdropFrame = frame;
   };
 

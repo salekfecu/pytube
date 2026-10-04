@@ -1,6 +1,6 @@
 {
   "autoSfx": true,
-  "_about": "Regression/QA scene: exercises every Ember Glass text preset and component on the doctor plate in time windows (0-2 hook+brand glass kit, 2-4 detail chest stack + lens disc + clay card, 4-5.6 lab-corridor world plate + wobble + ribbon + giant lockup + kashida rule + molecule, 5.6-7.2 lab-wall plate + flask/fog + B&W interrupt + smoked pill + orange 3D, 7.2-10 closing: ink-up reverse type-off, Latin brand fades, reverse wipe, lens rings, bead CTA, chrome payoff). Copy is the reference's own chemistry copy. Render stills, e.g. --stills 0,55,115,160,212,262,290.",
+  "_about": "Regression/QA scene: exercises every Ember Glass text preset and component on the doctor plate in time windows (0-2 hook+brand glass kit, 2-4 detail chest stack + lens disc + clay card, 4-5.6 lab-corridor world plate + wobble + ribbon + giant lockup + kashida rule + molecule, 5.6-7.2 lab-wall plate + flask/fog + B&W interrupt + smoked pill + orange 3D, 7.2-10 closing: ink-up reverse type-off, Latin brand fades, reverse wipe, lens rings, bead CTA, chrome payoff). Copy is the reference's own chemistry copy. Render stills, e.g. --stills 0,55,115,160,212,262,290. plate-wobble (engine v2: additive handheld) ends at 5.4 because its 200 ms return to rest runs past end; ending at the 5.6 cut carried an up to 8 px offset into the first 6 frames of the lab-wall shot.",
   "cues": [
     {"t": 0, "end": 9.97, "type": "component", "component": "ember-talent", "props": {"despill": 1, "choke": 0.38, "wrap": 0.7}},
     {"t": 0, "end": 2.0, "type": "component", "component": "ember-backdrop", "props": {"variant": "studioMcu"}},
@@ -19,7 +19,7 @@
     {"t": 2.45, "end": 4.0, "type": "component", "component": "lens-disc-slide"},
     {"t": 2.9, "end": 4.0, "type": "component", "component": "glass-pill-clear", "props": {"variant": "chest", "centrePct": [50, 72], "text": "باقوى التجارب", "subText": "التفاعلية"}},
     {"t": 4.0, "end": 5.6, "type": "component", "component": "ember-backdrop", "props": {"variant": "labCorridor", "blurPx": 2}},
-    {"t": 4.0, "end": 5.6, "type": "camera", "preset": "plate-wobble"},
+    {"t": 4.0, "end": 5.4, "type": "camera", "preset": "plate-wobble"},
     {"t": 4.0, "end": 5.6, "type": "component", "component": "ember-composite", "props": {"mode": "translate"}},
     {"t": 4.0, "end": 5.6, "type": "component", "component": "badge-ribbon", "props": {"icons": ["tooth", "aligner", "sparkle", "clock"]}},
     {"t": 4.03, "end": 5.6, "type": "text", "preset": "glyph-pop", "text": "لأن"},

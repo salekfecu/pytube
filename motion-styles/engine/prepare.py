@@ -10,7 +10,10 @@ Produces a "plate" directory:
   meta.json          fps, frame count, size, duration
 
 Usage:
-  python3 prepare.py INPUT.mp4 PLATE_DIR [--fps 30] [--size 1080x1920] [--no-matte] [--start S --end E]
+  python3 prepare.py INPUT.mp4 PLATE_DIR [--fps 30] [--size 1080x1920] [--no-matte] [--start S --end E] [--pre-graded]
+
+  --pre-graded   the footage already carries the look (e.g. a reference's own shot): meta.json "preGraded": true
+                 makes the compositor skip the style grade and overlays unless the scene forces them
 """
 import argparse
 import json
@@ -187,6 +190,7 @@ def main():
     ap.add_argument('--start', type=float)
     ap.add_argument('--end', type=float)
     ap.add_argument('--no-matte', action='store_true')
+    ap.add_argument('--pre-graded', action='store_true')
     a = ap.parse_args()
     w, h = map(int, a.size.lower().split('x'))
     os.makedirs(a.plate, exist_ok=True)
@@ -195,6 +199,8 @@ def main():
     n = len([f for f in os.listdir(os.path.join(a.plate, 'frames')) if f.endswith('.jpg')])
     meta = {'source': os.path.abspath(a.input), 'fps': a.fps, 'frames': n, 'width': w, 'height': h,
             'duration': round(n / a.fps, 3), 'matte': not a.no_matte}
+    if a.pre_graded:
+        meta['preGraded'] = True
     json.dump(meta, open(os.path.join(a.plate, 'meta.json'), 'w'), indent=1)
     print('speech segments', flush=True)
     segs = speech_segments(a.plate)

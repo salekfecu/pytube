@@ -6,18 +6,20 @@ ducking, only 2-4 dB under the voice band; phrase changes about every 5.5 s (a ~
 the cut into the Difference beat, a 90 -> 70 Hz move around the cut out of the brand shot).
 Deterministic: the same file on every run.
 
-    python3 make_bed.py [out.wav] [seconds] [phrase1_s] [phrase2_s] [--sfx click@0.96,typing@2.34] [--music-gain-db -2.2]
+    python3 make_bed.py [out.wav] [seconds] [phrase1_s] [phrase2_s] [--sfx typing@2.34] [--music-gain-db -2.2]
 
 The bed is written at -20 dBFS RMS in the band below 70 Hz. The scene sets "music.gainDb" so that band
 sits about 3 dB under the voice band (100 Hz-4 kHz) of the plate, with "duckDb": 0.
 
---sfx bakes the reference's high-frequency SFX (style.json soundSpecs) into the bed, because the engine's
-procedural stand-ins are tonal 2-6 kHz blips (audio.py "click" 2.4 kHz, "shimmer" 2.6-7.2 kHz) while the
-reference's are airy >11 kHz transients:
-  click@T   clickHF        single ~25 ms >11 kHz click, HF band -32.5 dBFS
+--sfx bakes the reference's high-frequency SFX (style.json soundSpecs) into the bed. Since engine v2, audio.py
+plays the soundSpecs itself (rules with "idealSound"), so only the typing rattle still needs baking: the engine
+normalises spec sounds to -3 dBFS peak, and its sparse >11 kHz train (crest ~27 dB) stays 4-5 dB under the
+reference energy, while this soft-limited version (crest ~18 dB) matches it.
   typing@T  typingRattleHF train of tiny >11 kHz transients every 22-46 ms over 480 ms, HF band -25 dBFS
-Levels are pre-compensated for the scene's music.gainDb (--music-gain-db). The scene then opts those cues out
-of autoSfx ("sfx": false on the arch and on the first typewriter-sub).
+  click@T   clickHF        single ~25 ms >11 kHz click, HF band -32.5 dBFS (kept for older scenes; the engine's
+                           clickHF at the style rule gain -20 dB reaches the same level)
+Levels are pre-compensated for the scene's music.gainDb (--music-gain-db). The scene then opts the baked cues out
+of autoSfx ("sfx": false on the first typewriter-sub).
 """
 import subprocess
 import sys

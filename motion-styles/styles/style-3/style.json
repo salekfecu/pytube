@@ -490,7 +490,7 @@
     "what": "Captions/logos/sunburst marked worldLock:true ride the camera move (they are parented to the zooming comp in the reference).",
     "formula1080": "x = 540 + (xFinal - 540) * S, y = 960 + (yFinal - 960) * S, scale = S, where S = current camera scale / final camera scale",
     "measuredFit": "'استاذي' top within 5-13 px, PRIME top within +-5 px of the prediction (720 frame, centre 640)",
-    "runtimeNote": "engine/compositor applies cameraMoves only to #plateWrap and #talentWrap. Implement cameraLocked in style-3 components.js with an onFrame hook that copies gsap.getProperty('#plateWrap','scale'/'x'/'y') and transformOrigin onto a wrapper around the locked element.",
+    "runtimeNote": "engine v2: worldLock:true elements sit in the world layers (bgW / behindW / frontW) and follow the camera; set \"worldRest\": \"final\" on the pull-back camera cue (\"start\" on a settle that continues from that rest) so S = current / final and world-locked type lands on its slot at a rest scale != 1. Plate-locked style graphics (halo, contact shadow, void card) use components.js plateLayer() instead (absolute camera, no rest).",
     "default": false
   },
   "textPresets": [
@@ -754,7 +754,7 @@
         "keyframes": [
           {
             "unit": "all",
-            "unitNote": "measured on the first glyph and the tatweel units; applied to ALL units (staggered) because the runtime only sets a group's start state at that group's own start time, so with 'first' the tatweels and the last glyph were drawn at full size for the first 360 ms (render check); the 'last' group below is inserted later and overrides the final glyph",
+            "unitNote": "measured on the first glyph and the tatweel units; applied to ALL units (staggered) so the tatweel units grow with the same curve; the 'last' group below is inserted later and overrides the final glyph. Keep 'all': a grouped-keyframe preset runs no in.from/to tween, so with 'first' the tatweels would have no entrance at all (engine v2 now sets every group's first step at t=0, which fixed the v1 pre-show of the last glyph)",
             "steps": [{"scale": 0, "tMs": 0}, {"scale": 1, "tMs": 320, "easing": "cubic-bezier(0.25,0.48,0.5,0.99)"}],
             "measured": "'بـ' 5x12 -> 85x122 px @720, f216-224, height progress .10/.31/.51/.67/.80/.89/.95/.99/1"
           },
@@ -867,7 +867,7 @@
         "durationMs": 560,
         "easing": "cubic-bezier(0,0,1,1)",
         "staggerMs": 0,
-        "keyframesNote": "no from/to here: the runtime adds a from/to tween AFTER the keyframes and that linear 100%->0 clip overrode the measured head/kashida/tail shape (render check)",
+        "keyframesNote": "no from/to here: the clip is entirely keyframed (engine v2 also drops in.from/to props that share a channel with keyframes; v1 let a linear 100%->0 clip override the measured head/kashida/tail shape)",
         "keyframes": [
           {"tMs": 0, "clipLeftPct": 100},
           {"tMs": 120, "clipLeftPct": 65.6},
@@ -1561,8 +1561,16 @@
       "desc": "train of tiny transients above 11 kHz, one every 22-46 ms (~22 Hz), 480 ms long, +40 dB over the HF band median",
       "measuredHpLevelDbfs": -25.0
     },
-    "tickHF": {"desc": "6.64 kHz tonal tick + broadband >11 kHz burst, ~50 ms", "measuredHpLevelDbfs": -23.7},
-    "popHF": {"desc": "short pop with spectral peak ~10-10.7 kHz, ~90 ms", "measuredHpLevelDbfs": -16.8},
+    "tickHF": {"desc": "6.64 kHz tonal tick + broadband >11 kHz burst, ~50 ms", "measuredHpLevelDbfs": -23.7,
+      "recipe": {"kind": "layers", "layers": [
+        {"kind": "tone", "durationMs": 55, "attackMs": 1, "decayDb": 26, "decayMs": 50, "releaseMs": 6, "partials": [{"hz": 6640}]},
+        {"kind": "noise", "atMs": 2, "durationMs": 35, "bandHz": [11000, 18000], "attackMs": 0.5, "decayDb": 30, "decayMs": 35, "gainDb": 2, "seed": 41}]},
+      "recipeNote": "audio.py recipe (engine v2). Fitted on ref3_third 8.58-8.68 s: per-21 ms-frame peak of the 6.4-6.9 kHz band and of the >11 kHz band sit within 1 dB of each other (the built-in tickHF put the burst 6 dB under the tone); slower 26 dB decay = the reference's ~50 ms tail"},
+    "popHF": {"desc": "short pop with spectral peak ~10-10.7 kHz, ~90 ms", "measuredHpLevelDbfs": -16.8,
+      "recipe": {"kind": "layers", "layers": [
+        {"kind": "tone", "durationMs": 90, "attackMs": 1.5, "decayDb": 18, "decayMs": 90, "releaseMs": 12, "partials": [{"hz": 10700, "hzEnd": 10000}]},
+        {"kind": "noise", "atMs": 3, "durationMs": 55, "bandHz": [8500, 13000], "attackMs": 0.5, "decayDb": 24, "decayMs": 55, "gainDb": 0, "seed": 51}]},
+      "recipeNote": "audio.py recipe (engine v2). The reference pop (8.68-8.85 s) spreads 8-13 kHz and holds ~50 ms; a slower decay and a wider noise layer give it the reference's energy at a lower peak (spec sounds are normalised to -3 dBFS peak)"},
     "ding4k": {
       "desc": "4.19 kHz fundamental + 8.38 kHz partial (partial 2.6 dB louder), decays ~25 dB by 220 ms, ~300 ms ring",
       "peakBandLevelDbfs": -13.0
@@ -1576,9 +1584,10 @@
       "sound": "shimmer",
       "idealSound": "typingRattleHF",
       "offsetMs": 0,
-      "gainDb": -12,
+      "gainDb": -1,
       "onlyFirstInReel": true,
-      "note": "only the first typed subtitle of the reel gets typing audio (3.61-4.09 s)"
+      "note": "only the first typed subtitle of the reel gets typing audio (3.61-4.09 s); engine v2 honours onlyFirstInReel",
+      "levelNote": "engine path: the built-in typingRattleHF train is normalised to -3 dBFS peak and has a ~27 dB crest factor, so at -1 dB (peak -4 dBFS) its >11 kHz energy is still ~4-5 dB under the reference (ref per-frame HF max -10.4 dB at 3.6-4.1 s). For the reference level bake it into the bed (demo/make_bed.py --sfx typing@T, soft-limited, crest ~18 dB) and set \"sfx\": false on that cue, as the doctor demo does"
     },
     {
       "event": "text_in",
@@ -1586,7 +1595,8 @@
       "sound": "tick",
       "idealSound": "tickHF",
       "offsetMs": -30,
-      "gainDb": -10,
+      "gainDb": -5.5,
+      "levelNote": "with the soundSpecs recipe: 6.4-6.9 kHz per-frame peak -12.7 dB, >11 kHz -13.7 dB vs reference -12.8 / -14.0 dB (native demo, same plate audio level)",
       "note": "one frame before the cut into the pop shot (8.62-8.66 s)"
     },
     {
@@ -1595,7 +1605,8 @@
       "sound": "pop",
       "idealSound": "popHF",
       "offsetMs": 60,
-      "gainDb": -6,
+      "gainDb": 1.5,
+      "levelNote": "spec peak -1.5 dBFS (the ceiling before the -1 dBFS master limiter): 9.5-11.5 kHz per-frame peak -3.8 dB, >11 kHz -11.2 dB vs reference -1.6 / -9.3 dB (the reference pop is mastered into clipping)",
       "note": "at peak growth of the first glyph (8.71-8.80 s)"
     },
     {
@@ -1604,7 +1615,8 @@
       "sound": "ding",
       "idealSound": "ding4k",
       "offsetMs": 460,
-      "gainDb": -8,
+      "gainDb": 1.5,
+      "levelNote": "built-in ding4k at spec peak -1.5 dBFS: 4.19 / 8.38 kHz band peaks -6.0 / -3.4 dB vs reference -3.4 / -2.7 dB",
       "note": "100 ms after the second glyph starts (onset 9.10 s), leads into the bell"
     },
     {
@@ -1613,7 +1625,8 @@
       "sound": "click",
       "idealSound": "clickHF",
       "offsetMs": 240,
-      "gainDb": -18,
+      "gainDb": -20,
+      "levelNote": "built-in clickHF: >11 kHz per-frame peak -29.8 dB in the doctor demo mix, identical to the bed-baked click it replaced (make_bed.py click at -38 dBFS event RMS, itself fitted to the reference)",
       "note": "as the arch lands and its line starts typing (0.98 s); low confidence"
     }
   ],
@@ -1699,7 +1712,7 @@
     "maxWordsPerCaption": 3,
     "punchInEveryNCaptions": 0,
     "punchInPreset": "pullback-brand",
-    "note": "srt2scene's punch logic is disabled: this style never pushes in. Add the 4 pull-backs by hand (hook x2, breather, brand). Drafted starred captions become the validation-beat grammar (fade-rise hero at 68.8% + typed Light line at 75.6%); autoSfx ignores onlyFirstInReel, so set \"sfx\": false on every typewriter-sub after the first. fade-rise-word starts later words at 45% opacity: components.js keeps each word hidden until its own stagger start (without components.js the later words pre-show as grey ghosts). End every karaoke-sweep cue ~100 ms before the cut so the band has left the line.",
+    "note": "srt2scene's punch logic is disabled: this style never pushes in. Add the 4 pull-backs by hand (hook x2, breather, brand). Drafted starred captions become the validation-beat grammar (fade-rise hero at 68.8% + typed Light line at 75.6%); autoSfx gives the typing rattle to the first typewriter-sub only (onlyFirstInReel). fade-rise-word starts later words at 45% opacity: the engine (v2 unit gating) keeps each word hidden until its own stagger start. End every karaoke-sweep cue ~100 ms before the cut so the band has left the line.",
     "componentHints": {
       "note": "not read by srt2scene.py; defaults proven by demo/scene_doctor.json (foreign plate) and demo/scene_native.json (reference plate), see STYLE.md 'Engine implementation'",
       "foreignSet": {
@@ -1714,13 +1727,13 @@
         "wide": "camera scale that puts the head top at 34-35% H with the head ~2x smaller than in the tight shot (x1.9-2.6 flip). An MCU-only 1080x1920 source (the doctor plate: no full-body take) rests its wides at ~0.53 (head ~250 px; 0.62 gave a x1.6 flip and a 300 px head); x offset to centre the face; crimson-talent feathers the plate edges; hide the plate's lower edge under the arch in the hook. The lower third stays dark wall/floor: never fill it with rays or type",
         "mcuOnlySource": "renders/plates/doctor is an MCU-only source: no seated full-body wide exists, so the reference's small figure in a big room cannot be rebuilt; the 0.53 'wide' is a feathered bust",
         "tight": "scale 1.0 (or mcu-crop 2.3 on a 4K wide)",
-        "pullbacks": "multiply the preset scaleFrom/scaleTo by the shot's rest scale (e.g. pullback-expo-open 1.69x0.62 -> 0.62) and add a world-rest cue (props.restAt or props.rest) so world-locked type lands on its slot"
+        "pullbacks": "multiply the preset scaleFrom/scaleTo by the shot's rest scale (e.g. pullback-expo-open 1.69x0.62 -> 0.62) and set \"worldRest\": \"final\" on that camera cue (\"start\" on a settle-float continuing from it) so world-locked type lands on its slot"
       },
-      "cuts": "put every cut at k/30 - 0.02 s with camera durationMs >= 1 (a zero-duration camera cue on a frame boundary blends both framings through the motion-blur sampler); never let a camera move run past the next camera cue",
+      "cuts": "a hard cut is a camera cue {\"move\": \"static\", \"scaleTo\": <shot scale>, \"x\", \"y\", \"focus\": \"centre\"} plus the next shot's crimson-studio variant, timed in a speech pause; engine v2 camera cues are cuts (a later cue replaces a still-running move, no motion blur across the cut), so any time works",
       "difference": "place the Difference question / slam just below the chin so the stroke tops cross the neck / V-neck skin (white -> teal over skin, red -> green) and the rest crosses the wall (cyan #ACFAF6 needs a wall of R ~80 under it); never on the beard or face. Rise on the cut frame, swap-out with one empty frame, slam on its spoken onset",
       "bed": {"script": "demo/make_bed.py", "music": {"gainDb": "set so the band below 70 Hz sits ~3 dB under the 100 Hz-4 kHz voice band", "duckDb": 0},
-        "sfx": "the engine's SFX stand-ins are tonal 2-7 kHz blips; bake the reference's >11 kHz click / typing rattle into the bed (make_bed.py --sfx click@T,typing@T) and set \"sfx\": false on those cues"},
-      "mux": "render.mjs --out muxes with -shortest and drops the last frame when the plate audio is a few ms short: render --no-audio, run audio.py, then ffmpeg -af apad -shortest (STYLE.md Engine implementation)"
+        "sfx": "engine v2 plays the soundSpecs (tickHF / popHF recipes, built-in ding4k / clickHF / typingRattleHF) at the calibrated rule gains. Only the typing rattle cannot reach the reference level through the peak-normalised spec: bake it into the bed (make_bed.py --sfx typing@T) and set \"sfx\": false on that typewriter-sub"},
+      "mux": "render.mjs --out (engine v2) pads the mix and cuts it to exactly frames / fps, so every frame is kept: no manual mux"
     }
   },
   "persistent": [

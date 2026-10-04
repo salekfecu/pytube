@@ -225,7 +225,7 @@ g. **UI chip.** Red Inter 500 «your content» with a 0.3 → 1 alpha ramp over 
 ### 4.7 Renderer notes (from the smoke test)
 - The engine wraps each letter in an `inline-block` box. `background-clip:text` is clipped to that box, so at line-height 1.2 the dots of a final ي were cut off. Gradient-filled letter-split roles therefore use **line-height 1.6**.
 - Right-anchored or masked lines need `width: max-content`. Without it, a box positioned at left 91.5% is only 8.5% W wide and the mask cuts off the overflowing first letter.
-- The engine treats each tatweel as its own letter unit. That is why `glyph-scale-pop` uses a 120 ms stagger with 2 tatweels.
+- By default (`in.tatweelUnit: "each"`) the engine treats each tatweel as its own letter unit. That is why `glyph-scale-pop` uses a 120 ms stagger with 2 tatweels (the kashida grows out of ب in two steps); `"run"` would merge them into one unit and needs a 180 ms stagger.
 - `mix-blend-mode: difference` works in the engine as long as nothing isolates `#front`.
 
 ## 5. Colour and grade
@@ -330,7 +330,7 @@ Sizes are 720 → **1080**. Layer `front` = over the talent; `behind` = between 
 | `contact-shadow` | only when the background is replaced | ellipse 120% of the talent width × 60 px, rgba(0,0,0,.65), blur 24 px, under the chair and feet | `behind`, camera-locked |
 | `plate-vignette` | the reference vignette, kept under the captions | radial `transparent 45% → rgba(12,0,0,.8) 100%` at (50%, 42%), plus a top band `rgba(6,0,0,.6) → 0` over the top 14%, plus a talent mask fading to 55% over the bottom 14% | `behind` and talentWrap |
 
-All of these ids are implemented in `styles/style-3/components.js` (see **Engine implementation** at the end), together with the helpers `crimson-studio`, `crimson-talent` and `world-rest`.
+All of these ids are implemented in `styles/style-3/components.js` (see **Engine implementation** at the end), together with the helpers `crimson-studio` and `crimson-talent`. World lock relative to a shot's rest camera is the engine's camera-cue option `worldRest`.
 
 ## 8. Motion vocabulary
 Easing shorthands:
@@ -460,7 +460,7 @@ Inside every shot:
 
 Rules:
 - Cuts and type follow **speech** (syllable onsets ±30 ms), not beats; the tempo is unresolved (86 vs 115 BPM).
-- The engine's built-in `ding` is 1320 Hz. Use `idealSound` specs from style.json when better samples exist.
+- `audio.py` (engine v2) plays the `idealSound` specs from style.json `soundSpecs` at the calibrated rule gains (see **Engine implementation**, Audio). The tonal stand-ins (`shimmer`, `tick`, `pop`, the 1320 Hz `ding`) only play with `scene.idealSfx: false`.
 
 ## 11. Layout and safe zones (1080×1920; percentages are the same at 720×1280)
 ```
@@ -557,12 +557,12 @@ Rules:
    - otherwise `bg-replace` with `redStudioWide`/`redStudioMcu`, plus the persistent `sunburst-halo` and `plate-vignette` (camera-locked), plus `contact-shadow`;
    - reveal beat: `voidExtension` plus `void-pullback`.
 5. Grade the talent only (§5.2) and check against `grade.targets`: crushed p0.5, plate p99.5 ≤ 170, mean S at least 190.
-6. Camera cues from §8.3. Implement `worldLock` (see `worldLockSpec`) in `components.js` with an `onFrame` hook that mirrors `#plateWrap`'s scale. Park hook and brand type off-frame in world coordinates.
+6. Camera cues from §8.3. World-locked type (`worldLock: true`) follows the camera; give each pull-back cue `"worldRest": "final"` (see `worldLockSpec`) so it lands on its slot at a rest scale ≠ 1. Park hook and brand type off-frame in world coordinates.
 7. Text cues from §8.1 with the zone slots in §11:
    - write tatweels into the text explicitly;
    - Difference words in wide shots only;
    - kashida and display words on the `behind` layer when they cross the head.
-8. Build `styles/style-3/components.js` for: `sunburst-halo`, `glass-arch-rise`, `glass-pill-smoked`, `glass-pill-outline`, `glass-corner-panels`, `bell-ring`, `brand-lockup`, `fg-rose-parallax`, `void-pullback`, `contact-shadow`, `plate-vignette`, and the worldLock wrapper.
+8. Build `styles/style-3/components.js` for: `sunburst-halo`, `glass-arch-rise`, `glass-pill-smoked`, `glass-pill-outline`, `glass-corner-panels`, `bell-ring`, `brand-lockup`, `fg-rose-parallax`, `void-pullback`, `contact-shadow` and `plate-vignette` (done; world lock is the engine's `worldRest`).
 9. Assets:
    - 2 rose PNGs with alpha (prompt in style.json);
    - the void plate;
@@ -678,77 +678,109 @@ Rules:
   - `director`, `persistent`.
 - Descriptive extras are ignored by the current runtime: `worldLock` (per element), `worldLockSpec`, `keyframes`, `maskAnim`, `graphicComponents`, `backgrounds`, `soundSpecs`, `idealSound` and `onlyFirstInReel`.
 - `director.punchInEveryNCaptions` is 0, because this style never pushes in. Add the pull-backs by hand.
-- With `autoSfx: true` the engine adds the typing rattle to **every** `typewriter-sub` cue, because it ignores `onlyFirstInReel`. Set `"sfx": false` on every typed subtitle after the first.
+- With `autoSfx: true` the engine (v2) honours `onlyFirstInReel`, so only the first `typewriter-sub` of a reel gets the typing rattle, and it plays the `idealSound` specs (see **Engine implementation**, Audio).
 - **Smoke test** on `renders/test_plate` with `scratch_style/smoke_scene.json` (stills at f28, 58, 85 and 118 → `scratch_style/smoke*/`, sheet `smoke_sheet.jpg`):
   - Rendered correctly: `hook-glyph-pop` with the sheen (dots of ي intact at line-height 1.6), `ghost-echo-word`, `neon-blur-in` (stroke, inner glow, left fade; needs `width:max-content`), `typewriter-sub`, `kashida-draw-behind` (occluded by the head), `difference-rise` (cyan over red, inverted talent), `fade-rise-word`, `karaoke-sweep` (pink band over the hero), `headline-cascade`, `typewriter-sub-rise`, `glyph-scale-pop` and `ui-latin-type`.
-  - Not yet drawn at the time of the smoke test: everything in §7, world lock relative to a non-1 rest camera, the script font and the ideal SFX. The first three are now covered by `components.js` and the installed `@fontsource/pinyon-script` (see **Engine implementation**); the ideal HF click and typing rattle are baked into the demo bed by `demo/make_bed.py --sfx` (the tick / pop / 4.19 kHz ding still use the engine's tonal stand-ins until `audio.py` implements `idealSound`).
+  - Not yet drawn at the time of the smoke test: everything in §7, world lock relative to a non-1 rest camera, the script font and the ideal SFX. The first three are now covered by `components.js` and the installed `@fontsource/pinyon-script` (see **Engine implementation**); the ideal SFX are played by `audio.py` from `soundSpecs` since engine v2 (only the typing rattle is still baked into the demo bed, for level).
 
 ## Engine implementation
 
-`styles/style-3/components.js` registers every `graphicComponents` and `persistent` id, plus three helpers. It is loaded automatically after `components-shared.js`. Everything is deterministic: GSAP tweens on `ctx.tl` or `ctx.onFrame(t)` hooks, `ctx.rng` seeds, no CSS animation, timers or `Math.random`.
+`styles/style-3/components.js` registers every `graphicComponents` and `persistent` id, two helpers (`crimson-studio`, `crimson-talent`) and one text builder (`karaoke-sweep`). It is loaded automatically after `components-shared.js`. Everything is deterministic: GSAP tweens on `ctx.tl` or `ctx.onFrame(t)` hooks, `ctx.rng` seeds, no CSS animation, timers or `Math.random`.
 
-Persistent components get no per-scene props from the runtime, so a scene passes them as `scene.persistentProps[<id>]` (merged over the persistent entry).
+It needs **engine v2** (`MG.engineFeatures.version` 2). Persistent components are sized per scene with `scene.persistentProps[<id>]`, which the engine merges into their `cue.props`.
 
 | id | layer | what it does | main `props` |
 |---|---|---|---|
-| `sunburst-halo` (persistent) | own screen-space canvas above `bgW`, `plus-lighter` | ~45 rays (+30 R additive, round caps, 2-3 dash splits, soft edges), rasterised once per shot anchor and drawn every frame with the footage's camera matrix (plate-locked). The talent's raw camera-transformed matte is then cut out of it, so rays never show through the presenter, not even where `crimson-talent` feathers the plate edges. One stable anchor per shot (face track split at cuts or track jumps); centre = head top − 7 px. **Sizing:** with `restScale` the halo has the reference wide's *screen* size at that camera scale (inner 159 / outer 515 px, width 19 × 0.62) and scales with every move from there; without it, radii follow the face-track head width (legacy, only right when the wide head is ~135 px). A radial falloff (full to 330 px, 20% at the longest ray) matches the reference's ray energy by radius (upper-half mean \|R high-pass\| at r 225/300/375/450/525/600: demo 10.4/8.6/5.9/3.4/1.8/0.7 against 6.9/6.4/4.8/2.1/0.9/0.8 at f268) | `restScale`, `scale`, `widthScale` (0.62), `falloff` (false = off), `falloffFromPx`, `rays`, `color`, `blend`, `occlude` (true), `cuts` [s], `anchors` [{t0,t1,cx,top,w}] |
+| `sunburst-halo` (persistent) | own screen-space canvas above `bgW`, `plus-lighter` | ~45 rays (+30 R additive, round caps, 2-3 dash splits, soft edges), rasterised once per shot anchor and drawn every frame with the footage's camera matrix (plate-locked). The presenter is cut out of it with `ctx.matteCanvas` (the frame's raw camera-transformed matte), so rays never show through the presenter, not even where `crimson-talent` feathers the plate edges. One stable anchor per shot (face track split at cuts or track jumps); centre = head top − 7 px. **Sizing:** with `restScale` the halo has the reference wide's *screen* size at that camera scale (inner 159 / outer 515 px, width 19 × 0.62) and scales with every move from there; without it, radii follow the face-track head width (legacy, only right when the wide head is ~135 px). A radial falloff (full to 330 px, 20% at the longest ray) matches the reference's ray energy by radius (upper-half mean \|R high-pass\| at r 225/300/375/450/525/600: demo 10.4/8.6/5.9/3.4/1.8/0.7 against 6.9/6.4/4.8/2.1/0.9/0.8 at f268) | `restScale`, `scale`, `widthScale` (0.62), `falloff` (false = off), `falloffFromPx`, `rays`, `color`, `blend`, `occlude` (true), `cuts` [s], `anchors` [{t0,t1,cx,top,w}] |
 | `plate-vignette` (persistent) | `behind`, plus a `#talentWrap` mask | radial vignette and top band under all captions; bottom 14% talent fade. Over a `crimson-studio` backdrop it runs at `overStudio` (default wide 0.4 / MCU 0.25; the doctor demo uses 0.25 for both), because the fitted gradients already carry the falloff | `overStudio` (number or {wide, mcu, void}), `radial`, `topBand`, `talentMask` (false = off), `sides` (optional side falloff, off by default: the reference wide wall is lit edge to edge), `lock: "plate"` |
-| `crimson-studio` | `bg` | background replacement from `style.json backgrounds`; visibility is switched in a frame hook so a cut frame never flashes the original plate | `variant`: `wide` / `mcu` / `void`, or `gradient` |
+| `crimson-studio` | `bg` | background replacement from `style.json backgrounds`. Visibility is switched in a frame hook exactly at the cue window: the engine's cue lifecycle keeps a node displayed ½ frame past its end, which would show the next shot's wall on the frame before a cut | `variant`: `wide` / `mcu` / `void`, or `gradient` |
 | `crimson-talent` | talent canvas, `#talentWrap` | foreign plates: teal/cyan despill; matte choke; **colour decontamination** (every pixel that is not ≥ ~6 px inside the matte takes the blurred colour of nearby interior pixels, because the opaque rim can still carry the original wall, e.g. teal light wrap on the ears); ~1 px erosion; edge darkening + red wrap; feather at the camera-transformed plate edges (for rest scales < 1); per-plate exposure filter | `despill` 0.9, `choke` 0.4, `wrap` 0.5, `edgeDarken` 0.5, `decontaminate` 0.9, `erode` true, `feather` {side, bottom}, `filter` |
-| `world-rest` | all three runtime `…W` layers | world lock relative to the shot's **rest** camera (S = current / final, §8.3), so world-locked type lands on its slot when a shot rests at scale ≠ 1 | `restAt` (s) or `rest` {scale,x,y} |
 | `glass-arch-rise` | `front` | ghost word under the glass (top-lit #E2271F → #C8141A → #9A0A10, 4 px soft, **screen-blended at 0.7** so the talent reads through it), the arch (blur 5, 3 px rim 37%, smoke 10%, plus a faint top-lit white body so the interior lifts ~4-6 Y) and a thin kashida line typed on top. All three rise and scale together from the bottom centre. Exit is the 450 px split drop, or `exit: "cut"` | `ghost`, `ghostPos`, `ghostOpacity` (0.7), `ghostBlend`, `ghostBlurPx`, `line` {text, delayMs}, `topYPx`, `body` (false = bare glass), `exit` |
 | `glass-pill-smoked` | `front` | `pill1` / `pill2` capsules (blur 10, 14% smoke, 2 px rim and a specular gradient rim). Seed stretch-pop; `pill2` grows from the centre in 240 ms | `variant`, `position`, `z: "below-previous"` (puts it under the hero it backs) |
 | `glass-pill-outline` | `front` (`worldLock` OK) | CTA hairline capsule (2.5 px at 14%), scaleX 0.25 → 1 | `position` |
 | `glass-corner-panels` | `front` | two frosted slabs (r 375, blur 7.5, ×0.9) slide in on the measured curves, drift linearly for 1.24 s, then stop dead. The face must sit in the x 430-633 gap | `drift: false` |
 | `bell-ring` | `front` | SVG bell, stroke draw-on, ±11° sine sway around −25° | `position` |
-| `brand-lockup` | `frontW` | wordmark, script and tagline built from the world-locked text presets | `wordmark`, `script`, `tagline`, `taglineDelayMs` |
+| `brand-lockup` | `frontW` | wordmark, script and tagline built from the world-locked text presets; give the brand pull-back `"worldRest": "final"` | `wordmark`, `script`, `tagline`, `taglineDelayMs` |
 | `fg-rose-parallax` | `front` | procedural defocused macro roses (no PNG assets), ×2.2 counter-scale, 6° turn. Scale origins are solved from the measured edges | `bottomLeft` / `topRight`: false or {boxPx} |
-| `void-pullback` | `bg` + plate-locked card | smoky void plus the studio as an 18%-feathered card that covers the frame at the cue start. The halo canvas and the talent get the same feather | `studio`, `featherPct` |
+| `void-pullback` | `bg` + plate-locked card | smoky void plus the studio as an 18%-feathered card that covers the frame at the cue start (framing read with `ctx.camAt(cue.t)` at build). The halo canvas and the talent get the same feather | `studio`, `featherPct`, `rect` |
 | `contact-shadow` | plate-locked `behindW` | grounding ellipse | `position`, `widthPx` |
+| `karaoke-sweep` (text builder) | as the preset | `MG.textBuilders['karaoke-sweep']` runs the generic text build, then (post-layout) replaces the unit backgrounds with a band built **in px** from `bandPx` (FWHM 92 px, core #F03039 at 85% so it reads pink-red over the white hero, #D0897B fringe). The preset's tweened background-position is read as progress, and the band travels from 50 px right of the line to fully off its left end. The 400% background made the band width scale with the line (FWHM 0.32 × line width = 225-307 px on the demo's 820 px line, against 55-110 px in the reference). The engine's own animated-background re-projection switches itself off for these units. End the cue ~100 ms before the cut | preset `bandPx` {startPx, endPx, stops} |
 
-Global fixes are installed when the runtime publishes `MG.ctx` (no core edits):
-- **Staggered entrances are gated.** The runtime renders every unit's `from` state at the cue start, so `fade-rise-word` (from opacity 0.45) showed word 2 as a grey ghost before its entrance. Each unit of a staggered `fromTo` entrance now stays `visibility: hidden` until its own start, read from its GSAP tween (works for any preset, stagger or `words` timing).
-- **`karaoke-sweep` band in px.** The 400% background made the band width scale with the line (FWHM 0.32 × line width = 225-307 px on the demo's 820 px line, against 55-110 px in the reference). The band is now built from `bandPx` (FWHM 92 px, core #F03039 at 85% so it reads pink-red over the white hero, #D0897B fringe). The preset's tweened background-position is read as progress and the band travels from 50 px right of the line to fully off its left end. End the cue ~100 ms before the cut.
-- Gradient + glow text (`ghostMega`): the glow moves to a drop-shadow wrapper. Otherwise `text-shadow` paints over the `background-clip:text` fill.
-- The camera timeline is primed so frame 0 shows the first move's `scaleFrom`.
+Plate-locked layers (`plateLayer()`: halo occlusion card, contact shadow, void card, `plate-vignette` with `lock: "plate"`) sit beside the runtime's `…W` layers and take the absolute camera matrix, never the `worldRest`-relative one.
+
+### Engine v2: what the style uses natively
+
+Re-rendered both demos with the v2 engine before and after simplifying. Per-frame PSNR against `renders/baseline/` is 48.7-61.2 dB on every frame (doctor mean 52.4, native 51.3), frame counts are 299 / 83 as before, and the 10 lowest frames show only encode noise at moving text edges. PNG stills (55 doctor, 25 native, 34 per scratch scene, including frame 0 and every cut frame) match the pre-simplification render (max difference ≤ 20 levels, no pixel off by more than 24), except one frame (f30) where the hook word's gradient-letter seams shift by a sub-pixel (0.014% of pixels).
+
+Removed from `components.js` / the scenes, because the engine now does it with an identical render:
+- **Camera priming** (`primeCam` seek to 1e-4 s). The engine primes both masters and seeks every frame to t + 1e-5 s.
+- **Unit gating** of staggered entrances (`gateStaggeredUnits`). The engine keeps each split unit `visibility: hidden` until its own entrance, so `fade-rise-word`'s later words no longer pre-show as 45% ghosts.
+- **Gradient-fill glow wrapper** (`fixGradientGlows`). The engine moves the glow of `ghostMega` («Smile» / «Mr») from text-shadow to a drop-shadow host with the same radii.
+- **`scene.persistentProps` merge**. Now done by the engine.
+- **`world-rest` helper** (wrote the `…W` layer transforms through the engine's legacy path). Replaced by `"worldRest"` on the camera cue: `"final"` on a pull-back, `"start"` on `settle-float`, which continues from the hook's rest. Scenes `demo/scene_doctor.json` and `renders/demos/style-3/scratch/scene_a.json` / `scene_b.json` are converted.
+- **Cut cues as 1 ms moves at k/30 − 0.02 s**. A cut is now `{"type": "camera", "move": "static", "scaleTo": …, "x": …, "y": …, "focus": "centre"}`. Camera cues are cuts, a later cue replaces a still-running move, and no motion-blur sample crosses a cut, so any cut time works.
+- **The MG.ctx setter hook**. The sweep band is now a `textBuilders` entry, and plate layers register their own `ctx.onFrame`. `ctx.camMatrix`, `ctx.camAt` and `ctx.matteCanvas` replace the style's own camera matrix, `camMaster` seeks and `#talent` read-back.
+- **Manual mux** (`--no-audio`, `audio.py`, `ffmpeg -af apad`). `render.mjs --out` now pads the mix and cuts it to exactly frames / fps.
+- **Baked arch click**. The style rule plays `clickHF` (gain −20 dB). Its >11 kHz per-frame peak in the doctor mix is −30.2 dB against −29.8 dB for the baked click.
+
+Kept, with the reason:
+- `crimson-studio` / `plate-vignette` / glass visibility via an exact-window frame hook. The engine lifecycle (`.mg-off`) has a ½-frame tolerance, so at a cut between two frames both shots' walls would be displayed on the frame before the cut.
+- The px sweep band (a look decision; the engine's re-projection of the 400% band reproduces the too-wide band).
+- `glyph-scale-pop` grouped keyframes on `all` units. A grouped-keyframe preset runs no `in.from/to`, so with `first` the tatweel units would have no entrance. Engine v2's group start-state fix removed only the old reason.
+- Tatweels as separate units (`tatweelUnit` default `each`): the kashida grows out of ب in two steps, as measured.
+- **Typing rattle baked into the bed** (`make_bed.py --sfx typing@2.34`, `"sfx": false` on that cue). The engine normalises spec sounds to −3 dBFS peak, and its `typingRattleHF` train has a ~27 dB crest factor. At the loudest safe rule gain (−1 dB, peak −4 dBFS) its >11 kHz energy is 4-5 dB under the reference, while the soft-limited baked rattle (crest ~18 dB) matches it (per-frame HF peak −12.5 dB in both the old and the new mix).
+
+**Audio (engine v2).** `audio.py` resolves `idealSound` from `soundSpecs`, so the rule gains are calibrated tokens now. They were fitted with the same per-21 ms-frame band measurement on `ref3_third` and on the native demo, whose plate audio is the reference's at the same level:
+
+| sound | rule gain | ours vs reference (band peak, dB) |
+|---|---|---|
+| `tickHF` (recipe in soundSpecs) | −5.5 | 6.4-6.9 kHz −12.6 / −12.8; >11 kHz −13.7 / −14.0 |
+| `popHF` (recipe) | +1.5 (spec peak −1.5 dBFS) | 9.5-11.5 kHz −3.9 / −1.6; >11 kHz −11.2 / −9.3 (the reference pop is mastered into clipping) |
+| `ding4k` | +1.5 | 4.19 kHz −6.1 / −3.4; 8.38 kHz −3.4 / −2.7 |
+| `clickHF` | −20 | matches the bake fitted to the reference |
+| `typingRattleHF` | −1 | ~4-5 dB under; bake it for exact level |
+
+The native demo's tick / pop / ding were the engine's tonal stand-ins (0.9-2.6 kHz) before. They are now the reference's HF sounds at the reference level; the −1 dBFS master limiter takes about 2 dB off the ding's onset peak (≤ 1 dB averaged over 10 ms, ~100 ms release).
 
 **Token changes proven by renders** (each carries a `renderCheck` / `…Note` in style.json):
-- `glyph-scale-pop`: the first keyframe group now applies to `all` units. With `first`, the tatweels and the last glyph sat at full size for 360 ms.
-- `glyph-scale-pop`: position y is now 51.1%. The engine centres the line box, and at 55.5% the ink landed 84 px below k_018.
-- `kashida-draw-behind`: `from`/`to` were removed, because the runtime's linear from/to tween overrode the measured clip keyframes.
+- `glyph-scale-pop`: the first keyframe group applies to `all` units (see Kept).
+- `glyph-scale-pop`: position y is now 51.1%. The engine centres the line box, and at 55.5% the ink landed 84 px below k_018. (`position.anchor: "ink"` is available in v2, but the 51.1% box placement is already verified.)
+- `kashida-draw-behind`: no `from`/`to`, the clip is entirely keyframed. Under v1 the linear from/to clip overrode the measured keyframes; v2 drops such props anyway.
 - `ghostMega` fill max alpha 0.60 → 0.45, rim `#B00003` → rgba(176,0,3,0.6), glow 0.22 → 0.15; `ghost-echo-word` carries a vertical mask (transparent top → opaque at 70%) over fill, rim and glow. The echo read as a red title (glyph R p50 79-127 against 62-79 for «Mr» at f31). Keep the echo to 2-3 letters, or set `sizePx` 240 for a longer word.
 - `karaoke-sweep`: narrow gradient (reference-line case), `hold.to` 70% → 73% (fully off the line) and `bandPx`.
 - `script-accent`: position (68.8, 14.0) → (66.0, 16.7) and Pinyon 172 → 200 px. The script's baseline sat ~60 px above the wordmark's.
 - `backgrounds.redStudioWide`: the full-height left falloff became a top-left radial (k_048 is darker on the left only in rows 5-45%). `redStudioMcu`: outer stops lifted (the MCU top rows read R 55-75 against 62-93).
+- `sfx` gains and the `tickHF` / `popHF` recipes (Audio above).
 
 **Demos**
 - `demo/scene_doctor.json` → `renders/demos/style-3/style-3_doctor.mp4` (`sheet.jpg`, `stills/`): a transfer test on a teal-clinic dentist plate. This is an **MCU-only source** (no full-body take).
   - The crimson studio replaces the set. Wide = plate ×0.53 (head ~250 px, head top ~34% H; ×1.9 flip); tight = ×1.0. The persistent halo gets `restScale: 0.53`.
   - Four shots: hook pull-back with the arch over the plate's lower edge → validation sweep (92 px band, leaves at 4.48 s) with the smoked pill over the scrubs pocket → Difference on the cut frame across the neck and wall, kashida word behind the head, word swap with one empty frame, red slam on its onset (6.17 s) → brand pull-back with the CTA capsule (~1.2 s end hold).
-  - Audio: the 41 Hz bed from `demo/make_bed.py` with the reference's >11 kHz click (0.96 s) and typing rattle (2.34 s) baked in (`--sfx click@0.96,typing@2.34`), so both cues set `"sfx": false`. The sub band sits 2.7 dB under the voice band; HF p99 per STFT frame is −23 dB (reference −24). No clipping.
-  - Render: `render.mjs --out` muxes with `-shortest` and drops the last frame, so render `--no-audio`, mix, and mux with `apad` (below). This keeps all 299 frames.
-- `demo/scene_native.json` → `style-3_native.mp4` (`sheet_native.jpg`): the turn-word beat on the reference's own tight MCU, with tick/pop/ding, `pill2`, the red UI line and the bell. Grade, overlays and persistents are off, because the plate already carries them.
-- Scratch coverage of every preset and component: `renders/demos/style-3/scratch/scene_a.json` and `scene_b.json` (split exit, void reveal with world-locked question, roses, corner panels, neon, CTA cascade).
+  - Audio: the 41 Hz bed from `demo/make_bed.py` with the reference's >11 kHz typing rattle (2.34 s) baked in; the arch click (0.96 s) is the engine's `clickHF` rule. The sub band sits 2.7 dB under the voice band. No clipping (mix peak −2 dBFS).
+  - 299 frames, audio padded to 9.966 s, straight from `render.mjs --out`.
+- `demo/scene_native.json` → `style-3_native.mp4` (`sheet_native.jpg`), 83 frames: the turn-word beat on the reference's own tight MCU, with tick/pop/ding (calibrated `soundSpecs`), `pill2`, the red UI line and the bell. Grade, overlays and persistents are off, because the plate already carries them.
+- Scratch coverage of every preset and component: `renders/demos/style-3/scratch/scene_a.json` and `scene_b.json` (split exit, void reveal with world-locked question, roses, corner panels, neon, CTA cascade), rendered on `renders/plates/doctor`.
 
 ```bash
 cd engine
-python3 ../styles/style-3/demo/make_bed.py ../styles/style-3/demo/bed_crimson_41hz.wav 10.0 4.40 6.55 --sfx click@0.96,typing@2.34 --music-gain-db -2.2
-node render.mjs --plate ../renders/plates/doctor --style ../styles/style-3/style.json --scene ../styles/style-3/demo/scene_doctor.json --out /tmp/s3_video.mp4 --workers 2 --no-audio
-python3 audio.py --plate ../renders/plates/doctor --scene ../styles/style-3/demo/scene_doctor.json --style ../styles/style-3/style.json --out /tmp/s3_mix.wav
-ffmpeg -y -i /tmp/s3_video.mp4 -i /tmp/s3_mix.wav -map 0:v -map 1:a -c:v copy -af apad -c:a aac -b:a 192k -shortest -movflags +faststart ../renders/demos/style-3/style-3_doctor.mp4
+python3 ../styles/style-3/demo/make_bed.py ../styles/style-3/demo/bed_crimson_41hz.wav 10.0 4.40 6.55 --sfx typing@2.34 --music-gain-db -2.2
+node render.mjs --plate ../renders/plates/doctor --style ../styles/style-3/style.json --scene ../styles/style-3/demo/scene_doctor.json --out ../renders/demos/style-3/style-3_doctor.mp4 --workers 2
+node render.mjs --plate ../renders/plates/ref3_breather --style ../styles/style-3/style.json --scene ../styles/style-3/demo/scene_native.json --out ../renders/demos/style-3/style-3_native.mp4 --workers 2
 tools/sheet.sh ../renders/demos/style-3/style-3_doctor.mp4 ../renders/demos/style-3/sheet.jpg 3
+tools/sheet.sh ../renders/demos/style-3/style-3_native.mp4 ../renders/demos/style-3/sheet_native.jpg 4
 ```
 
 **Using it on new footage:**
 1. Follow `director.componentHints` in `style.json`.
-2. Scale every pull-back by the shot's rest scale and add a `world-rest` cue for that shot. Pass the wide rest scale to the halo: `"persistentProps": {"sunburst-halo": {"restScale": …}}`.
-3. Place each cut at k/30 − 0.02 s with `durationMs ≥ 1`. A zero-duration camera cue on a frame boundary blends both framings through the motion-blur sampler.
-4. Never let a camera move run past the next camera cue; the runtime does not overwrite camera tweens.
-5. Give the hook text `out: null` when a hard cut, not the void move, follows it.
-6. Re-place chest-band and torso slots to the talent's anatomy, so that no type or glass crosses the face. Difference words go just below the chin, with the stroke tops on the neck.
-7. End `karaoke-sweep` ~100 ms before the cut. Bake the HF SFX into the bed and opt those cues out of `autoSfx`.
+2. Scale every pull-back by the shot's rest scale and give its camera cue `"worldRest": "final"` (a `settle-float` that continues from it: `"start"`). Pass the wide rest scale to the halo: `"persistentProps": {"sunburst-halo": {"restScale": …}}`.
+3. Cut with `{"type": "camera", "move": "static", "scaleTo": …, "focus": "centre"}` plus the next shot's `crimson-studio` cue, in a speech pause.
+4. Give the hook text `out: null` when a hard cut, not the void move, follows it.
+5. Re-place chest-band and torso slots to the talent's anatomy, so that no type or glass crosses the face. Difference words go just below the chin, with the stroke tops on the neck.
+6. End `karaoke-sweep` ~100 ms before the cut.
+7. `autoSfx: true` gives tick / pop / ding / click at reference level and the typing rattle to the first typed line only. For the rattle at full reference level, bake it with `make_bed.py --sfx typing@T` and set `"sfx": false` on that cue.
 
 **Known limits of the doctor demo:**
 - The plate is MCU-only, so the "wide" is a feathered bust and the lower third is dark wall.
 - Text is on screen for ~94% of the 10 s. The under-20 s template asks for one breather, but every second carries speech that the type follows, and the brand wordmark is delivered by the camera as the brand line is spoken.
 - The neon fade-edge slide, the heroSheen foot shade and the hero's early-word-out are not implemented.
+- The hook word's gradient letters show faint 1 px seams between letter boxes while the camera scales (present since v1; split gradient text is clipped per inline-block unit).

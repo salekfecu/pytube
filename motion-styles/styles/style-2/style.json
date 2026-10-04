@@ -582,6 +582,7 @@
       "unit": "letter",
       "dir": "rtl",
       "in": {
+        "tatweelUnit": "run",
         "from": {"opacity": 0, "blur": 9},
         "to": {"opacity": 1, "blur": 0},
         "durationMs": 117,
@@ -635,6 +636,7 @@
       "unit": "letter",
       "dir": "rtl",
       "in": {
+        "tatweelUnit": "run",
         "from": {"opacity": 0, "blur": 6, "brightness": 1.6},
         "to": {"opacity": 1, "blur": 0, "brightness": 1},
         "durationMs": 83,
@@ -702,6 +704,7 @@
       "unit": "letter",
       "dir": "rtl",
       "in": {
+        "tatweelUnit": "run",
         "from": {"opacity": 0, "blur": 6},
         "to": {"opacity": 1, "blur": 0},
         "durationMs": 83,
@@ -725,6 +728,7 @@
       "unit": "letter",
       "dir": "rtl",
       "in": {
+        "tatweelUnit": "run",
         "from": {"opacity": 0},
         "to": {"opacity": 1},
         "durationMs": 67,
@@ -1358,8 +1362,26 @@
   },
   "sfxPolicy": "Sparse, tonal SFX tied to a graphic type (gold shimmer, glass chime, near-inaudible ticks on type-ons). No whoosh, impact or riser on cuts or pull-backs. No music bed.",
   "soundSpecs": {
-    "shimmerTwoTone": {"type": "two-tone", "tones": [{"hz": 9250, "ms": 100}, {"hz": 5600, "ms": 60}], "attackMs": 4, "releaseMs": 30},
-    "tick8k1Series": {"type": "tone-tick", "hz": 8100, "ms": 60, "repeatOffsetsMs": [0, 240, 310, 400, 670]},
+    "shimmerTwoTone": {
+      "type": "two-tone", "tones": [{"hz": 9250, "ms": 100}, {"hz": 5600, "ms": 60}], "attackMs": 4, "releaseMs": 30,
+      "recipeNote": "engine audio.py recipe: flat 9250 Hz 100 ms (+30 ms release) then 5600 Hz 60 ms at -4 dB, overlapping the release",
+      "recipe": {"kind": "sequence", "steps": [
+          {"kind": "tone", "atMs": 0, "durationMs": 130, "attackMs": 4, "decayPerSec": 0, "releaseMs": 30, "partials": [{"hz": 9250}]},
+          {"kind": "tone", "atMs": 100, "durationMs": 90, "attackMs": 2, "decayPerSec": 0, "releaseMs": 30, "gainDb": -4, "partials": [{"hz": 5600}]}
+      ]}
+    },
+    "tick8k1Series": {
+      "type": "tone-tick", "hz": 8100, "ms": 60, "repeatOffsetsMs": [0, 240, 310, 400, 670],
+      "recipeNote": "engine audio.py recipe: five 8.1 kHz ticks (2 ms attack, 20 ms decay) plus the measured 4 kHz blip (140 ms, -2 dB) at +400 ms",
+      "recipe": {"kind": "sequence", "steps": [
+          {"kind": "tone", "atMs": 0, "durationMs": 60, "attackMs": 2, "decayPerSec": 50, "releaseMs": 6, "partials": [{"hz": 8100}]},
+          {"kind": "tone", "atMs": 240, "durationMs": 60, "attackMs": 2, "decayPerSec": 50, "releaseMs": 6, "partials": [{"hz": 8100}]},
+          {"kind": "tone", "atMs": 310, "durationMs": 60, "attackMs": 2, "decayPerSec": 50, "releaseMs": 6, "partials": [{"hz": 8100}]},
+          {"kind": "tone", "atMs": 400, "durationMs": 60, "attackMs": 2, "decayPerSec": 50, "releaseMs": 6, "partials": [{"hz": 8100}]},
+          {"kind": "tone", "atMs": 670, "durationMs": 60, "attackMs": 2, "decayPerSec": 50, "releaseMs": 6, "partials": [{"hz": 8100}]},
+          {"kind": "tone", "atMs": 400, "durationMs": 140, "attackMs": 3, "decayPerSec": 0, "releaseMs": 60, "gainDb": -2, "partials": [{"hz": 4000}]}
+      ]}
+    },
     "tick7k2": {"type": "tone-tick", "hz": 7200, "ms": 50},
     "chimeGlass": {
       "type": "inharmonic-bell",
@@ -1379,7 +1401,8 @@
       "idealSound": "shimmerTwoTone",
       "offsetMs": 100,
       "offsetNote": "the gold cue starts at the 3 F pre-glow, so +100 ms lands the shimmer on the centre glyph body",
-      "gainDb": -22,
+      "gainDb": -23.8,
+      "targetDbfs": -34,
       "measured": "9252 Hz 5.17-5.27 s, 5597 Hz 5.27-5.33 s; reused at 29.55 s. Band level -32..-41 dBFS vs speech about -12 dBFS. Lands on the first glyph (S3) or on the outer glyphs (S9, +200 ms)."
     },
     {
@@ -1388,7 +1411,8 @@
       "sound": "tick",
       "idealSound": "tick8k1Series",
       "offsetMs": 200,
-      "gainDb": -36,
+      "gainDb": -39.7,
+      "targetDbfs": -50,
       "measured": "8.1 kHz ticks 6.18-6.46 / 6.75-6.85 s plus a 4.0 kHz event 6.58-6.72 s; band level about -57 dBFS (barely audible)"
     },
     {
@@ -1397,7 +1421,8 @@
       "sound": "tick",
       "idealSound": "tick7k2",
       "offsetMs": 100,
-      "gainDb": -34,
+      "gainDb": -37.3,
+      "targetDbfs": -48,
       "perUnit": true,
       "measured": "7.21 kHz at 30.72-31.03 and 31.20 s, about -48 dBFS; one per word"
     },
@@ -1407,7 +1432,8 @@
       "sound": "chime",
       "idealSound": "chimeGlass",
       "offsetMs": -33,
-      "gainDb": -14,
+      "gainDb": -12.5,
+      "targetDbfs": -25,
       "measured": "11.40-11.88 s, the loudest SFX: 4.09 kHz partial about -25 dBFS. Starts 1 F before the cut into the UI shot."
     },
     {
@@ -1416,7 +1442,8 @@
       "sound": "sparkle",
       "idealSound": "sparkle",
       "offsetMs": 150,
-      "gainDb": -24,
+      "gainDb": -25.2,
+      "targetDbfs": -39,
       "measured": "12.02-12.14 s, about -39 dBFS"
     },
     {
@@ -1425,7 +1452,8 @@
       "sound": "sparkle",
       "idealSound": "sparkleSequence",
       "offsetMs": 167,
-      "gainDb": -24,
+      "gainDb": -29.9,
+      "targetDbfs": -36.5,
       "condition": "only when the shot carries visionos-glass-ui",
       "measured": "12.83-13.26 s, about -34..-39 dBFS"
     }

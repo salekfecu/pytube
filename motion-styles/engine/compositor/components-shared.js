@@ -1,13 +1,32 @@
 /* Shared, style-agnostic components. A style's components.js may override any of these by id.
  *
  * Every component receives ctx = { cue, tl, layer(name), W, H, FPS, style, makeText, mapVars, filterKeysOf,
- *   ease, rng, face, onFrame, assetUrl, applyTextStyle, place, gsap, ms }
+ *   ease, rng, face, onFrame, assetUrl, applyTextStyle, place, gsap, ms, ... } — engine v2 adds master, camMaster,
+ *   camAt(t), cam (composed camera state), camMatrix, worldMatrix, registerPostLayout, matteCanvas, measureInk,
+ *   makeTextBase, cueIndex, engineFeatures (full list: engine/README.md "Components API")
  * and adds tweens to ctx.tl, whose time 0 is cue.t. Use cue.end (absolute seconds) for the exit time.
  * Never use CSS animations / setTimeout / Math.random — everything must be a function of the timeline time.
  */
 (() => {
   window.MG = window.MG || {};
   const R = (window.MG.components = window.MG.components || {});
+  // Extension registries, available while a style's components.js loads (the runtime loads after it):
+  //   MG.textBuilders[presetId] = (ctx) => ({el, units, ...})   custom builder for every text of that preset
+  //                               (ctx = component ctx + {cue, tl, opts, preset, presetId}; call ctx.makeTextBase
+  //                               for the generic interpreter)
+  //   MG.onText((info) => ...)    called after every text build with {cue, preset, presetId, el, host, units, tl, inEnd,
+  //                               outStart, ctx}
+  //   MG.engineFeatures           flags of engine fixes (filled by the runtime), so a style can skip its workaround
+  window.MG.textBuilders = window.MG.textBuilders || {};
+  window.MG.textHooks = window.MG.textHooks || [];
+  window.MG.onText = window.MG.onText || ((fn) => { if (typeof fn === 'function') window.MG.textHooks.push(fn); return fn; });
+  // (same list as FEATURES in runtime.js — kept here so a style can read the flags while its components.js loads)
+  window.MG.engineFeatures = Object.assign(window.MG.engineFeatures || {}, {
+    version: 2, primedTimelines: true, cameraCuts: true, staticCamera: true, worldRest: true, worldWrappers: true,
+    blendHoist: true, textHooks: true, persistentProps: true, tatweelUnit: true, gradientGlowFilter: true, tightHalo: true,
+    unitGating: true, groupedKeyframesFix: true, hardCutAtEnd: true, lifecycleDisplay: true, inkAnchor: true,
+    gradeControl: true, animatedBackgrounds: true, matteCanvas: true,
+  });
 
   // in/out helper shared by most components: cue.in / cue.out = { from, to, durationMs, easing, staggerMs }
   function animateInOut(ctx, el, defIn, defOut) {

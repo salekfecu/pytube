@@ -14,15 +14,16 @@
  *   contact-shadow       grounding ellipse under the chair / feet (plate-locked)
  *   crimson-studio       background replacement from style.json backgrounds (variant wide | mcu | void)
  *   crimson-talent       foreign-footage helper: teal/cyan despill + red edge wrap + feathered plate edges
- *   world-rest           "S = current / final camera scale" world lock: while active, the runtime's world-locked
- *                        layers (bgW / behindW / frontW) follow the camera RELATIVE to the shot's rest camera, so
- *                        world-locked type lands exactly on its slot even when the shot rests at scale != 1
  *
- * Global fixes installed when the runtime publishes its ctx (no core edits):
- *   - gradient-filled text with a glow (ghostMega): the glow moves from text-shadow (which paints OVER a
- *     background-clip:text fill) to a drop-shadow wrapper underneath;
- *   - karaoke-sweep (gradient with background-size 400%): fixSplitGradients freezes the band per word, so every
- *     frame the parent's tweened background-position is re-projected onto each unit.
+ * Text builder (MG.textBuilders, engine v2):
+ *   karaoke-sweep        the pink light band is built in PX (FWHM 92 px) and driven by the preset's tweened
+ *                        background-position; the engine's per-frame gradient re-projection steps aside once the band
+ *                        replaces the unit backgrounds.
+ *
+ * Needs engine v2 (MG.engineFeatures.version >= 2), which natively provides what v1 workarounds here used to do:
+ * primed timelines (frame 0 / cut frames), camera cues as cuts, camera-cue `worldRest` (replaces the old
+ * `world-rest` helper), unit gating of staggered entrances, gradient-fill glow hosts, scene.persistentProps,
+ * ctx.camAt / ctx.camMatrix / ctx.matteCanvas.
  *
  * Determinism: no CSS animations/transitions, timers, Math.random or Date. Everything is a GSAP tween on ctx.tl
  * (time 0 = cue.t) or an ctx.onFrame(t) hook that is a pure function of t. Glass = backdrop-filter; nothing
@@ -72,9 +73,9 @@
   const props = (ctx) => ctx.cue.props || {};
   const endLocal = (ctx) => (ctx.cue.end != null ? ctx.cue.end - ctx.cue.t : null);
   const active = (ctx, t) => t >= ctx.cue.t - 1e-6 && (ctx.cue.end == null || t < ctx.cue.end - 1e-6);
-  // show/hide with `visibility` (never opacity on a container that may hold glass), driven by a frame hook: a GSAP
-  // set at a child timeline's local 0 does not fire when the playhead lands exactly on the cue start (frame 0, or a
-  // cue placed on a frame boundary), which flashed the original plate for one frame at cuts.
+  // show/hide with `visibility` (never opacity on a container that may hold glass), driven by a frame hook, exact to
+  // the cue window: the engine's cue lifecycle (display:none) has a ½-frame tolerance, so at a cut that falls between
+  // two frames both shots' backdrops would otherwise be displayed on the frame before the cut.
   function window_(ctx, el) {
     el.style.visibility = 'hidden';
     let on = null;
@@ -89,17 +90,7 @@
     return [(c[0] / 100) * ctx.W, (c[1] / 100) * ctx.H];
   }
 
-  // 2D affine [a, b, c, d, e, f] (CSS matrix order)
-  function camMatrix(s) {
-    const r = ((s.rotation || 0) * Math.PI) / 180;
-    const a = Math.cos(r) * s.scale;
-    const b = Math.sin(r) * s.scale;
-    return [a, b, -b, a, s.ox + s.x - a * s.ox + b * s.oy, s.oy + s.y - b * s.ox - a * s.oy];
-  }
-  function mul(m, n) { // m · n
-    return [m[0] * n[0] + m[2] * n[1], m[1] * n[0] + m[3] * n[1], m[0] * n[2] + m[2] * n[3], m[1] * n[2] + m[3] * n[3],
-      m[0] * n[4] + m[2] * n[5] + m[4], m[1] * n[4] + m[3] * n[5] + m[5]];
-  }
+  // 2D affine [a, b, c, d, e, f] (CSS matrix order); camera matrices come from ctx.camMatrix(state)
   function inv(m) {
     const det = m[0] * m[3] - m[1] * m[2];
     const a = m[3] / det, b = -m[1] / det, c = -m[2] / det, d = m[0] / det;
@@ -107,68 +98,34 @@
   }
   const cssM = (m) => `matrix(${m.map((v) => (Math.abs(v) < 1e-9 ? 0 : +v.toFixed(5))).join(',')})`;
   const apply = (m, x, y) => [m[0] * x + m[2] * y + m[4], m[1] * x + m[3] * y + m[5]];
-  S3.camMatrix = camMatrix;
 
-  // ------------------------------------------------------------------ runtime hook (global fixes, plate layers)
-  let RT = null;
+  // ------------------------------------------------------------------ plate layers
+  // A plate-locked layer (gets exactly the footage's camera transform every frame, never the worldRest-relative one), inserted
+  // right after the runtime layer `#<after>` (bgW | behindW | frontW). Later calls with the same `after` land
+  // directly after it, i.e. BELOW the earlier ones. It is not a child of a …W layer, so no .mg-cam wrapper applies.
   const plateLayers = [];
-  let camHookOn = false;
-  function ensureCamHook() {
-    if (camHookOn || !RT) return;
-    camHookOn = true;
-    RT.onFrame(() => {
-      const css = cssM(camMatrix(RT.cam));
-      for (const L of plateLayers) L.style.transform = css;
-    });
-  }
-  // A plate-locked layer (gets exactly the footage's camera transform every frame), inserted right after the
-  // runtime layer `#<after>` (bgW | behindW | frontW). Later calls with the same `after` land directly after it,
-  // i.e. BELOW the earlier ones.
   function plateLayer(ctx, after = 'bgW', css) {
     const ref = document.getElementById(after) || document.getElementById('bgW');
     const d = div({ left: '0px', top: '0px', width: '100%', height: '100%', transformOrigin: '0 0', pointerEvents: 'none', ...(css || {}) });
     d.className = 'layer s3-plate';
     ref.after(d);
+    if (!plateLayers.length) {
+      ctx.onFrame(() => {
+        const css2 = cssM(ctx.camMatrix(ctx.cam));
+        for (const L of plateLayers) L.style.transform = css2;
+      });
+    }
     plateLayers.push(d);
-    RT = RT || window.MG.ctx;
-    ensureCamHook();
     return d;
   }
   S3.plateLayer = plateLayer;
 
-  // gradient text + glow: move the glow under the fill (drop-shadow wrapper)
-  function fixGradientGlows() {
-    document.querySelectorAll('.mg-text').forEach((el) => {
-      if (!el.dataset.gradient || el.dataset.s3glow || !el.style.textShadow || el.style.textShadow === 'none') return;
-      if (/400%/.test(el.style.backgroundSize || '')) return; // sweep bands never glow
-      const ts = el.style.textShadow;
-      // "0 0 4px rgb(from ...), 0 0 11px ..., ..." → drop-shadow chain (same blur-radius semantics as text-shadow)
-      const parts = ts.split(/,(?![^(]*\))/).map((s) => s.trim()).filter(Boolean);
-      const chain = parts.map((p) => {
-        let x, y, r, c;
-        const a = p.match(/^(-?[\d.]+)(?:px)?\s+(-?[\d.]+)(?:px)?\s+([\d.]+)px\s+(.+)$/); // offsets first (as written)
-        const b = p.match(/^(.+\))\s+(-?[\d.]+)(?:px)?\s+(-?[\d.]+)(?:px)?\s+([\d.]+)px$/); // colour first (serialised)
-        if (a) [x, y, r, c] = [a[1], a[2], a[3], a[4]];
-        else if (b) [c, x, y, r] = [b[1], b[2], b[3], b[4]];
-        else return '';
-        return `drop-shadow(${x}px ${y}px ${Number(r).toFixed(1)}px ${c})`;
-      }).filter(Boolean).join(' ');
-      el.style.textShadow = 'none';
-      el.querySelectorAll('.mg-word, .mg-letter').forEach((u) => { u.style.textShadow = 'none'; });
-      el.dataset.s3glow = '1';
-      if (!chain) return;
-      const wrap = document.createElement('div');
-      wrap.className = 's3-glow-wrap';
-      Object.assign(wrap.style, { position: 'absolute', left: '0px', top: '0px', width: '100%', height: '100%', filter: chain, pointerEvents: 'none' });
-      el.parentElement.insertBefore(wrap, el);
-      wrap.appendChild(el);
-    });
-  }
-  // karaoke sweep: the band is defined in PX (not as % of a 400% background, which made its width scale with the
-  // line: FWHM 0.32 x line width = 225-307 px on an 820 px line vs 55-110 px in the reference). Every frame the
-  // preset's tweened background-position (from -> to of hold) is read as progress u and re-projected onto each unit:
-  // band centre x_c = lerp(lineWidth + startPx, endPx, u) in element px, so it enters just right of the line and
-  // ends fully off its left end (the letters are white again before the cut).
+  // ------------------------------------------------------------------ karaoke-sweep (text builder)
+  // The band is defined in PX (not as % of a 400% background, which made its width scale with the line: FWHM
+  // 0.32 x line width = 225-307 px on an 820 px line vs 55-110 px in the reference). Every frame the preset's tweened
+  // background-position (from -> to of hold) is read as progress u and re-projected onto each unit: band centre
+  // x_c = lerp(lineWidth + startPx, endPx, u) in element px, so it enters just right of the line and ends fully off
+  // its left end (the letters are white again before the cut).
   const sweeps = [];
   const BAND_DEF = { startPx: 50, endPx: -105, stops: [[0, 'rgba(240,48,57,0.85)'], [22, 'rgba(232,34,44,0.74)'], [46, 'rgba(222,96,96,0.43)'], [70, 'rgba(208,137,123,0.14)'], [95, 'rgba(208,137,123,0)']] };
   function bandGradient(w, band) {
@@ -180,35 +137,32 @@
     parts.push(`rgba(208,137,123,0) ${(4 * w).toFixed(1)}px`);
     return `linear-gradient(90deg, ${parts.join(', ')})`;
   }
-  function fixSweepBands() {
-    const pr = ((RT && RT.style.textPresets) || []).find((x) => x.id === 'karaoke-sweep') || {};
+  function installSweep(el, pr) {
+    if (!el || !el.dataset.gradient || el.dataset.s3sweep) return;
+    el.dataset.s3sweep = '1';
     const band = { ...BAND_DEF, ...(pr.bandPx || {}) };
     const hold = pr.hold || {};
     const p0 = parseFloat((hold.from || {}).backgroundPosition ?? '30%') / 100;
     const p1 = parseFloat((hold.to || {}).backgroundPosition ?? '70%') / 100;
-    document.querySelectorAll('.mg-text').forEach((el) => {
-      if (!el.dataset.gradient || !/400%/.test(el.style.backgroundSize || '') || el.dataset.s3sweep) return;
-      el.dataset.s3sweep = '1';
-      const units = [...el.querySelectorAll('.mg-word, .mg-letter')].filter((u) => !u.querySelector('.mg-letter'));
-      const w = el.offsetWidth;
-      const h = el.offsetHeight;
-      // the sweep clone has no unit transforms (opacity-only preset), so rect deltas = layout offsets
-      const er = el.getBoundingClientRect();
-      const sx = er.width / Math.max(1, w);
-      const off = units.map((u) => { const r = u.getBoundingClientRect(); return [(r.left - er.left) / sx, (r.top - er.top) / sx]; });
-      const grad = bandGradient(w, band);
-      units.forEach((u) => {
-        u.style.backgroundImage = grad;
-        u.style.backgroundSize = `${4 * w}px ${h}px`;
-        u.style.backgroundRepeat = 'no-repeat';
-        u.style.webkitBackgroundClip = 'text';
-        u.style.backgroundClip = 'text';
-        u.style.color = 'transparent';
-      });
-      const s = { el, units, off, w, band, p0, p1, last: null };
-      sweeps.push(s);
-      placeBand(s, 0);
+    const units = [...el.querySelectorAll('.mg-word, .mg-letter')].filter((u) => !u.querySelector('.mg-letter'));
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+    // the sweep clone has no unit transforms (opacity-only preset), so rect deltas = layout offsets
+    const er = el.getBoundingClientRect();
+    const sx = er.width / Math.max(1, w);
+    const off = units.map((u) => { const r = u.getBoundingClientRect(); return [(r.left - er.left) / sx, (r.top - er.top) / sx]; });
+    const grad = bandGradient(w, band);
+    units.forEach((u) => {
+      u.style.backgroundImage = grad;
+      u.style.backgroundSize = `${4 * w}px ${h}px`;
+      u.style.backgroundRepeat = 'no-repeat';
+      u.style.webkitBackgroundClip = 'text';
+      u.style.backgroundClip = 'text';
+      u.style.color = 'transparent';
     });
+    const s = { el, units, off, w, band, p0, p1, last: null };
+    sweeps.push(s);
+    placeBand(s, 0);
   }
   function placeBand(s, u) {
     const xc = s.w + s.band.startPx + (s.band.endPx - s.w - s.band.startPx) * u;
@@ -224,75 +178,16 @@
       placeBand(s, clamp((p - s.p0) / ((s.p1 - s.p0) || 1), 0, 1));
     }
   }
-
-  // Staggered fromTo entrances (fade-rise-word: from opacity 0.45): the runtime renders every unit's from-state at
-  // the cue start, so later words sat on screen as grey ghosts before their own entrance. Gate: each such unit stays
-  // `visibility: hidden` until its own start (read from its GSAP tween, so any preset / stagger / words timing works).
-  const gates = [];
-  function absStart(tw) {
-    const root = window.gsap.globalTimeline;
-    let t = tw.startTime();
-    let p = tw.parent;
-    if (!p || p === root) return null; // build-time gsap.set, not on the master timeline
-    while (p && p.parent && p.parent !== root) { t += p.startTime(); p = p.parent; }
-    return t;
-  }
-  function unitEntrance(u) {
-    let best = null;
-    for (const tw of window.gsap.getTweensOf(u)) {
-      let cand = null;
-      if (tw.timeline) {
-        const ch = tw.timeline.getChildren(false, true, false).find((c) => c.targets().includes(u));
-        if (ch && (ch.vars.startAt || tw.vars.startAt)) cand = absStart(ch);
-      } else if (tw.vars.startAt) cand = absStart(tw);
-      if (cand != null && (best == null || cand < best)) best = cand;
-    }
-    return best;
-  }
-  function gateStaggeredUnits() {
-    const FPS = (RT && RT.FPS) || 30;
-    document.querySelectorAll('.mg-text').forEach((el) => {
-      if (el.dataset.s3gate) return;
-      el.dataset.s3gate = '1';
-      let elStart = null;
-      for (const tw of window.gsap.getTweensOf(el)) { const a = absStart(tw); if (a != null && (elStart == null || a < elStart)) elStart = a; }
-      if (elStart == null) return;
-      const units = [...el.querySelectorAll('.mg-word, .mg-letter')].filter((u) => !u.querySelector('.mg-letter'));
-      if (units.length < 2) return;
-      for (const u of units) {
-        const s = unitEntrance(u);
-        if (s != null && s > elStart + 0.5 / FPS) gates.push({ u, s, on: null });
-      }
-    });
-  }
-  function syncGates(t) {
-    for (const g of gates) {
-      const on = t >= g.s - 1e-6;
-      if (on !== g.on) { g.u.style.visibility = on ? '' : 'hidden'; g.on = on; }
-    }
-  }
-  function onRuntime(rt) {
-    RT = rt;
-    // prime the camera timeline: a fresh paused timeline seeked to exactly 0 renders nothing, so frame 0 would show
-    // the default camera instead of the first move's scaleFrom (seeking forward then back to 0 applies it)
-    const primeCam = () => { try { rt.camMaster.time(1e-4, false); } catch (e) { /* no camera cues */ } };
-    rt.postLayout.push(fixGradientGlows, fixSweepBands, gateStaggeredUnits, primeCam);
-    rt.onFrame(syncSweeps);
-    rt.onFrame(syncGates);
-    if (plateLayers.length) ensureCamHook();
-  }
-  try {
-    const prev = Object.getOwnPropertyDescriptor(window.MG, 'ctx');
-    if (!prev || prev.configurable) {
-      let store = window.MG.ctx;
-      Object.defineProperty(window.MG, 'ctx', {
-        configurable: true,
-        enumerable: true,
-        get() { return store; },
-        set(v) { store = v; try { if (v && v.postLayout && v.onFrame) onRuntime(v); } catch (e) { console.error('style-3 runtime hook failed', e); } },
-      });
-    }
-  } catch (e) { /* runtime hook unavailable: components still work, global text fixes are skipped */ }
+  // generic text build, then (after fonts + the engine's gradient split) the px band replaces the unit backgrounds
+  let sweepHook = false;
+  const TB = (window.MG.textBuilders = window.MG.textBuilders || {});
+  TB['karaoke-sweep'] = (ctx) => {
+    const r = ctx.makeTextBase(ctx.cue, ctx.tl, ctx.opts);
+    const pr = ctx.preset || {};
+    ctx.registerPostLayout(() => installSweep(r && r.el, pr));
+    if (!sweepHook) { sweepHook = true; ctx.onFrame(syncSweeps); }
+    return r;
+  };
 
   // ------------------------------------------------------------------ face / shot anchors
   // Splits the face track into shots (cuts from meta, props.cuts in seconds, or jumps in the track) and returns
@@ -329,10 +224,8 @@
     });
   }
   S3.shotAnchors = shotAnchors;
-  const C3 = () => window.__MG__ || {};
-  // persistent components (style.json "persistent") get no per-scene props from the runtime: a scene can pass them
-  // as scene.persistentProps[<id>] (merged over the persistent entry's own props)
-  const persistentProps = (ctx, id) => ({ ...(ctx.cue.props || {}), ...(((C3().scene || {}).persistentProps || {})[id] || {}) });
+  // persistent components (style.json "persistent") are sized per scene with scene.persistentProps[<id>]: the engine
+  // merges that object into the persistent cue's props
   const anchorAt = (anchors, i) => anchors.find((a) => i >= a.i0 && i < a.i1) || anchors[anchors.length - 1];
 
   // ------------------------------------------------------------------ crimson-studio (background replacement)
@@ -366,7 +259,7 @@
   R['sunburst-halo'] = (ctx) => {
     const { cue, W, H, FPS } = ctx;
     const spec = specFor(ctx, 'sunburst-halo');
-    const p = persistentProps(ctx, 'sunburst-halo');
+    const p = props(ctx);
     const b = deepMerge(spec.build || {}, p);
     const anchors = p.anchors
       ? p.anchors.map((a) => ({ i0: Math.round((a.t0 ?? 0) * FPS), i1: a.t1 != null ? Math.round(a.t1 * FPS) : 1e9, cx: a.cx, top: a.top ?? a.cy, w: a.headWidthPx ?? a.w ?? 160 }))
@@ -448,7 +341,7 @@
         + `<g${fo ? ' mask="url(#m)"' : ''}><g filter="url(#b)" stroke="${fill}" stroke-linecap="round" fill="none">${lines}</g></g></svg>`;
       return { cx, cy, Rb, svg, img: null };
     });
-    const talent = document.getElementById('talent');
+    const matte = ctx.meta && ctx.meta.matte ? ctx.matteCanvas : null;
     ctx.onFrame(async (t) => {
       hx.setTransform(1, 0, 0, 1, 0, 0);
       hx.clearRect(0, 0, W, H);
@@ -460,15 +353,15 @@
         it.img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(it.svg);
         await it.img.decode();
       }
-      const m = camMatrix(ctx.cam);
+      const m = ctx.camMatrix(ctx.cam);
       hx.setTransform(m[0], m[1], m[2], m[3], m[4], m[5]);
       hx.drawImage(it.img, it.cx - it.Rb, it.cy - it.Rb, 2 * it.Rb, 2 * it.Rb);
       hx.setTransform(1, 0, 0, 1, 0, 0);
-      // occlusion: the talent canvas still holds the raw camera-transformed matte here (this persistent hook runs
-      // before crimson-talent chokes / feathers it), so its alpha is the full presenter coverage
-      if (p.occlude !== false && talent && C3().meta && C3().meta.matte) {
+      // occlusion: ctx.matteCanvas is this frame's raw camera-transformed matte (full presenter coverage, before
+      // crimson-talent chokes / feathers the talent canvas)
+      if (p.occlude !== false && matte) {
         hx.globalCompositeOperation = 'destination-out';
-        hx.drawImage(talent, 0, 0);
+        hx.drawImage(matte, 0, 0);
         hx.globalCompositeOperation = 'source-over';
       }
     });
@@ -477,7 +370,7 @@
   // ------------------------------------------------------------------ plate-vignette (persistent)
   // Behind-layer radial + top band (under captions, over backdrop/halo) and a bottom fade on the talent.
   R['plate-vignette'] = (ctx) => {
-    const p = persistentProps(ctx, 'plate-vignette');
+    const p = props(ctx);
     const radial = p.radial || 'radial-gradient(ellipse 70% 55% at 50% 42%, rgba(12,0,0,0) 45%, rgba(12,0,0,0.80) 100%)';
     const top = p.topBand || 'linear-gradient(180deg, rgba(6,0,0,0.6) 0%, rgba(6,0,0,0) 14%)';
     const el = div({ left: '0px', top: '0px', width: '100%', height: '100%', background: `${top}, ${radial}`, pointerEvents: 'none' });
@@ -676,27 +569,7 @@
         tcx.drawImage(work, 0, 0);
         tcx.restore();
       }
-      if (p.feather !== false) feather(tcx, W, H, camMatrix(ctx.cam), fz);
-    });
-  };
-
-  // ------------------------------------------------------------------ world-rest (S = current / final)
-  // props.rest = {scale, x, y, ox, oy}  or  props.restAt = absolute seconds (default: last frame of the window)
-  R['world-rest'] = (ctx) => {
-    const { cue, cam, camMaster, layers, FPS } = ctx;
-    const p = cue.props || {};
-    let rest = p.rest ? { scale: 1, x: 0, y: 0, ox: ctx.W / 2, oy: ctx.H / 2, rotation: 0, ...p.rest } : null;
-    const Ls = [layers.bgW, layers.behindW, layers.frontW].filter(Boolean);
-    ctx.onFrame((t) => {
-      if (!active(ctx, t)) return;
-      if (!rest) {
-        const ta = p.restAt ?? (cue.end != null ? cue.end - 0.5 / FPS : t);
-        camMaster.time(Math.max(0, ta), false);
-        rest = { ...cam };
-        camMaster.time(t, false);
-      }
-      const css = cssM(mul(camMatrix(cam), inv(camMatrix(rest))));
-      for (const L of Ls) { L.style.transformOrigin = '0 0'; L.style.transform = css; }
+      if (p.feather !== false) feather(tcx, W, H, ctx.camMatrix(ctx.cam), fz);
     });
   };
 
@@ -965,7 +838,8 @@
 
   // ------------------------------------------------------------------ brand-lockup
   // props: wordmark, script, tagline, taglineDelayMs (1000). All three are world-locked text presets: park them
-  // with the camera (pullback-brand) and they are flown in; add a world-rest cue when the shot rests at scale != 1.
+  // with the camera (pullback-brand) and they are flown in; give that camera cue "worldRest": "final" when the shot
+  // rests at scale != 1.
   R['brand-lockup'] = (ctx) => {
     const { cue } = ctx;
     const p = cue.props || {};
@@ -1053,7 +927,7 @@
   // Static smoky void (screen-locked) + the whole studio as a plate-locked card with an 18% feather. The plate
   // layers above (halo) and the talent get the same feather. Pair with cameraMoves.reveal-pullback-void.
   R['void-pullback'] = (ctx) => {
-    const { cue, W, H, cam, camMaster } = ctx;
+    const { cue, W, H, cam } = ctx;
     const p = cue.props || {};
     const bgs = ctx.style.backgrounds || {};
     const f = (p.featherPct ?? (bgs.voidExtension && bgs.voidExtension.featherPct) ?? 18) / 100;
@@ -1078,23 +952,20 @@
     // The card is the screen as framed at the cue start (inverse camera), grown so its feather lies outside the
     // frame at that moment: the cut-free hand-off from the full-frame studio, then it shrinks with the camera.
     let rect = p.rect || null;
+    if (!rect) {
+      const m0 = inv(ctx.camAt(cue.t).matrix);
+      const [a0, b0] = apply(m0, 0, 0);
+      const [a1, b1] = apply(m0, W, H);
+      const gx = ((a1 - a0) * f) / (1 - 2 * f), gy = ((b1 - b0) * f) / (1 - 2 * f);
+      rect = [a0 - gx, b0 - gy, a1 + gx, b1 + gy];
+    }
+    Object.assign(studio.style, { left: `${rect[0]}px`, top: `${rect[1]}px`, width: `${rect[2] - rect[0]}px`, height: `${rect[3] - rect[1]}px` });
+    setMask(studio, true, null);
     const tc = document.getElementById('talent');
     const tcx = tc && tc.getContext('2d');
     ctx.onFrame((t) => {
-      const on = active(ctx, t);
-      if (on && !rect) {
-        camMaster.time(cue.t + 1e-4, false);
-        const m0 = inv(camMatrix(cam));
-        camMaster.time(t, false);
-        const [a0, b0] = apply(m0, 0, 0);
-        const [a1, b1] = apply(m0, W, H);
-        const gx = ((a1 - a0) * f) / (1 - 2 * f), gy = ((b1 - b0) * f) / (1 - 2 * f);
-        rect = [a0 - gx, b0 - gy, a1 + gx, b1 + gy];
-        Object.assign(studio.style, { left: `${rect[0]}px`, top: `${rect[1]}px`, width: `${rect[2] - rect[0]}px`, height: `${rect[3] - rect[1]}px` });
-        setMask(studio, true, null);
-      }
-      if (!on || !rect) return;
-      const m = camMatrix(cam);
+      if (!active(ctx, t)) return;
+      const m = ctx.camMatrix(cam);
       const sc = Math.abs(m[0]);
       const fz = { side: (rect[2] - rect[0]) * sc * f, bottom: (rect[3] - rect[1]) * sc * f, top: (rect[3] - rect[1]) * sc * f };
       // the halo canvas (drawn earlier this frame by the persistent hook) gets the same feather as the studio card

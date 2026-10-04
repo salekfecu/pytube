@@ -10,18 +10,18 @@
     ]
   },
   "autoSfx": true,
-  "music": {"src": "sfx_doctor.wav", "gainDb": 0, "duckDb": 0, "note": "not music: the style's measured SFX tones (shimmerTwoTone + tick8k1Series), rendered by make_sfx_doctor.py; the gold and pill cues carry sfx:false"},
+  "sfxNote": "the style rules play the measured soundSpecs (shimmerTwoTone on the gold centre glyph, tick8k1Series + 4 kHz blip from the pill +200 ms) at their reference levels",
   "grade": false,
   "overlays": false,
   "cues": [
     {"t": 0.0, "type": "camera", "preset": "pullback-two-step-mcu"},
 
-    {"t": 0.10, "end": 4.598, "type": "text", "preset": "gold-light-panel-grow", "text": "اذا", "worldLock": true, "sfx": false,
+    {"t": 0.10, "end": 4.598, "type": "text", "preset": "gold-light-panel-grow", "text": "اذا", "worldLock": true,
      "style": {"sizePx": 580}, "position": {"anchor": "bottom", "xPct": 45.4, "yPct": 79.3}},
     {"t": 0.30, "end": 4.598, "type": "component", "component": "prop-3d-enter-spin", "variant": "flyby-behind-head", "model": "aligner",
      "worldLock": true, "widthPct": 105, "position": {"xPct": 50, "yPct": 22}, "pitchDeg": 12, "rollDeg": 11, "yaw0": -62, "yawDegPerSec": 22,
      "shellAlpha": 0.74, "gain": 0.85, "detail": 2},
-    {"t": 0.57, "end": 4.598, "type": "component", "component": "glass-pill-gold", "variant": "world", "worldLock": true, "sfx": false,
+    {"t": 0.57, "end": 4.598, "type": "component", "component": "glass-pill-gold", "variant": "world", "worldLock": true,
      "label": "التقويم الشفاف", "position": {"xPct": 50.0, "yPct": 83.1}},
     {"t": 0.60, "end": 4.598, "type": "text", "preset": "neon-thin-blurfade", "text": "تريد", "worldLock": true,
      "fit": 82, "kashidaAt": 0, "style": {"sizePx": 177}, "position": {"xPct": 47.8, "yPct": 74.1}},
@@ -32,6 +32,6 @@
     {"t": 5.300, "end": 8.398, "type": "text", "preset": "pill-subline-wipe", "text": "أثناء الكلام او الضحكة",
      "override": {"in": {"from": {"clip": "inset(0 0 0 100%)"}, "to": {"clip": "inset(0 0 0 0%)"}}}},
 
-    {"t": 8.375, "type": "camera", "scaleFrom": 1.25, "scaleTo": 1.25, "durationMs": 0, "focus": [0.5, 0.36]}
+    {"t": 8.4, "type": "camera", "move": "static", "scaleTo": 1.25, "focus": [0.5, 0.36]}
   ]
 }

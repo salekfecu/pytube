@@ -13,18 +13,20 @@
  *   cyan-rim-relight      soft-light cyan rim on the talent's right edge (uses the person matte)
  *   s2-text               style-aware text builder (see below)
  *
- * Text: at load time every scene cue {type:"text"} whose preset belongs to this style is routed to the
- * `s2-text` component. It still builds through ctx.makeText (same in/out semantics as a plain text cue) and
- * then adds what the generic interpreter cannot do:
- *   - world-locked text WITH a blend mode (the runtime's world layers are transformed → isolated groups, so
- *     mix-blend-mode would only blend with the layer itself): a camera-following wrapper in a screen layer
- *     carries the blend instead;
+ * Text: s2Text is registered as the engine text builder (MG.textBuilders) of every textPresets id, so a plain
+ * {type:"text"} cue of this style builds through it (the generic part through ctx.makeTextBase: same t / end / in /
+ * override / style / position semantics, engine unit gating and hard cut). It adds what the generic interpreter
+ * cannot do:
+ *   - world-locked text WITH a blend mode: a camera-following wrapper (ctx.worldMatrix) in the SCREEN layer carries
+ *     the blend, so the word keeps its place in the screen-layer stacking (the engine's …W layers sit above every
+ *     screen-layer node and would make the Difference word invert the neon lines / props stacked in front of it);
  *   - kashida auto-fit to a target ink width (cue.fit: true | widthPct), shrink-to-fit for long words;
  *   - per-glyph gold light panel (gold-light-panel-grow) and 3-layer cyan glass (hero-cyan-glass-rise);
- *   - glow under gradient fills (gold-spotlight-letters), tight 4 px neon halo, kashida glint,
- *     line float (neon-word-cascade-float), soft-edged centre-out reveal (english-ghost-centre-out),
- *     gradient fix for tracking-in, preset variants (cue.variant).
- * Set cue.raw = true to bypass s2-text and get the runtime's plain interpreter.
+ *   - glow under gradient fills with a per-letter glowStrength ramp (gold-spotlight-letters), the single 4 px neon
+ *     tight halo, kashida glint, line float (neon-word-cascade-float), soft-edged centre-out reveal
+ *     (english-ghost-centre-out), padded split-gradient spans (descenders), type-on retiming with tatweel runs as
+ *     one stroke, preset variants (cue.variant).
+ * Set cue.raw = true to bypass s2Text and get the runtime's plain interpreter.
  *
  * Determinism: no CSS animations, timers, Math.random or Date. Motion is GSAP tweens on ctx.tl or pure
  * functions of time inside ctx.onFrame(t).
@@ -117,15 +119,7 @@
     return keys[keys.length - 1][prop];
   }
 
-  // ------------------------------------------------------------------ camera / layers
-  function camMatrix(c) {
-    const r = ((c.rotation || 0) * Math.PI) / 180;
-    const a = Math.cos(r) * c.scale;
-    const b = Math.sin(r) * c.scale;
-    return [a, b, -b, a, c.ox + c.x - a * c.ox + b * c.oy, c.oy + c.y - b * c.ox - a * c.oy];
-  }
-  const camCss = (c) => `matrix(${camMatrix(c).map((v) => v.toFixed(5)).join(',')})`;
-
+  // ------------------------------------------------------------------ layers
   function baseLayerName(name) {
     let n = name === 'behindTalent' ? 'behind' : name || 'front';
     let w = false;
@@ -136,37 +130,22 @@
     const { n, w } = baseLayerName(name);
     return ctx.layers[n + (w || worldLock ? 'W' : '')] || ctx.layers[n] || ctx.layers.front;
   }
-  // camera-following wrapper inside a SCREEN layer, so a blend mode reaches the plate/talent
+  // World-locked text WITH a blend mode (hero-difference-world, His-difference) lives in a camera-following wrapper
+  // inside the SCREEN layer, not in the engine's …W layer: a W layer sits above the whole screen layer of its plane,
+  // so the Difference word would also invert the neon line / props this style stacks in front of it (scene_test F10-77).
+  // The wrapper uses the engine's world matrix (camera, relative to a worldRest framing when the cue sets one).
   function worldWrap(ctx, layerName, css = {}) {
     const el = document.createElement('div');
     Object.assign(el.style, { position: 'absolute', left: '0px', top: '0px', width: W + 'px', height: H + 'px', transformOrigin: '0 0' }, css);
     ctx.layers[baseLayerName(layerName).n].appendChild(el);
-    ctx.onFrame(() => { el.style.transform = camCss(ctx.cam); });
+    ctx.onFrame(() => { el.style.transform = `matrix(${ctx.worldMatrix(ctx.cam).map((v) => v.toFixed(5)).join(',')})`; });
     return el;
   }
   S2.worldWrap = worldWrap;
-  S2.camCss = camCss;
 
-  // GSAP does not render zero-position tweens when a paused timeline is seeked to 0 while its playhead already
-  // sits at 0, so a camera / cue at t = 0 would only apply from frame 1 (frame 0 rendered un-punched). After the
-  // build, nudge the master and camera timelines forward and back once (engine request: do this in the runtime).
-  let booted = false;
-  function boot(ctx) {
-    if (booted || !ctx || !ctx.postLayout) return;
-    booted = true;
-    ctx.postLayout.push(() => {
-      let m = ctx.tl;
-      while (m && m.parent && m.parent !== ctx.gsap.globalTimeline) m = m.parent;
-      for (const tl of [m, ctx.camMaster]) {
-        if (!tl || tl.time() !== 0) continue;
-        tl.time(1e-4, true);
-        tl.time(0, true);
-      }
-    });
-  }
-  S2.boot = boot;
-
-  // hard-cut visibility for a component element: visible from local `t0` until cue.end
+  // hard-cut visibility for a component element: visible from local `t0` until cue.end. Kept next to the engine's cue
+  // lifecycle, which only takes a cue's DOM out of the render tree outside [t - ½ frame, end + ½ frame]: an end just
+  // before a cut frame (4.598 / 8.398 in the doctor demo) would still show on that frame.
   function cutVis(ctx, el, t0 = 0) {
     const { cue, tl, gsap } = ctx;
     gsap.set(el, { visibility: 'hidden' });
@@ -298,28 +277,25 @@
   }
 
   // ------------------------------------------------------------------ text routing
-  const S2_PRESETS = new Set((STYLE.textPresets || []).map((p) => p.id));
-  for (const cue of (CFG.scene && CFG.scene.cues) || []) {
-    if (cue && cue.type === 'text' && !cue.raw && S2_PRESETS.has(cue.preset)) {
-      cue.type = 'component';
-      cue.component = 's2-text';
-    }
-  }
-
-  R['s2-text'] = (ctx) => {
+  // Every text of this style's presets is built by s2Text, registered as the engine's text builder for each preset
+  // (MG.textBuilders; `cue.raw: true` bypasses it). The generic part goes through ctx.makeTextBase.
+  function s2Text(ctx) {
     const cue = ctx.cue;
     let p = deepMerge(presetById(cue.preset), cue.override);
     p = withVariant(p, cue.variant);
     if (cue.preset === 'gold-light-panel-grow') return goldPanel(ctx, p);
     if (cue.preset === 'hero-cyan-glass-rise') return cyanGlass(ctx, p);
     return richText(ctx, p);
-  };
+  }
+  const TB = (MG.textBuilders = MG.textBuilders || {});
+  for (const p of STYLE.textPresets || []) TB[p.id] = s2Text;
+  // explicit component form, same builder: {"type": "component", "component": "s2-text", "preset": ...}
+  R['s2-text'] = s2Text;
 
   // nested text cue on a component's timeline (labels inside pills, etc.)
   function subText(ctx, sub, at) {
     const tl2 = ctx.gsap.timeline();
-    const c = { type: 'component', component: 's2-text', ...sub, t: ctx.cue.t + at, end: sub.end ?? ctx.cue.end };
-    R['s2-text']({ ...ctx, cue: c, tl: tl2, spec: {} });
+    ctx.makeText({ type: 'text', ...sub, t: ctx.cue.t + at, end: sub.end ?? ctx.cue.end }, tl2);
     ctx.tl.add(tl2, at);
   }
 
@@ -353,11 +329,13 @@
     if (cue.preset === 'english-ghost-centre-out') ov.in = { from: { opacity: 0, clip: null }, to: { opacity: 1, clip: null } };
     const c2 = { ...cue, type: 'text', text: text ?? cue.text, style: st, override: deepMerge(cue.override || {}, deepMerge(stripPreset(p), ov)) };
     delete c2.component;
-    const res = ctx.makeText(c2, ctx.tl, { parent });
+    const res = ctx.makeTextBase(c2, ctx.tl, { parent });
     const el = res.el;
     if (hasBlend && worldLock) el.style.mixBlendMode = 'normal';
 
-    // tight neon halo (style.json fonts[neon-thin].effects.tightHalo — the runtime only knows glowTight)
+    // tight neon halo (style.json fonts[neon-thin].effects.tightHalo): ONE 4 px layer. The engine's tightHalo alias
+    // (applied only when text-shadow is untouched) is a 3-layer 1/2.4/4 px glow that reads 10-17 % bolder on the
+    // whisper-thin neon strokes, so the style sets its own.
     const th = st.tightHalo ?? f.effects?.tightHalo;
     if (th && th.color && el.style.textShadow !== 'none') {
       el.style.textShadow = [`0 0 ${th.radiusPx ?? 4}px ${th.color}`, el.style.textShadow].filter(Boolean).join(', ');
@@ -373,33 +351,40 @@
     if (id === 'neon-thin-blurfade' && cue.glint !== false && (c2.text || '').includes(TATWEEL)) addGlint(ctx, el, p, st);
     if (el.dataset.gradient && (st.glow ?? f.effects?.glow)) glowUnderlay(ctx, el, res.units, st.glow ?? f.effects?.glow, parent);
     if (id === 'english-ghost-centre-out') softReveal(ctx, el, res.units, p);
-    if (id === 'english-tracking-in') ctx.postLayout.push(() => restGradient(el, res.units));
+    if (el.dataset.gradient) ctx.registerPostLayout(() => padGradientUnits(el, id === 'english-tracking-in'));
     return res;
   }
-  // Letter type-ons: every tatweel run is merged into ONE span (separate per-tatweel inline-blocks leave
-  // antialiasing seams) and drawn as one stroke growing from its joining side. search-typewriter (kashidaGrowTo):
-  // the stroke starts kashidaLeadMs after its letter, grows over kashidaGrowMs and the next letter waits until it
-  // is fully drawn, so joined letters never show a gap (reference F264-F276: ح, stroke grows 8-10 F, then ل).
-  // Other type-ons draw the run inside its letter slot. gold-spotlight adds the 3 F word gap.
-  const RETIME = new Set(['neon-thin-typeon', 'search-typewriter', 'pill-label-typeon', 'gold-spotlight-letters']);
-  const TAT_RE = new RegExp('^' + TATWEEL + '+$');
-  const isTatUnit = (u) => TAT_RE.test(u.textContent.replace(/\u200d/g, ''));
-  function mergeTatweelRuns(units) {
-    const out = [];
-    for (const u of units) {
-      const prev = out[out.length - 1];
-      if (prev && isTatUnit(u) && isTatUnit(prev) && u.parentElement === prev.parentElement && u.previousSibling === prev) {
-        const n = prev.textContent.replace(/\u200d/g, '').length + u.textContent.replace(/\u200d/g, '').length;
-        prev.textContent = (prev.textContent.startsWith(ZWJ) ? ZWJ : '') + TATWEEL.repeat(n) + (u.textContent.endsWith(ZWJ) ? ZWJ : '');
-        u.remove();
-        continue;
-      }
-      out.push(u);
+  // Split gradient text (gold-spotlight-letters, english-*): the engine gives every letter/word span the element's
+  // gradient, but a background only paints inside its span's box, so ink below the 1.0 line box (the bowl of a final
+  // ح / ع, Latin descenders) came out transparent while its glow still showed. Pad the spans vertically (the negative
+  // margin keeps the layout) and re-project the element gradient onto the padded boxes. tracking-in measures at its
+  // rest letter-spacing (the runtime split the expanded from-state).
+  function padGradientUnits(el, atRestSpacing) {
+    const spans = [...el.querySelectorAll('.mg-letter, .mg-word')].filter((u) => u.style.backgroundImage);
+    if (!spans.length) return;
+    const saved = spans.map((u) => u.style.letterSpacing);
+    if (atRestSpacing) spans.forEach((u) => (u.style.letterSpacing = '0px'));
+    for (const u of spans) {
+      u.style.paddingTop = u.style.paddingBottom = '0.35em';
+      u.style.marginTop = u.style.marginBottom = '-0.35em';
     }
-    return out;
+    const box = el.getBoundingClientRect();
+    for (const u of spans) {
+      const r = u.getBoundingClientRect();
+      u.style.backgroundSize = `${box.width}px ${box.height}px`;
+      u.style.backgroundPosition = `${box.left - r.left}px ${box.top - r.top}px`;
+    }
+    if (atRestSpacing) spans.forEach((u, i) => (u.style.letterSpacing = saved[i]));
   }
-  function retimeLetters(ctx, units0, p) {
-    const units = mergeTatweelRuns(units0);
+  // Letter type-ons: every tatweel run is ONE letter unit (style.json in.tatweelUnit "run": per-tatweel inline-blocks
+  // leave antialiasing seams; the engine tags the run's span data-tatweel) and is drawn as one stroke growing from its
+  // joining side. search-typewriter (kashidaGrowTo): the stroke starts kashidaLeadMs after its letter, grows over
+  // kashidaGrowMs and the next letter waits until it is fully drawn, so joined letters never show a gap (reference
+  // F264-F276: ح, stroke grows 8-10 F, then ل). Other type-ons draw the run inside its letter slot. gold-spotlight
+  // adds the 3 F word gap.
+  const RETIME = new Set(['neon-thin-typeon', 'search-typewriter', 'pill-label-typeon', 'gold-spotlight-letters']);
+  const isTatUnit = (u) => u.dataset.tatweel != null;
+  function retimeLetters(ctx, units, p) {
     const pin = p.in || {};
     const stagger = (pin.staggerMs ?? 40) / 1000;
     const gap = (pin.wordGapMs ?? 0) / 1000;
@@ -492,7 +477,9 @@
   }
 
   // gradient-filled text + glow: text-shadow would paint OVER the background-clip:text fill. Move the glow to a
-  // transparent-text underlay whose units mirror the face units every frame.
+  // transparent-text underlay whose units mirror the face units every frame, including each letter's own --glow-k
+  // (gold-spotlight-letters ramps glowStrength 0.4 → 1 per letter). Kept instead of the engine's drop-shadow host,
+  // which carries one --glow-k for the whole element (the per-letter ramp is lost) and renders a different halo.
   function glowUnderlay(ctx, el, units, glow, parent) {
     const host = el.parentElement === parent ? el : el.parentElement;
     const under = el.cloneNode(true);
@@ -533,20 +520,6 @@
       const half = Math.max(10, line.offsetWidth / 2 + 4);
       ctx.tl.fromTo(line, { '--rev': '0px' }, { '--rev': half + 'px', duration: dur, ease, immediateRender: true }, 0);
     }
-  }
-
-  // tracking-in: recompute split gradients at the rest letter-spacing (the runtime measures the expanded state)
-  function restGradient(el, units) {
-    if (!el.dataset.gradient) return;
-    const saved = units.map((u) => u.style.letterSpacing);
-    units.forEach((u) => (u.style.letterSpacing = '0px'));
-    const box = el.getBoundingClientRect();
-    units.forEach((u) => {
-      const r = u.getBoundingClientRect();
-      u.style.backgroundSize = `${box.width}px ${box.height}px`;
-      u.style.backgroundPosition = `${box.left - r.left}px ${box.top - r.top}px`;
-    });
-    units.forEach((u, i) => (u.style.letterSpacing = saved[i]));
   }
 
   // common scaffold for the bespoke heroes (gold panel, cyan glass)
@@ -782,7 +755,7 @@
     cutVis(ctx, el, 0);
     const endAt = heroEnd(ctx, p, inEnd);
     if (endAt != null && ctx.cue.end == null) tl.set(el, { visibility: 'hidden', immediateRender: false }, endAt);
-    return { el };
+    return { el, hideAt: endAt };
   }
 
   // ---------------------------------------------------------------- cyan 3D glass (extrusion + neon rim + face)
@@ -858,7 +831,7 @@
     cutVis(ctx, el, 0);
     const endAt = heroEnd(ctx, p, d);
     if (endAt != null && ctx.cue.end == null) tl.set(el, { visibility: 'hidden', immediateRender: false }, endAt);
-    return { el, layers: { glowL, rimL, extL, wallL, face } };
+    return { el, hideAt: endAt, layers: { glowL, rimL, extL, wallL, face } };
   }
 
   // ================================================================== 3D mini renderer (canvas 2D)
@@ -1616,6 +1589,10 @@
     const yawT = tracks.rotateY || { from: 90, to: 0, durationMs: 767, easing: 'ease-out' };
     const counter = deepMerge(spec.loop?.screenCounter || { from: 10, to: 18, durationMs: 1100 }, cue.counter);
     const uiFont = fam(fontFor('ui-label'));
+    // the screen is canvas text in weights the engine does not preload (it loads each style font at its declared
+    // weight only): start the loads during the build, the engine awaits document.fonts.ready before the first frame,
+    // so the first drawn frame never falls back (seek-history-dependent glyphs otherwise)
+    for (const wt of [500, 600]) document.fonts.load(`${wt} 13px ${uiFont}`, '9:41 Step').catch(() => null);
     const dur = pin.durationMs ?? 1733;
     // right edge 6 → 678 px: the unrotated centre runs from (6 - w/2) to the final centre
     const x0 = (pin.from?.rightEdgePx ?? 6) - bw / 2;
@@ -1791,7 +1768,6 @@
   };
 
   // ---------------------------------------------------------------- cyan-rim-relight (talent overlay)
-  // (boot wrapper is applied at the end of the file)
   R['cyan-rim-relight'] = (ctx) => {
     const { cue } = ctx;
     const spec = (STYLE.backgrounds || {}).cyanRimRelight || {};
@@ -1802,19 +1778,13 @@
     Object.assign(cv.style, { position: 'absolute', left: 0, top: 0, width: W + 'px', height: H + 'px', mixBlendMode: spec.blend || 'soft-light', opacity: cue.opacity ?? (spec.opacity ? spec.opacity[1] : 0.32), pointerEvents: 'none', visibility: 'hidden' });
     layer.insertBefore(cv, layer.firstChild);
     const g = cv.getContext('2d');
-    const img = new Image();
-    const pad = (i) => String(i).padStart(5, '0');
-    ctx.onFrame(async (t, i) => {
+    ctx.onFrame((t) => {
       if (!alive(cue, t)) { cv.style.visibility = 'hidden'; return; }
       cv.style.visibility = 'visible';
-      const fi = Math.min(i, (META.frames || 1) - 1);
-      const url = `${CFG.plateUrl}matte/${pad(fi)}.png`;
-      if (img.dataset.url !== url) { img.src = url; await img.decode().catch(() => null); img.dataset.url = url; }
-      const m = camMatrix(ctx.cam);
-      g.setTransform(m[0] / 2, m[1] / 2, m[2] / 2, m[3] / 2, m[4] / 2, m[5] / 2);
-      g.clearRect(-W, -H, 3 * W, 3 * H);
-      g.globalCompositeOperation = 'source-over';
-      g.drawImage(img, 0, 0, W, H);
+      // the engine's camera-transformed person matte of this frame (the same one that cuts out the talent)
+      g.setTransform(1, 0, 0, 1, 0, 0);
+      g.globalCompositeOperation = 'copy';
+      g.drawImage(ctx.matteCanvas, 0, 0, W / 2, H / 2);
       g.setTransform(0.5, 0, 0, 0.5, 0, 0);
       g.globalCompositeOperation = 'source-in';
       const f = ctx.face(t);
@@ -1830,9 +1800,4 @@
     });
   };
 
-  // every component of this style boots the zero-time fix once
-  for (const id of ['s2-text', 'teal-grid-stage', 'prop-3d-enter-spin', 'glass-pill-gold', 'glass-search-morph', 'visionos-glass-ui', 'phone-glide-in', 'teal-clinic-backdrop', 'cyan-rim-relight']) {
-    const fn = R[id];
-    R[id] = (ctx) => { boot(ctx); return fn(ctx); };
-  }
 })();

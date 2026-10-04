@@ -13,6 +13,10 @@
   .mg-line { display: block; }
   .mg-word, .mg-letter { display: inline-block; white-space: pre; }
   .mg-text[dir="rtl"] .mg-line { direction: rtl; unicode-bidi: isolate; }
+  /* engine v2: per-child camera wrappers of the world-locked layers, and cue lifecycle (display:none outside a
+     cue's [start, end]; !important so it never fights inline display values set by GSAP or components) */
+  .mg-cam { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform-origin: 0 0; pointer-events: none; }
+  .mg-off { display: none !important; }
 </style>
 <script src="../node_modules/gsap/dist/gsap.min.js"></script>
 <script src="../node_modules/gsap/dist/CustomEase.min.js"></script>

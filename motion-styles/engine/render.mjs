@@ -94,7 +94,9 @@ async function renderStills() {
   fs.mkdirSync(outDir, { recursive: true });
   const browser = await chromium.launch({ args: launchArgs });
   const page = await openPage(browser);
-  const list = String(args.stills).split(',').map(Number);
+  // ascending order: GSAP timelines are only deterministic for forward seeks from a fresh page (a backward seek
+  // reverts later cues to start values recorded at init, which can differ from their pristine build state)
+  const list = [...new Set(String(args.stills).split(',').map(Number))].sort((a, b) => a - b);
   for (const i of list) {
     await page.evaluate((k) => window.renderFrame(k), i);
     await page.screenshot({ path: path.join(outDir, `still_${String(i).padStart(5, '0')}.png`) });
@@ -154,11 +156,16 @@ async function renderVideo() {
   const ss = from / fps;
   const dur = n / fps;
   const muxArgs = ['-loglevel', 'error', '-y', '-i', videoOnly];
-  if (!args['no-audio'] && fs.existsSync(audio)) muxArgs.push('-ss', String(ss), '-t', String(dur), '-i', audio, '-map', '0:v', '-map', '1:a', '-c:a', 'aac', '-b:a', '192k', '-shortest');
-  muxArgs.push('-c:v', 'copy', '-movflags', '+faststart', out);
+  // Audio is padded with silence (apad) and the OUTPUT is cut to exactly n / fps: '-shortest' used to stop at the end
+  // of the audio, which drops the last 1-4 frames whenever the plate audio is a few ms shorter than the video.
+  if (!args['no-audio'] && fs.existsSync(audio)) muxArgs.push('-ss', String(ss), '-t', String(dur), '-i', audio, '-map', '0:v', '-map', '1:a', '-af', 'apad', '-c:a', 'aac', '-b:a', '192k');
+  muxArgs.push('-c:v', 'copy', '-t', dur.toFixed(6), '-movflags', '+faststart', out);
   spawnSync('ffmpeg', muxArgs, { stdio: 'inherit' });
   fs.rmSync(tmp, { recursive: true, force: true });
-  console.log(`rendered ${n} frames in ${((Date.now() - t0) / 1000).toFixed(1)} s → ${out}`);
+  const probe = spawnSync('ffprobe', ['-v', 'error', '-count_frames', '-select_streams', 'v:0', '-show_entries', 'stream=nb_read_frames', '-of', 'csv=p=0', out], { encoding: 'utf8' });
+  const got = Number(String(probe.stdout || '').trim());
+  if (got && got !== n) console.warn(`[mux] WARNING: ${out} has ${got} frames, expected ${n}`);
+  console.log(`rendered ${n} frames in ${((Date.now() - t0) / 1000).toFixed(1)} s → ${out}${got ? ` (${got} frames)` : ''}`);
 }
 
 if (args.stills) await renderStills();

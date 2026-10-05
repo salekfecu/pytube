@@ -145,3 +145,6 @@ motion-styles/**/node_modules/
 motion-styles/renders/
 motion-styles/engine/models/*.tflite
 motion-styles/engine/models/*.task
+# client brand assets / review frames stay local (public repo)
+motion-styles/projects/*/assets/
+motion-styles/projects/*/_review/

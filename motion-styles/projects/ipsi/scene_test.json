@@ -1,0 +1,272 @@
+{
+ "note": "IPSI test frames (style-ipsi = style-2 grammar in IPSI blue/orange) on renders/plates/ipsi (C0217_3, 34.3 s, one static shot in the computer room). Layout test only: section timings are placeholders until the voice is aligned to the script.",
+ "scripts": [
+  "../../styles/style-ipsi/brand.js"
+ ],
+ "frames": 1068,
+ "autoSfx": true,
+ "grade": "brightness(0.8) contrast(1.08) saturate(1.1)",
+ "cues": [
+  {
+   "t": 0.0,
+   "end": 3.6,
+   "type": "component",
+   "component": "focus-pull",
+   "blurPx": 30,
+   "releaseAt": 3.0,
+   "releaseMs": 550,
+   "dim": 0.75
+  },
+  {
+   "t": 0.15,
+   "end": 3.0,
+   "type": "text",
+   "preset": "hero-white-rise",
+   "text": "أشمن تخصص",
+   "position": {
+    "anchor": "center",
+    "xPct": 50,
+    "yPct": 31
+   },
+   "style": {
+    "sizePx": 150
+   }
+  },
+  {
+   "t": 0.6,
+   "end": 3.0,
+   "type": "text",
+   "preset": "gold-light-panel-grow",
+   "text": "يناسبك؟",
+   "style": {
+    "sizePx": 215
+   },
+   "position": {
+    "anchor": "bottom",
+    "xPct": 50,
+    "yPct": 62
+   }
+  },
+  {
+   "t": 3.0,
+   "type": "camera",
+   "preset": "pullback-two-step-mcu"
+  },
+  {
+   "t": 3.15,
+   "end": 6.3,
+   "type": "text",
+   "preset": "hero-white-rise",
+   "worldLock": true,
+   "style": {
+    "sizePx": 190
+   },
+   "position": {
+    "anchor": "center",
+    "xPct": 50,
+    "yPct": 17
+   },
+   "segments": [
+    {
+     "text": "3 ",
+     "style": {
+      "color": "#F39200",
+      "glow": {
+       "color": "rgba(243,146,0,0.75)",
+       "radiusPx": 40,
+       "strength": 1.6
+      }
+     }
+    },
+    {
+     "text": "تخصصات"
+    }
+   ],
+   "dir": "rtl"
+  },
+  {
+   "t": 3.9,
+   "end": 6.3,
+   "type": "component",
+   "component": "ipsi-logo-card",
+   "src": "assets/logo_ipsi_tight.png",
+   "widthPx": 420,
+   "padPx": 46,
+   "position": {
+    "xPct": 50,
+    "yPct": 84
+   }
+  },
+  {
+   "t": 9.0,
+   "type": "camera",
+   "move": "static",
+   "scaleTo": 1.3,
+   "focus": "face"
+  },
+  {
+   "t": 9.0,
+   "end": 14.0,
+   "type": "component",
+   "component": "section-counter",
+   "n": 1,
+   "total": 3,
+   "position": {
+    "xPct": 15,
+    "yPct": 7
+   }
+  },
+  {
+   "t": 9.1,
+   "end": 14.0,
+   "type": "text",
+   "preset": "hero-cyan-glass-rise",
+   "text": "ملتيميديا",
+   "fit": 86,
+   "position": {
+    "yPct": 15.5
+   }
+  },
+  {
+   "t": 9.6,
+   "end": 14.0,
+   "type": "text",
+   "preset": "english-small-blurfade",
+   "text": "Développement Multimédia",
+   "position": {
+    "xPct": 50,
+    "yPct": 24.2
+   },
+   "style": {
+    "sizePx": 52,
+    "color": "#DCE9FF"
+   }
+  },
+  {
+   "t": 10.3,
+   "end": 14.0,
+   "type": "component",
+   "component": "job-chips",
+   "items": [
+    "مطور",
+    "رئيس مشروع"
+   ],
+   "direction": "row",
+   "position": {
+    "xPct": 50,
+    "yPct": 74
+   }
+  },
+  {
+   "t": 14.0,
+   "type": "camera",
+   "move": "static",
+   "scaleTo": 1.0
+  },
+  {
+   "t": 28.6,
+   "end": 31.4,
+   "type": "text",
+   "preset": "neon-thin-blurfade",
+   "text": "ديبلوم تقني متخصص",
+   "style": {
+    "sizePx": 92
+   },
+   "position": {
+    "xPct": 50,
+    "yPct": 13
+   }
+  },
+  {
+   "t": 28.8,
+   "end": 31.4,
+   "type": "component",
+   "component": "accredit-seal",
+   "src": "assets/logo_accredite.png",
+   "sizePx": 280,
+   "label": "مؤسسة معتمدة",
+   "position": {
+    "xPct": 26,
+    "yPct": 66
+   }
+  },
+  {
+   "t": 29.2,
+   "end": 31.4,
+   "type": "component",
+   "component": "ipsi-logo-card",
+   "src": "assets/logo_wesford_tight.png",
+   "widthPx": 440,
+   "padPx": 36,
+   "caption": "ديبلوم دولي",
+   "position": {
+    "xPct": 72,
+    "yPct": 68
+   }
+  },
+  {
+   "t": 31.5,
+   "end": 33.9,
+   "type": "text",
+   "preset": "hero-white-rise",
+   "text": "شمن تخصص",
+   "style": {
+    "sizePx": 150
+   },
+   "position": {
+    "anchor": "center",
+    "xPct": 50,
+    "yPct": 9.5
+   }
+  },
+  {
+   "t": 31.85,
+   "end": 33.9,
+   "type": "text",
+   "preset": "gold-light-panel-grow",
+   "text": "كيشبهكم؟",
+   "style": {
+    "sizePx": 185
+   },
+   "position": {
+    "anchor": "bottom",
+    "xPct": 50,
+    "yPct": 27
+   }
+  },
+  {
+   "t": 32.3,
+   "end": 35.6,
+   "type": "component",
+   "component": "comment-cta",
+   "label": "شاركونا ف التعليقات",
+   "position": {
+    "xPct": 50,
+    "yPct": 88
+   }
+  },
+  {
+   "t": 33.9,
+   "end": 35.6,
+   "type": "component",
+   "component": "focus-pull",
+   "blurPx": 34,
+   "releaseAt": 40,
+   "dim": 0.6
+  },
+  {
+   "t": 34.0,
+   "end": 35.6,
+   "type": "component",
+   "component": "ipsi-logo-card",
+   "src": "assets/logo_ipsi_tight.png",
+   "widthPx": 640,
+   "padPx": 70,
+   "caption": "التكوين المهني الخاص",
+   "position": {
+    "xPct": 50,
+    "yPct": 45
+   }
+  }
+ ]
+}

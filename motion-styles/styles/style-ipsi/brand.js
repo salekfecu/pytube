@@ -100,7 +100,7 @@
     tl.fromTo(sweep, { left: '-60%' }, { left: '130%', duration: 0.9, ease: 'power2.inOut', immediateRender: false }, 0.7);
     if (cue.label) {
       const lab = document.createElement('div');
-      ctx.applyTextStyle(lab, { family: 'readex-pro', weight: 600, sizePx: cue.labelSizePx ?? 46, color: '#FFFFFF', glow: { color: 'rgba(46,139,255,0.55)', radiusPx: 18 } });
+      ctx.applyTextStyle(lab, { family: 'readex-pro', weight: 600, sizePx: cue.labelSizePx ?? 46, color: '#FFFFFF', shadow: '0 3px 14px rgba(0,8,30,0.85)' });
       Object.assign(lab.style, { position: 'absolute', left: '50%', top: `${s * 1.12 + 10}px`, transform: 'translateX(-50%)', whiteSpace: 'nowrap' });
       lab.dir = 'auto';
       lab.textContent = cue.label;
@@ -192,5 +192,100 @@
     // gentle "tap" pulse on the button after landing
     tl.to(btn, { scale: 0.9, duration: 0.14, ease: 'power2.in', yoyo: true, repeat: 1, immediateRender: false }, 1.1);
     hideAtEnd(ctx, pill);
+  };
+
+  // ------------------------------------------------------------------ icon-tiles
+  // Smoked-glass tiles with line icons, revealed one by one (in sync with the spoken list).
+  // {component:'icon-tiles', items:[{icon:'code', label:'تطوير', t: 9.4}, ...], position, sizePx: 170, gapPx: 26}
+  // icon ids: code, pen, publish, camera, mic, light, film, idea, arrow, product, press, director, screen
+  const ICONS = {
+    code: 'M17 14 L8 24 L17 34 M31 14 L40 24 L31 34 M27 10 L21 38',
+    pen: 'M30 9 L39 18 L20 37 L10 39 L12 29 Z M26 13 L35 22',
+    publish: 'M24 33 L24 11 M15 19 L24 10 L33 19 M10 30 L10 38 L38 38 L38 30',
+    camera: 'M7 16 h22 a3 3 0 0 1 3 3 v12 a3 3 0 0 1 -3 3 h-22 a3 3 0 0 1 -3 -3 v-12 a3 3 0 0 1 3 -3 z M32 22 L42 16 L42 34 L32 28',
+    mic: 'M24 7 a6 6 0 0 1 6 6 v10 a6 6 0 0 1 -12 0 v-10 a6 6 0 0 1 6 -6 z M13 22 a11 11 0 0 0 22 0 M24 33 L24 41 M17 41 L31 41',
+    light: 'M24 6 a11 11 0 0 1 7 19.5 c-1.5 1.3 -2.5 3 -2.5 5 h-9 c0 -2 -1 -3.7 -2.5 -5 a11 11 0 0 1 7 -19.5 z M19.5 35 h9 M21 40 h6',
+    film: 'M8 11 h32 v26 h-32 z M8 18 h32 M8 30 h32 M15 11 v7 M24 11 v7 M33 11 v7 M15 30 v7 M24 30 v7 M33 30 v7',
+    idea: 'M24 6 a11 11 0 0 1 7 19.5 c-1.5 1.3 -2.5 3 -2.5 5 h-9 c0 -2 -1 -3.7 -2.5 -5 a11 11 0 0 1 7 -19.5 z M19.5 35 h9 M21 40 h6 M24 15 v8',
+    arrow: 'M8 24 H38 M29 15 L38 24 L29 33',
+    product: 'M24 6 L40 15 L40 33 L24 42 L8 33 L8 15 Z M8 15 L24 24 L40 15 M24 24 L24 42',
+    press: 'M9 13 h24 v25 h-24 z M33 18 h6 v17 a3 3 0 0 1 -6 0 M14 19 h14 M14 25 h14 M14 31 h9',
+    director: 'M8 20 h32 v18 h-32 z M8 20 L12 11 L40 9 L40 18 M16 11 L14 20 M25 10 L23 19 M34 9 L32 18',
+    screen: 'M6 9 h36 v24 h-36 z M18 41 h12 M24 33 v8',
+  };
+  R['icon-tiles'] = (ctx) => {
+    const { cue, tl, gsap } = ctx;
+    const sz = cue.sizePx ?? 170;
+    const box = div({ display: 'flex', flexDirection: 'row-reverse', gap: (cue.gapPx ?? 26) + 'px', alignItems: 'flex-start' }, ctx.layer(cue.layer || 'front'));
+    const ns = 'http://www.w3.org/2000/svg';
+    const tiles = (cue.items || []).map((it) => {
+      const col = div({ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px' }, box);
+      const tile = div({ position: 'relative', width: sz + 'px', height: sz + 'px', borderRadius: Math.round(sz * 0.28) + 'px',
+        ...glassCss({ fill: 'linear-gradient(160deg, rgba(20,40,90,0.55), rgba(5,15,40,0.45))', blurPx: 22 }) }, col);
+      const svg = document.createElementNS(ns, 'svg');
+      svg.setAttribute('viewBox', '0 0 48 48');
+      Object.assign(svg.style, { position: 'absolute', left: '20%', top: '20%', width: '60%', height: '60%', overflow: 'visible' });
+      const path = document.createElementNS(ns, 'path');
+      path.setAttribute('d', ICONS[it.icon] || ICONS.idea);
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke', it.color || '#FFFFFF');
+      path.setAttribute('stroke-width', '2.6');
+      path.setAttribute('stroke-linecap', 'round');
+      path.setAttribute('stroke-linejoin', 'round');
+      path.style.filter = `drop-shadow(0 0 6px ${it.glow || 'rgba(46,139,255,0.9)'})`;
+      svg.appendChild(path);
+      tile.appendChild(svg);
+      // orange corner dot = brand accent
+      div({ position: 'absolute', right: Math.round(sz * 0.12) + 'px', top: Math.round(sz * 0.12) + 'px', width: Math.round(sz * 0.09) + 'px', height: Math.round(sz * 0.09) + 'px', borderRadius: '50%', background: ORANGE, boxShadow: `0 0 12px ${ORANGE}` }, tile);
+      let lab = null;
+      if (it.label) {
+        lab = document.createElement('div');
+        ctx.applyTextStyle(lab, { family: 'readex-pro', weight: 500, sizePx: cue.labelSizePx ?? 40, color: '#FFFFFF', shadow: '0 3px 12px rgba(0,8,30,0.9)' });
+        lab.style.whiteSpace = 'nowrap';
+        lab.dir = 'auto';
+        lab.textContent = it.label;
+        col.appendChild(lab);
+      }
+      return { col, tile, path, lab, at: it.t != null ? it.t - cue.t : null };
+    });
+    ctx.place(box, cue.position || { xPct: 50, yPct: 70 });
+    gsap.set(box, { autoAlpha: 0 });
+    tl.set(box, { autoAlpha: 1, immediateRender: false }, 0);
+    const st = (cue.staggerMs ?? 220) / 1000;
+    tiles.forEach((x, i) => {
+      const at = x.at != null ? x.at : i * st;
+      gsap.set(x.col, { opacity: 0 });
+      tl.fromTo(x.col, { opacity: 0, y: 40, scale: 0.7, filter: 'blur(12px)' }, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.55, ease: 'back.out(1.6)', immediateRender: false }, at);
+      // the icon draws itself
+      const len = 160;
+      gsap.set(x.path, { strokeDasharray: len, strokeDashoffset: len });
+      tl.to(x.path, { strokeDashoffset: 0, duration: 0.7, ease: 'power2.out', immediateRender: false }, at + 0.12);
+    });
+    hideAtEnd(ctx, box);
+  };
+
+  // ------------------------------------------------------------------ flow-line
+  // "idea → final product" connector between tiles: an orange line that draws across with a travelling glow dot.
+  // {component:'flow-line', fromPct:[x,y], toPct:[x,y], durationMs: 700}
+  R['flow-line'] = (ctx) => {
+    const { cue, tl, gsap, W, H } = ctx;
+    const [x0, y0] = cue.fromPct; const [x1, y1] = cue.toPct;
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    Object.assign(svg.style, { position: 'absolute', left: 0, top: 0, width: W + 'px', height: H + 'px', overflow: 'visible' });
+    ctx.layer(cue.layer || 'front').appendChild(svg);
+    const ln = document.createElementNS(ns, 'line');
+    const X0 = x0 / 100 * W, Y0 = y0 / 100 * H, X1 = x1 / 100 * W, Y1 = y1 / 100 * H;
+    ln.setAttribute('x1', X0); ln.setAttribute('y1', Y0); ln.setAttribute('x2', X1); ln.setAttribute('y2', Y1);
+    ln.setAttribute('stroke', ORANGE); ln.setAttribute('stroke-width', '5'); ln.setAttribute('stroke-linecap', 'round');
+    ln.style.filter = `drop-shadow(0 0 8px ${ORANGE})`;
+    svg.appendChild(ln);
+    const L = Math.hypot(X1 - X0, Y1 - Y0);
+    gsap.set(ln, { strokeDasharray: L, strokeDashoffset: L });
+    gsap.set(svg, { autoAlpha: 0 });
+    tl.set(svg, { autoAlpha: 1, immediateRender: false }, 0);
+    tl.to(ln, { strokeDashoffset: 0, duration: (cue.durationMs ?? 700) / 1000, ease: 'power2.inOut', immediateRender: false }, 0);
+    hideAtEnd(ctx, svg);
   };
 })();

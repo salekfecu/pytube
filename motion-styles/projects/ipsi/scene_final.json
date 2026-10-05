@@ -1,0 +1,780 @@
+{
+ "note": "IPSI reel — final edit on renders/plates/ipsi (C0217_3, one static shot in the computer room, 34.33 s of voice) extended to 36.0 s for the end card. Style: style-ipsi (IPSI Spatial Glass = style-2 grammar in IPSI blue/orange). Section times come from aligning the script to the voice without speech recognition (projects/ipsi/align/): pitch rise of the hook question ends ~2.4 s, multimedia from 6.31 s ('Développement Multimédia' 8.15-9.33 s), audiovisual reveal at the 16.21 s phrase (estimate, ±1.5 s), communication from 22.67 s (stable across all parameter sweeps), program name after the 0.68 s pause at 26.08 s, outro from 29.02 s. Camera: digital crops cut in speech pauses (wide/MCU alternation), two-step pull-backs on the reveal and on two program heroes.",
+ "script": {
+  "dialect": "Moroccan Darija + French programme names",
+  "sections": [
+   {
+    "t": [
+     0.1,
+     2.4
+    ],
+    "id": "hook",
+    "voice": "باغيين تشتغلو ف الإعلام، وما عارفينش أشمن تخصص يناسبكم؟"
+   },
+   {
+    "t": [
+     2.4,
+     5.98
+    ],
+    "id": "intro",
+    "voice": "كنقترحو عليكم تلاتة ديال التخصصات ف IPSI، وكل واحد فيهم كيفتح آفاق مهنية واعدة."
+   },
+   {
+    "t": [
+     6.31,
+     16.0
+    ],
+    "id": "multimedia",
+    "voice": "إلا كان الرقمي هو شغفكم: Développement Multimédia …"
+   },
+   {
+    "t": [
+     16.21,
+     22.46
+    ],
+    "id": "audiovisual",
+    "voice": "إلا كانت الصورة هي لغتكم: Audiovisuel …"
+   },
+   {
+    "t": [
+     22.67,
+     28.82
+    ],
+    "id": "communication",
+    "voice": "وإلا كنتو باغيين تقودو المشروع … Concepteur et Producteur en Communication …"
+   },
+   {
+    "t": [
+     29.02,
+     33.82
+    ],
+    "id": "outro",
+    "voice": "تلاتة ديال التخصصات، ديبلوم تقني متخصص، ومعاه ديبلوم دولي. وانتوما، شمن تخصص كيشبهكم؟ شاركونا ف التعليقات."
+   }
+  ]
+ },
+ "scripts": [
+  "../../styles/style-ipsi/brand.js"
+ ],
+ "frames": 1080,
+ "autoSfx": true,
+ "masterLimiterDb": -1,
+ "grade": "brightness(0.8) contrast(1.08) saturate(1.1)",
+ "music": {
+  "src": "assets/music_bed.wav",
+  "gainDb": -10,
+  "duckDb": -8
+ },
+ "cues": [
+  {
+   "t": 0.0,
+   "type": "camera",
+   "scaleFrom": 1.08,
+   "scaleTo": 1.16,
+   "durationMs": 2400,
+   "easing": "linear",
+   "focus": "face"
+  },
+  {
+   "t": 0.0,
+   "end": 3.0,
+   "type": "component",
+   "component": "focus-pull",
+   "blurPx": 30,
+   "releaseAt": 2.4,
+   "releaseMs": 550,
+   "dim": 0.72
+  },
+  {
+   "t": 0.12,
+   "end": 2.4,
+   "type": "text",
+   "preset": "hero-white-rise",
+   "text": "أشمن تخصص",
+   "style": {
+    "sizePx": 150
+   },
+   "position": {
+    "anchor": "center",
+    "xPct": 50,
+    "yPct": 31
+   }
+  },
+  {
+   "t": 0.55,
+   "end": 2.4,
+   "type": "text",
+   "preset": "gold-light-panel-grow",
+   "text": "يناسبك؟",
+   "style": {
+    "sizePx": 215
+   },
+   "position": {
+    "anchor": "bottom",
+    "xPct": 50,
+    "yPct": 62
+   }
+  },
+  {
+   "t": 2.36,
+   "type": "sfx",
+   "sound": "whoosh",
+   "gainDb": -15
+  },
+  {
+   "t": 2.4,
+   "type": "camera",
+   "preset": "pullback-two-step-mcu"
+  },
+  {
+   "t": 2.7,
+   "end": 6.25,
+   "type": "text",
+   "preset": "hero-white-rise",
+   "worldLock": true,
+   "dir": "rtl",
+   "style": {
+    "sizePx": 150
+   },
+   "position": {
+    "anchor": "center",
+    "xPct": 50,
+    "yPct": 16
+   },
+   "segments": [
+    {
+     "text": "3 ",
+     "style": {
+      "color": "#F39200",
+      "glow": {
+       "color": "rgba(243,146,0,0.75)",
+       "radiusPx": 40,
+       "strength": 1.6
+      }
+     }
+    },
+    {
+     "text": "تخصصات"
+    }
+   ]
+  },
+  {
+   "t": 3.95,
+   "end": 6.25,
+   "type": "component",
+   "component": "ipsi-logo-card",
+   "src": "assets/logo_ipsi_tight.png",
+   "widthPx": 400,
+   "padPx": 44,
+   "position": {
+    "xPct": 50,
+    "yPct": 84
+   },
+   "sfx": "chime",
+   "sfxGainDb": -20
+  },
+  {
+   "t": 4.75,
+   "end": 6.25,
+   "type": "text",
+   "preset": "neon-thin-blurfade",
+   "text": "آفاق مهنية واعدة",
+   "style": {
+    "sizePx": 84
+   },
+   "position": {
+    "xPct": 50,
+    "yPct": 24.5
+   }
+  },
+  {
+   "t": 6.31,
+   "type": "camera",
+   "move": "static",
+   "scaleTo": 1.42,
+   "focus": "face"
+  },
+  {
+   "t": 6.31,
+   "end": 15.95,
+   "type": "component",
+   "component": "section-counter",
+   "n": 1,
+   "total": 3,
+   "position": {
+    "xPct": 8.5,
+    "yPct": 4.4
+   },
+   "sfx": "pop",
+   "sfxGainDb": -16,
+   "sizePx": 128
+  },
+  {
+   "t": 6.42,
+   "end": 8.12,
+   "type": "text",
+   "preset": "neon-thin-blurfade",
+   "text": "الرقمي هو شغفكم؟",
+   "style": {
+    "sizePx": 112
+   },
+   "position": {
+    "xPct": 50,
+    "yPct": 14
+   }
+  },
+  {
+   "t": 8.15,
+   "type": "camera",
+   "move": "static",
+   "scaleTo": 1.0
+  },
+  {
+   "t": 8.13,
+   "type": "sfx",
+   "sound": "swoosh",
+   "gainDb": -16
+  },
+  {
+   "t": 8.15,
+   "end": 15.95,
+   "type": "text",
+   "preset": "neon-thin-blurfade",
+   "text": "التطوير المتعدد الوسائط",
+   "style": {
+    "sizePx": 70
+   },
+   "position": {
+    "xPct": 50,
+    "yPct": 5.4
+   }
+  },
+  {
+   "t": 8.2,
+   "end": 15.95,
+   "type": "text",
+   "preset": "hero-cyan-glass-rise",
+   "text": "ملتيميديا",
+   "fit": 84,
+   "position": {
+    "yPct": 13.2
+   }
+  },
+  {
+   "t": 8.6,
+   "end": 15.95,
+   "type": "text",
+   "preset": "english-small-blurfade",
+   "text": "Développement Multimédia",
+   "style": {
+    "sizePx": 50,
+    "color": "#DCE9FF"
+   },
+   "position": {
+    "xPct": 50,
+    "yPct": 21.0
+   }
+  },
+  {
+   "t": 9.4,
+   "end": 11.68,
+   "type": "component",
+   "component": "icon-tiles",
+   "position": {
+    "xPct": 50,
+    "yPct": 62
+   },
+   "sizePx": 185,
+   "items": [
+    {
+     "icon": "pen",
+     "label": "تصميم",
+     "t": 9.9
+    },
+    {
+     "icon": "code",
+     "label": "تطوير",
+     "t": 10.5
+    },
+    {
+     "icon": "publish",
+     "label": "نشر",
+     "t": 11.0
+    }
+   ],
+   "sfx": "tick",
+   "sfxGainDb": -20,
+   "labelSizePx": 44
+  },
+  {
+   "t": 11.71,
+   "type": "camera",
+   "move": "static",
+   "scaleTo": 1.42,
+   "focus": "face"
+  },
+  {
+   "t": 11.76,
+   "end": 15.95,
+   "type": "component",
+   "component": "job-chips",
+   "items": [
+    "مطور",
+    "رئيس مشروع"
+   ],
+   "direction": "row",
+   "staggerMs": 1880,
+   "sizePx": 50,
+   "position": {
+    "xPct": 50,
+    "yPct": 76
+   },
+   "sfx": "pop",
+   "sfxGainDb": -18
+  },
+  {
+   "t": 13.63,
+   "type": "camera",
+   "move": "static",
+   "scaleTo": 1.0
+  },
+  {
+   "t": 13.66,
+   "type": "sfx",
+   "sound": "pop",
+   "gainDb": -18
+  },
+  {
+   "t": 16.21,
+   "type": "camera",
+   "preset": "pullback-two-step-mcu"
+  },
+  {
+   "t": 16.19,
+   "type": "sfx",
+   "sound": "swoosh",
+   "gainDb": -15
+  },
+  {
+   "t": 16.21,
+   "end": 22.55,
+   "type": "component",
+   "component": "section-counter",
+   "n": 2,
+   "total": 3,
+   "position": {
+    "xPct": 8.5,
+    "yPct": 4.4
+   },
+   "sfx": "pop",
+   "sfxGainDb": -16,
+   "sizePx": 128
+  },
+  {
+   "t": 16.3,
+   "end": 22.55,
+   "type": "text",
+   "preset": "hero-cyan-glass-rise",
+   "text": "السمعي البصري",
+   "fit": 88,
+   "position": {
+    "yPct": 13.2
+   }
+  },
+  {
+   "t": 16.7,
+   "end": 22.55,
+   "type": "text",
+   "preset": "english-small-blurfade",
+   "text": "Audiovisuel",
+   "style": {
+    "sizePx": 54,
+    "color": "#DCE9FF"
+   },
+   "position": {
+    "xPct": 50,
+    "yPct": 21.0
+   }
+  },
+  {
+   "t": 16.85,
+   "end": 18.85,
+   "type": "component",
+   "component": "icon-tiles",
+   "position": {
+    "xPct": 50,
+    "yPct": 60
+   },
+   "sizePx": 168,
+   "gapPx": 20,
+   "labelSizePx": 40,
+   "items": [
+    {
+     "icon": "camera",
+     "label": "الصورة",
+     "t": 16.9
+    },
+    {
+     "icon": "mic",
+     "label": "الصوت",
+     "t": 17.2
+    },
+    {
+     "icon": "light",
+     "label": "الإضاءة",
+     "t": 17.5
+    },
+    {
+     "icon": "film",
+     "label": "المونتاج",
+     "t": 17.8
+    }
+   ],
+   "sfx": "tick",
+   "sfxGainDb": -20
+  },
+  {
+   "t": 17.9,
+   "type": "camera",
+   "move": "static",
+   "scaleTo": 1.42,
+   "focus": "face"
+  },
+  {
+   "t": 18.9,
+   "end": 22.55,
+   "type": "component",
+   "component": "job-chips",
+   "items": [
+    "مصور",
+    "تقني صوت",
+    "مونتور"
+   ],
+   "direction": "row",
+   "staggerMs": 500,
+   "sizePx": 46,
+   "position": {
+    "xPct": 50,
+    "yPct": 76
+   },
+   "sfx": "pop",
+   "sfxGainDb": -18
+  },
+  {
+   "t": 20.61,
+   "type": "camera",
+   "move": "static",
+   "scaleTo": 1.0
+  },
+  {
+   "t": 20.64,
+   "end": 22.55,
+   "type": "text",
+   "preset": "neon-thin-blurfade",
+   "text": "التلفزة · التصوير · العروض الحية",
+   "style": {
+    "sizePx": 64
+   },
+   "position": {
+    "xPct": 50,
+    "yPct": 88.5
+   }
+  },
+  {
+   "t": 22.67,
+   "type": "camera",
+   "move": "static",
+   "scaleTo": 1.42,
+   "focus": "face"
+  },
+  {
+   "t": 22.67,
+   "end": 28.95,
+   "type": "component",
+   "component": "section-counter",
+   "n": 3,
+   "total": 3,
+   "position": {
+    "xPct": 8.5,
+    "yPct": 4.4
+   },
+   "sfx": "pop",
+   "sfxGainDb": -16,
+   "sizePx": 128
+  },
+  {
+   "t": 22.85,
+   "end": 25.95,
+   "type": "text",
+   "preset": "neon-thin-blurfade",
+   "text": "تقودو المشروع",
+   "style": {
+    "sizePx": 118
+   },
+   "position": {
+    "xPct": 50,
+    "yPct": 14
+   }
+  },
+  {
+   "t": 23.55,
+   "end": 25.95,
+   "type": "component",
+   "component": "icon-tiles",
+   "position": {
+    "xPct": 50,
+    "yPct": 62
+   },
+   "sizePx": 185,
+   "items": [
+    {
+     "icon": "idea",
+     "label": "الفكرة",
+     "t": 23.6
+    },
+    {
+     "icon": "arrow",
+     "t": 24.2,
+     "color": "#F39200",
+     "glow": "rgba(243,146,0,0.9)"
+    },
+    {
+     "icon": "product",
+     "label": "المنتوج النهائي",
+     "t": 24.8
+    }
+   ],
+   "sfx": "tick",
+   "sfxGainDb": -20,
+   "labelSizePx": 44
+  },
+  {
+   "t": 26.08,
+   "type": "camera",
+   "preset": "pullback-two-step-mcu"
+  },
+  {
+   "t": 26.06,
+   "type": "sfx",
+   "sound": "swoosh",
+   "gainDb": -15
+  },
+  {
+   "t": 26.12,
+   "end": 28.95,
+   "type": "text",
+   "preset": "neon-thin-blurfade",
+   "text": "مصمم ومنتج في",
+   "style": {
+    "sizePx": 76
+   },
+   "position": {
+    "xPct": 50,
+    "yPct": 5.4
+   }
+  },
+  {
+   "t": 26.15,
+   "end": 28.95,
+   "type": "text",
+   "preset": "hero-cyan-glass-rise",
+   "text": "التواصل",
+   "fit": 80,
+   "position": {
+    "yPct": 13.2
+   }
+  },
+  {
+   "t": 26.45,
+   "end": 28.95,
+   "type": "text",
+   "preset": "english-small-blurfade",
+   "text": "Concepteur & Producteur en Communication",
+   "style": {
+    "sizePx": 38,
+    "color": "#DCE9FF"
+   },
+   "position": {
+    "xPct": 50,
+    "yPct": 21.0
+   }
+  },
+  {
+   "t": 27.9,
+   "end": 28.95,
+   "type": "component",
+   "component": "job-chips",
+   "items": [
+    "صحفي مصور",
+    "مخرج"
+   ],
+   "direction": "row",
+   "staggerMs": 350,
+   "sizePx": 48,
+   "position": {
+    "xPct": 50,
+    "yPct": 76
+   },
+   "sfx": "pop",
+   "sfxGainDb": -18
+  },
+  {
+   "t": 29.02,
+   "type": "camera",
+   "move": "static",
+   "scaleTo": 1.08,
+   "focus": "face"
+  },
+  {
+   "t": 29.15,
+   "end": 31.9,
+   "type": "text",
+   "preset": "neon-thin-blurfade",
+   "text": "ديبلوم تقني متخصص",
+   "style": {
+    "sizePx": 96
+   },
+   "position": {
+    "xPct": 50,
+    "yPct": 11
+   }
+  },
+  {
+   "t": 29.3,
+   "end": 31.9,
+   "type": "component",
+   "component": "accredit-seal",
+   "src": "assets/logo_accredite.png",
+   "sizePx": 270,
+   "label": "مؤسسة معتمدة",
+   "position": {
+    "xPct": 26,
+    "yPct": 64
+   },
+   "sfx": "shimmer",
+   "sfxGainDb": -16
+  },
+  {
+   "t": 30.62,
+   "end": 31.9,
+   "type": "component",
+   "component": "ipsi-logo-card",
+   "src": "assets/logo_wesford_tight.png",
+   "widthPx": 430,
+   "padPx": 36,
+   "caption": "ديبلوم دولي",
+   "position": {
+    "xPct": 72,
+    "yPct": 66
+   },
+   "sfx": "chime",
+   "sfxGainDb": -20
+  },
+  {
+   "t": 31.95,
+   "end": 33.86,
+   "type": "text",
+   "preset": "hero-white-rise",
+   "text": "شمن تخصص",
+   "style": {
+    "sizePx": 150
+   },
+   "position": {
+    "anchor": "center",
+    "xPct": 50,
+    "yPct": 9.5
+   }
+  },
+  {
+   "t": 32.25,
+   "end": 33.86,
+   "type": "text",
+   "preset": "gold-light-panel-grow",
+   "text": "كيشبهكم؟",
+   "style": {
+    "sizePx": 185
+   },
+   "position": {
+    "anchor": "bottom",
+    "xPct": 50,
+    "yPct": 27
+   }
+  },
+  {
+   "t": 32.63,
+   "type": "camera",
+   "move": "static",
+   "scaleTo": 1.32,
+   "focus": "face"
+  },
+  {
+   "t": 32.63,
+   "end": 36.0,
+   "type": "component",
+   "component": "comment-cta",
+   "label": "شاركونا ف التعليقات",
+   "position": {
+    "xPct": 50,
+    "yPct": 88
+   },
+   "sfx": "pop",
+   "sfxGainDb": -14
+  },
+  {
+   "t": 33.88,
+   "end": 36.0,
+   "type": "component",
+   "component": "focus-pull",
+   "blurPx": 34,
+   "releaseAt": 99,
+   "dim": 0.58
+  },
+  {
+   "t": 33.86,
+   "type": "sfx",
+   "sound": "whoosh_down",
+   "gainDb": -17
+  },
+  {
+   "t": 33.95,
+   "end": 36.0,
+   "type": "component",
+   "component": "ipsi-logo-card",
+   "src": "assets/logo_ipsi_tight.png",
+   "widthPx": 640,
+   "padPx": 70,
+   "caption": "التكوين المهني الخاص",
+   "position": {
+    "xPct": 50,
+    "yPct": 40
+   },
+   "sfx": "ding",
+   "sfxGainDb": -18
+  },
+  {
+   "t": 34.3,
+   "end": 36.0,
+   "type": "component",
+   "component": "accredit-seal",
+   "src": "assets/logo_accredite.png",
+   "sizePx": 170,
+   "position": {
+    "xPct": 33,
+    "yPct": 63
+   }
+  },
+  {
+   "t": 34.45,
+   "end": 36.0,
+   "type": "component",
+   "component": "ipsi-logo-card",
+   "src": "assets/logo_wesford_tight.png",
+   "widthPx": 300,
+   "padPx": 26,
+   "position": {
+    "xPct": 67,
+    "yPct": 63
+   }
+  }
+ ]
+}
